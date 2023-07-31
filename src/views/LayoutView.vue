@@ -28,27 +28,16 @@
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Dashboard</v-list-item-title>
+              <v-list-item-title>Dashnoard</v-list-item-title>
             </v-list-item>
             <v-card-subtitle class="text-left"> Transcriptions</v-card-subtitle>
-            <v-list-item
-              class="link"
-              router
-              :to="{ name: 'recording' }"
-              style="background-color: #af0a0a; color: white"
-            >
-              <v-list-item-icon>
-                <v-icon style="color: white">mdi-record-circle</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Recording Now</v-list-item-title>
-            </v-list-item>
             <v-list-item class="link" router :to="{ name: 'about' }">
               <v-list-item-icon>
                 <v-icon>mdi-message-video</v-icon>
               </v-list-item-icon>
               <v-list-item-title>My Recordings</v-list-item-title>
             </v-list-item>
-            <v-list-item class="link" router :to="{ name: 'login' }">
+            <v-list-item class="link">
               <v-list-item-icon>
                 <v-icon>mdi-folder-upload</v-icon>
               </v-list-item-icon>
@@ -142,12 +131,8 @@
   </div>
 </template>
   <script>
-import Search from "./components/layout/Search.vue";
-
 export default {
-  components: {
-    Search,
-  },
+  components: {},
   data() {
     return {
       drawer: true,
