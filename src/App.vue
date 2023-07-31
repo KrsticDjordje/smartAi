@@ -10,7 +10,6 @@
         disable-resize-watcher
       >
         <v-list-item-group>
-          <!-- Logo -->
           <v-list-item>
             <v-img
               :src="require('@/assets/AILogo.png')"
