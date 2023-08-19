@@ -23,7 +23,31 @@ const routes = [
     name: 'recording',
     component: () => import(/* webpackChunkName: "about" */ '../views/ScreenRecordingView.vue')
   },
-  ,
+  {
+    path: '/myUploads',
+    name: 'myUploads',
+    component: () => import(/* webpackChunkName: "about" */ '../views/MyUploadsView.vue')
+  },
+  {
+    path: '/myRecordings',
+    name: 'myRecordings',
+    component: () => import(/* webpackChunkName: "about" */ '../views/MyRecordingsView.vue')
+  },
+  {
+    path: '/myTranslations',
+    name: 'myTranslations',
+    component: () => import(/* webpackChunkName: "about" */ '../views/MyTranslationsView.vue')
+  },
+  {
+    path: '/groupTranscriptions',
+    name: 'groupTranscriptions',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GroupTranscriptionsView.vue')
+  },
+  {
+    path: '/adminPanel',
+    name: 'adminPanel',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AdminPanel.vue')
+  },
   {
     path: '/login',
     name: 'login',

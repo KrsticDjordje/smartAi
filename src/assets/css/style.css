@@ -118,10 +118,11 @@ span.v-chip__content {
     border-color: rgb(0 0 0 / 5%) !important;
 }
 
-.v-application .text-h6 {
+.v-card__subtitle {
     font-size: 16px !important;
+    font-weight: 500 !important;
 }
 
 .v-card__title {
-    font-size: 18px;
+    font-size: 18px !important;
 }

@@ -2,7 +2,7 @@
   <div id="app">
     <!-- App.vue -->
 
-    <v-app v-if="isLoggedIn && getUser.status === 1">
+    <v-app v-if="userStatus === 1">
       <v-navigation-drawer
         app
         v-model="drawer"
@@ -41,25 +41,29 @@
               </v-list-item-icon>
               <v-list-item-title>Recording Now</v-list-item-title>
             </v-list-item>
-            <v-list-item class="link" router :to="{ name: 'about' }">
+            <v-list-item class="link" router :to="{ name: 'myRecordings' }">
               <v-list-item-icon>
                 <v-icon>mdi-message-video</v-icon>
               </v-list-item-icon>
               <v-list-item-title>My Recordings</v-list-item-title>
             </v-list-item>
-            <v-list-item class="link" router :to="{ name: 'login' }">
+            <v-list-item class="link" router :to="{ name: 'myUploads' }">
               <v-list-item-icon>
                 <v-icon>mdi-folder-upload</v-icon>
               </v-list-item-icon>
               <v-list-item-title>My Uploads</v-list-item-title>
             </v-list-item>
-            <v-list-item class="link">
+            <v-list-item class="link" router :to="{ name: 'myTranslations' }">
               <v-list-item-icon>
                 <v-icon>mdi-translate-variant</v-icon>
               </v-list-item-icon>
               <v-list-item-title>My Translations</v-list-item-title>
             </v-list-item>
-            <v-list-item class="link">
+            <v-list-item
+              class="link"
+              router
+              :to="{ name: 'groupTranscriptions' }"
+            >
               <v-list-item-icon>
                 <v-icon>mdi-script-text</v-icon>
               </v-list-item-icon>
@@ -91,6 +95,22 @@
         <v-spacer></v-spacer>
         <Search />
         <v-spacer></v-spacer>
+        <router-link
+          v-if="getUserRoleId() === 3"
+          router
+          :to="{ name: 'adminPanel' }"
+        >
+          <v-btn
+            class="notification mx-2"
+            outlined
+            fab
+            dark
+            small
+            color="purple"
+          >
+            <v-icon dark> mdi-file-edit </v-icon>
+          </v-btn>
+        </router-link>
         <v-btn class="notification mx-2" outlined fab dark small color="orange">
           <v-icon dark> mdi-bell-ring </v-icon>
         </v-btn>
@@ -116,7 +136,7 @@
                   <v-icon class="mx-2" dark> mdi-pencil</v-icon> Edit Account
                 </v-btn>
                 <v-divider class="my-3"></v-divider>
-                <v-btn rounded text>
+                <v-btn rounded text @click="logout">
                   <v-icon class="mx-2" dark> mdi-logout</v-icon> LogOut
                 </v-btn>
               </div>
@@ -138,12 +158,12 @@
         <!-- -->
       </v-footer>
     </v-app>
-    <Login v-if="!isLoggedIn" />
+    <Login v-else />
   </div>
 </template>
-  <script>
+<script>
 import Search from "./components/layout/Search.vue";
-import Login from "./views/LoginView.vue";
+import Login from "./components/auth/Login.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -161,8 +181,25 @@ export default {
       },
     };
   },
+  methods: {
+    getUserRoleId() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.role_id) {
+        return user.role_id;
+      }
+      return null;
+    },
+    logout() {
+      this.$store.commit("logout"); // Poziv mutacije za odjavu
+      window.location.reload();
+    },
+  },
   computed: {
     ...mapGetters(["isLoggedIn", "getUser"]),
+    userStatus() {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      return storedUser ? storedUser.status : null;
+    },
   },
   mounted() {
     console.log("User info:", this.getUser);

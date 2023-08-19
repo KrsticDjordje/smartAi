@@ -17,7 +17,6 @@ export default new Vuex.Store({
       state.user = user;
 
       // Sačuvaj podatke u Local Storage
-      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
     },
     logout(state) {
@@ -26,7 +25,6 @@ export default new Vuex.Store({
       state.user = null;
 
       // Ukloni podatke iz Local Storage-a
-      localStorage.removeItem('token');
       localStorage.removeItem('user');
     },
   },
@@ -44,6 +42,7 @@ export default new Vuex.Store({
 
         console.log("Login API", response.data);
         commit("login", { token: response.data.token, user: response.data.response.user });
+        window.location.reload();
 
       } catch (error) {
         console.log(error);
