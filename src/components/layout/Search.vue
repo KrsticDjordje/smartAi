@@ -7,8 +7,6 @@
       clearable
       hide-details
       class="search-field"
-      v-model="textTerm"
-      @input="searchText"
       type=""
       ria-label="Search"
       @focus="isHovered = true"

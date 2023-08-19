@@ -1,10 +1,7 @@
 <template>
   <div>
-    <v-btn class="d-flex ml-5" rounded large color="#5D5FEF" dark>
-      + Upload
-    </v-btn>
+    <v-btn class="d-flex ml-5" rounded color="#5D5FEF" dark> + Upload </v-btn>
     <v-card
-      :loading="loading"
       class="mx-auto mb-8 mt-5 transcriptionBox"
       style="padding: 10px"
       max-width="97%"
@@ -64,7 +61,6 @@
     </v-card>
 
     <v-card
-      :loading="loading"
       class="mx-auto mb-8 mt-5 transcriptionBox"
       max-width="97%"
       style="padding: 10px"

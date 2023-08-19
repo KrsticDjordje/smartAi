@@ -2,7 +2,7 @@
   <div id="app">
     <!-- App.vue -->
 
-    <v-app>
+    <v-app v-if="isLoggedIn && getUser.status === 1">
       <v-navigation-drawer
         app
         v-model="drawer"
@@ -138,14 +138,18 @@
         <!-- -->
       </v-footer>
     </v-app>
+    <Login v-if="!isLoggedIn" />
   </div>
 </template>
   <script>
 import Search from "./components/layout/Search.vue";
+import Login from "./views/LoginView.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     Search,
+    Login,
   },
   data() {
     return {
@@ -156,6 +160,12 @@ export default {
         email: "john.doe@doe.com",
       },
     };
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn", "getUser"]),
+  },
+  mounted() {
+    console.log("User info:", this.getUser);
   },
 };
 </script>
