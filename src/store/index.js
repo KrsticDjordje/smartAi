@@ -11,6 +11,7 @@ export default new Vuex.Store({
     user: JSON.parse(localStorage.getItem('user')) || null,
   },
   mutations: {
+    // Mutacija za prijavljivanje korisnika
     login(state, { token, user }) {
       state.isLoggedIn = true;
       state.token = token;
@@ -19,6 +20,7 @@ export default new Vuex.Store({
       // Sačuvaj podatke u Local Storage
       localStorage.setItem('user', JSON.stringify(user));
     },
+    // Mutacija za odjavljivanje korisnika
     logout(state) {
       state.isLoggedIn = false;
       state.token = null;
@@ -29,6 +31,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // Akcija za prijavljivanje korisnika
     async login({ commit }, { email, password }) {
       try {
         const response = await axios.post(
@@ -48,13 +51,18 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
+    // Akcija za odjavljivanje korisnika
     logout({ commit }) {
       commit("logout");
     },
   },
   getters: {
+    // Getter za proveru da li je korisnik prijavljen
     isLoggedIn: (state) => state.isLoggedIn,
+    // Getter za dobijanje tokena
     getToken: (state) => state.token,
+    // Getter za dobijanje podataka korisnika
     getUser: (state) => state.user,
   },
 });
+

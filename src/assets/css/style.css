@@ -5,7 +5,7 @@
 }
 
 .v-main__wrap {
-    background: #FAFBFC;
+    background: #84c1fe0f;
 }
 
 header {
@@ -20,6 +20,7 @@ header {
 .link.v-item--active {
     border-radius: 16px;
     background: var(--primary-900, #5D5FEF);
+    background: linear-gradient(93.96deg, #5D5FEF 6.46%, #0dcaf0 98.85%) !important;
     box-shadow: 0px 20px 50px 0px rgba(55, 69, 87, 0.10);
     color: white !important;
     margin: 7px 0;
@@ -70,7 +71,7 @@ nav.v-navigation-drawer {
     max-height: 100% !important;
     top: 0 !important;
     padding: 0 17px;
-    border-right: 1px solid rgb(240, 240, 240);
+    /* border-right: 1px solid rgb(240, 240, 240); */
 }
 
 .v-navigation-drawer__content::-webkit-scrollbar {
@@ -125,4 +126,65 @@ span.v-chip__content {
 
 .v-card__title {
     font-size: 18px !important;
+}
+
+audio {
+    width: 100%;
+    background: #f1f3f4;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: -7px;
+}
+
+.theme--light.v-chip:not(.v-chip--active) {
+    background: #7172f1 !important;
+    color: white;
+}
+
+.channelsBox {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: none !important;
+}
+
+.v-sheet.v-card:not(.v-sheet--outlined) {
+    box-shadow: none !important;
+    border-radius: 0;
+    background: none;
+    margin: 15px 0;
+    border-top: 1px solid #fbfaff;
+}
+
+.btn-style {
+    margin: 0px 10px;
+    background: linear-gradient(93.96deg, #5D5FEF 6.46%, #0dcaf0 98.85%) !important;
+    color: white !important;
+}
+
+.btn-style-2 {
+    background-color: rgb(78 161 242) !important;
+}
+
+.btn-style.active {
+    background: #606cb296 !important;
+}
+
+.content-container.box {
+    margin: 16px 0;
+    background: #fff;
+    box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50) !important;
+    text-align: left;
+}
+
+.transcriptionBox {
+    box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50) !important;
+    border-radius: 11px;
+    background: #fff !important;
+}
+
+.v-alert {
+    position: fixed !important;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999999999;
 }

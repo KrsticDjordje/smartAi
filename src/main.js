@@ -5,7 +5,6 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
-await store.dispatch('checkAuthentication');
 new Vue({
   router,
   store,
