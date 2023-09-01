@@ -2,30 +2,18 @@
   <div>
     <div class="content-container box" style="padding: 25px">
       <v-card-title class="textChannel" style="margin: 0; padding: 0"
-        >Create packets</v-card-title
+        >Create packet item</v-card-title
       >
-      <v-form ref="form" v-model="valid" @submit.prevent="createPackets">
+      <v-form ref="form" v-model="valid" @submit.prevent="createPacketItem">
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="packetsName"
+              v-model="packetItemName"
               :rules="nameRules"
               :counter="32"
-              label="Packets name"
+              label="Packet item name"
               required
             ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-combobox
-              :items="itemList"
-              label="Add packet items"
-              hide-selected
-              :search-input.sync="search"
-              hint=""
-              multiple
-              persistent-hint
-              small-chips
-            ></v-combobox>
           </v-col>
         </v-row>
         <v-card class="mt-5">
@@ -35,7 +23,7 @@
         </v-card>
       </v-form>
     </div>
-    <AllPackets />
+    <AllPacketItems />
     <transition name="fade" mode="out-in">
       <v-alert v-if="showAlert" :type="alertType" key="alert">
         {{ alertMessage }}
@@ -43,23 +31,22 @@
     </transition>
   </div>
 </template>
-      
-  <script>
+    
+<script>
 import axios from "axios";
 
 import { mapGetters } from "vuex";
-import AllPackets from "@/components/adminPanel/AllPackets.vue";
+import AllPacketItems from "@/components/adminPanel/AllPacketItems.vue";
 
 export default {
-  components: { AllPackets },
+  components: { AllPacketItems },
   data: () => ({
     date: null,
     valid: false,
     showAlert: false,
     alertType: "",
-    search: null,
     alertMessage: "",
-    packetsName: "",
+    packetItemName: "",
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => v.length <= 32 || "Name must be less than 32 characters",
@@ -67,13 +54,10 @@ export default {
   }),
   mounted() {},
   computed: {
-    ...mapGetters("packetItems", ["getPacketItems"]),
-    itemList() {
-      return this.getPacketItems.map((item) => item.name);
-    },
+    ...mapGetters(["getGroups"]),
   },
   methods: {
-    async createPackets() {
+    async createPacketItem() {
       if (!this.$refs.form.validate()) {
         // Provera da li su svi validacijski uslovi ispunjeni
         this.$refs.form.resetValidation(); // Resetovanje validacije
@@ -81,20 +65,19 @@ export default {
         return; // Zaustavlja se izvršavanje metode kako se ne bi slao zahtev
       }
       const requestData = {
-        name: "test123",
-        packetItemIds: [2, 3],
+        name: this.packetItemName,
         token: "test",
       };
 
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8000/api/frontend/createPacket",
+          "http://49.12.0.17:8000/api/frontend/createPacketItem",
           requestData
         );
 
         if (response.status === 200) {
           console.log("Packet item created successfully!");
-          this.packetsName = "";
+          this.packetItemName = "";
           this.showAlert = true;
           this.alertType = "success";
           this.alertMessage = "Packet item created successfully!";
@@ -121,7 +104,7 @@ export default {
   },
 };
 </script>
-      <style scoped>
+    <style scoped>
 .colorGroup {
   background: #554ba9;
 }
@@ -129,4 +112,4 @@ export default {
   padding: 8px !important;
 }
 </style>
-      
+    

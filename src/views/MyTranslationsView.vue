@@ -22,32 +22,20 @@
       </div>
       <v-divider class="mx-4"></v-divider>
       <div class="text-left">
-        <v-card-subtitle class="my-0">Chunk title</v-card-subtitle>
+        <v-card-subtitle class="my-0">{{
+          transcription.short_title
+        }}</v-card-subtitle>
         <v-card-text class="chunkText">
-          Chunk text Chunk text Chunk text Chunk text Chunk text Chunk text
-          Chunk text
-        </v-card-text>
-      </div>
-      <v-divider class="mx-4"></v-divider>
-      <v-divider class="mx-4"></v-divider>
-      <div class="text-left">
-        <v-card-subtitle class="my-0">Chunk title</v-card-subtitle>
-        <v-card-text class="chunkText">
-          Chunk text Chunk text Chunk text Chunk text Chunk text Chunk text
-          Chunk text
+          {{ transcription.transcription }}
         </v-card-text>
       </div>
       <v-divider class="mx-4"></v-divider>
 
       <v-card-text>
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
-          <v-chip>Keywords</v-chip>
+          <v-chip>Language: {{ transcription.target_language }}</v-chip>
 
-          <v-chip>Keywords</v-chip>
-
-          <v-chip>People</v-chip>
-
-          <v-chip>People</v-chip>
+          <v-chip>Type: Translations</v-chip>
         </v-chip-group>
       </v-card-text>
     </div>

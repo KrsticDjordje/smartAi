@@ -23,6 +23,15 @@
         <v-card class="btnMain">
           <v-btn
             class="btn-style"
+            :class="{ active: selectedButton === 'packetItems' }"
+            @click="selectedButton = 'packetItems'"
+          >
+            Create Packet Items
+          </v-btn>
+        </v-card>
+        <v-card class="btnMain">
+          <v-btn
+            class="btn-style"
             :class="{ active: selectedButton === 'packets' }"
             @click="selectedButton = 'packets'"
           >
@@ -40,16 +49,19 @@
         </v-card>
       </v-card>
     </div>
+    <CreatePacketItem v-if="selectedButton === 'packetItems'" />
     <CreatePackets v-if="selectedButton === 'packets'" />
   </div>
 </template>
 
 <script>
+import CreatePacketItem from "@/components/adminPanel/CreatePacketItem.vue";
 import CreatePackets from "@/components/adminPanel/CreatePackets.vue";
 
 export default {
   name: "EditPanel",
   components: {
+    CreatePacketItem,
     CreatePackets,
   },
   data() {

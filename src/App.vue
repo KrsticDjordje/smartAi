@@ -151,11 +151,8 @@ export default {
       drawer: true,
     };
   },
-  mounted() {
-    this.fetchPacketItems();
-  },
+  mounted() {},
   methods: {
-    ...mapActions(["fetchPacketItems"]),
     getUserRoleId() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user && user.role_id) {

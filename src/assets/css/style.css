@@ -89,7 +89,7 @@ i.v-icon.notranslate.mdi.mdi-magnify.theme--light {
 }
 
 i.v-icon.notranslate.mdi.mdi-hand-clap.theme--light {
-    color: #5D5FEF;
+    color: #FF947A;
 }
 
 .v-list-item__title {
@@ -199,4 +199,8 @@ audio {
 .recordingColor {
     background: linear-gradient(93.96deg, #dc3545 6.46%, #b74949 98.85%) !important;
     color: white !important;
+}
+
+.v-list-item__content {
+    text-align: left !important;
 }

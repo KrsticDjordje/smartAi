@@ -16,9 +16,9 @@
             {{ user.email }}
           </p>
           <v-divider class="my-3"></v-divider>
-          <v-btn rounded text>
+          <!-- <v-btn rounded text>
             <v-icon class="mx-2" dark> mdi-pencil</v-icon> Edit Account
-          </v-btn>
+          </v-btn> -->
           <v-divider class="my-3"></v-divider>
           <v-btn rounded text @click="logout">
             <v-icon class="mx-2" dark> mdi-logout</v-icon> LogOut

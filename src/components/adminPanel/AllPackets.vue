@@ -1,15 +1,13 @@
 <template>
   <div class="content-container box" style="padding: 25px">
     <v-card-title class="textChannel" style="margin: 0; padding: 0"
-      >All packet items <v-spacer></v-spacer> ({{
-        getPacketItems.length
-      }})</v-card-title
+      >All packets <v-spacer></v-spacer> ({{ getPackets.length }})</v-card-title
     >
 
     <v-card
       class="mx-auto mt-5 items rounded-lg"
       outlined
-      v-for="onePacketItem in getPacketItems"
+      v-for="onePacketItem in getPackets"
       :key="onePacketItem.id"
     >
       <v-list-item three-line>
@@ -92,7 +90,7 @@
                 <v-btn
                   color="red darken-1"
                   text
-                  @click="deleteUser(onePacketItem.id, onePacketItem)"
+                  @click="deleteUser(onePacketItem.id)"
                   >Yes</v-btn
                 >
               </v-card-actions>
@@ -103,47 +101,46 @@
     </v-card>
   </div>
 </template>
-<script>
+  
+      
+      <script>
 import { mapGetters, mapActions } from "vuex";
 
 import axios from "axios";
 
 export default {
-  name: "PacetItems",
+  name: "Packets",
   data: () => ({}),
   async mounted() {
     try {
-      await this.fetchPacketItems();
-      console.log(this.getPacketItems);
+      await this.fetchPackets();
+
+      console.log(this.getPackets);
     } catch (error) {
       console.error('Greška pri dohvatanju "packet items":', error);
     }
   },
   computed: {
-    ...mapGetters("packetItems", ["getPacketItems"]),
+    ...mapGetters("packets", ["getPackets"]),
+    groupsList() {
+      return this.getUsers.map((onePacketItem) => onePacketItem.name);
+    },
   },
   methods: {
-    ...mapActions("packetItems", ["fetchPacketItems"]),
-    async deleteUser(id, onePacketItem) {
-      const index = this.getPacketItems.findIndex(
-        (u) => u.id === onePacketItem.id
-      );
-      if (index !== -1) {
-        this.getPacketItems.splice(index, 1);
-      }
+    ...mapActions("packets", ["fetchPackets"]),
+    async deleteUser(id) {
       console.log(id, "radiii");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8000/api/frontend/deletePacketItems",
+          "http://49.12.0.17:8000/api/frontend/deletePackets",
           {
-            packetItemId: id,
+            packetsId: id,
             token: "test",
           }
         );
-        console.log("Packet items uspešno obrisan:", response.data);
-        onePacketItem.openDialogDelete = false;
+        console.log("Korisnik uspešno obrisan:", response.data);
       } catch (error) {
-        console.error("Greška pri brisanju packet items:", error);
+        console.error("Greška pri brisanju korisnika:", error);
       }
     },
     async saveChanges(onePacketItem) {
@@ -167,4 +164,4 @@ export default {
   },
 };
 </script>
-    
+      
