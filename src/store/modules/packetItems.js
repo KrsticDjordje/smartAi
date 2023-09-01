@@ -1,21 +1,21 @@
 import axios from 'axios';
 
 const state = {
-    users: [],
-}
+    packetItems: [],
+};
 
 const getters = {
-    getUsers: (state) => state.users,
-}
+    getPacketItems: (state) => state.packetItems,
+};
 
 const mutations = {
-    setUsers: (state, users) => {
-        state.users = users.result;
+    setPacketItems: (state, packetItems) => {
+        state.packetItems = packetItems;
     },
-}
+};
 
 const actions = {
-    async fetchUsers({ commit }) {
+    async fetchPacketItems({ commit }) {
         try {
             const response = await axios.post(
                 'http://49.12.0.17:8000/api/frontend/getPacketItems',
@@ -26,16 +26,16 @@ const actions = {
                 }
             );
 
-            if (response.status === 200) {
-                commit('setUsers', response.data);
+            if (response.data.status) {
+                commit('setPacketItems', response.data.response.packetItems);
             } else {
-                console.error('Error fetching users:', response.statusText);
+                console.error('Error fetching packet items:', response.data);
             }
         } catch (error) {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching packet items:', error);
         }
     },
-}
+};
 
 export default {
     namespaced: true,
@@ -43,4 +43,4 @@ export default {
     getters,
     mutations,
     actions,
-}
+};

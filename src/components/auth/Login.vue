@@ -31,7 +31,7 @@ export default {
   methods: {
     async login() {
       try {
-        await this.$store.dispatch("login", {
+        await this.$store.dispatch("autentification/login", {
           email: this.username,
           password: this.password,
         });
@@ -44,7 +44,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["isLoggedIn", "getUser"]),
+    ...mapGetters("autentification", ["isLoggedIn", "getUser"]),
   },
   mounted() {
     console.log("User info:", this.getUser.status);

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card
-      class="mx-auto mb-8 mt-5 transcriptionBox"
+    <div
+      class="mx-auto mb-8 mt-5 content-container box"
       style="padding: 10px"
       max-width="97%"
       v-for="transcription in transcriptions"
@@ -50,11 +50,7 @@
           <v-chip>People</v-chip>
         </v-chip-group>
       </v-card-text>
-
-      <audio ref="recordedAudio" controls>
-        Your browser does not support the audio element.
-      </audio>
-    </v-card>
+    </div>
   </div>
 </template>
   

@@ -148,11 +148,9 @@ audio {
 }
 
 .v-sheet.v-card:not(.v-sheet--outlined) {
-    box-shadow: none !important;
     border-radius: 0;
-    background: none;
-    margin: 15px 0;
     border-top: 1px solid #fbfaff;
+    box-shadow: none !important;
 }
 
 .btn-style {
@@ -170,7 +168,7 @@ audio {
 }
 
 .content-container.box {
-    margin: 16px 0;
+    margin: 25px 0;
     background: #fff;
     box-shadow: 0px 4px 20px 0px rgba(238, 238, 238, 0.50) !important;
     text-align: left;
@@ -187,4 +185,18 @@ audio {
     bottom: 20px;
     right: 20px;
     z-index: 99999999999;
+}
+
+.btnMain {
+    margin: 10px 0;
+}
+
+.items {
+    background: linear-gradient(93.96deg, #5d5fef14 6.46%, #0dcaf00f 98.85%) !important;
+    border: none !important;
+}
+
+.recordingColor {
+    background: linear-gradient(93.96deg, #dc3545 6.46%, #b74949 98.85%) !important;
+    color: white !important;
 }

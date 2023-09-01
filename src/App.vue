@@ -31,10 +31,9 @@
             </v-list-item>
             <v-card-subtitle class="text-left"> Transcriptions</v-card-subtitle>
             <v-list-item
-              class="link"
+              class="link recordingColor"
               router
               :to="{ name: 'recording' }"
-              style="background-color: rgb(231 53 53); color: white"
             >
               <v-list-item-icon>
                 <v-icon style="color: white">mdi-record-circle</v-icon>
@@ -165,12 +164,12 @@ export default {
       return null;
     },
     logout() {
-      this.$store.commit("logout"); // Poziv mutacije za odjavu
+      this.$store.commit("autentification/logout"); // Poziv mutacije za odjavu
       window.location.reload();
     },
   },
   computed: {
-    ...mapGetters(["isLoggedIn", "getUser"]),
+    ...mapGetters("autentification", ["isLoggedIn", "getUser"]),
     userStatus() {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       return storedUser ? storedUser.status : null;
