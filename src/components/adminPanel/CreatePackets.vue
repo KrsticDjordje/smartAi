@@ -1,40 +1,52 @@
 <template>
   <div>
-    <div class="content-container box" style="padding: 25px">
-      <v-card-title class="textChannel" style="margin: 0; padding: 0"
-        >Create packets</v-card-title
-      >
-      <v-form ref="form" v-model="valid" @submit.prevent="createPackets">
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              v-model="packetsName"
-              :rules="nameRules"
-              :counter="32"
-              label="Packets name"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-combobox
-              :items="itemList"
-              label="Add packet items"
-              hide-selected
-              :search-input.sync="search"
-              hint=""
-              multiple
-              persistent-hint
-              small-chips
-            ></v-combobox>
-          </v-col>
-        </v-row>
-        <v-card class="mt-5">
-          <v-btn :disabled="!valid" color="success" class="mr-4" type="submit">
-            Create
-          </v-btn>
-        </v-card>
-      </v-form>
-    </div>
+    <v-btn class="mx-2 d-flex" fab dark small @click="expand = !expand">
+      <v-icon dark> mdi-plus </v-icon>
+    </v-btn>
+    <v-expand-transition>
+      <div class="content-container box" style="padding: 25px" v-show="expand">
+        <v-card-title class="textChannel" style="margin: 0; padding: 0"
+          >Create packets</v-card-title
+        >
+        <v-form ref="form" v-model="valid" @submit.prevent="createPackets">
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="packetsName"
+                :rules="nameRules"
+                :counter="32"
+                label="Packets name"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-combobox
+                v-model="packetItems"
+                :items="itemList"
+                label="Add packet items"
+                hide-selected
+                :search-input.sync="search"
+                hint=""
+                multiple
+                persistent-hint
+                small-chips
+              ></v-combobox>
+            </v-col>
+          </v-row>
+          <v-card class="mt-5">
+            <v-btn
+              rounded
+              :disabled="!valid"
+              color="success"
+              class="mr-4"
+              type="submit"
+            >
+              Create
+            </v-btn>
+          </v-card>
+        </v-form>
+      </div>
+    </v-expand-transition>
     <AllPackets />
     <transition name="fade" mode="out-in">
       <v-alert v-if="showAlert" :type="alertType" key="alert">
@@ -53,9 +65,11 @@ import AllPackets from "@/components/adminPanel/AllPackets.vue";
 export default {
   components: { AllPackets },
   data: () => ({
+    expand: false,
     date: null,
     valid: false,
     showAlert: false,
+    packetItems: [],
     alertType: "",
     search: null,
     alertMessage: "",
@@ -82,10 +96,13 @@ export default {
       }
       const requestData = {
         name: "test123",
-        packetItemIds: [2, 3],
         token: "test",
+        packetItemIds: this.packetItems.map((groupName) => {
+          const group = this.getPacketItems.find((g) => g.name === groupName);
+          return group.id;
+        }),
       };
-
+      console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
           "http://49.12.0.17:8000/api/frontend/createPacket",

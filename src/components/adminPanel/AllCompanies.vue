@@ -1,13 +1,15 @@
 <template>
   <div class="content-container box" style="padding: 25px">
     <v-card-title class="textChannel" style="margin: 0; padding: 0"
-      >All packets <v-spacer></v-spacer> ({{ getPackets.length }})</v-card-title
+      >All companies <v-spacer></v-spacer> ({{
+        getCompanies.length
+      }})</v-card-title
     >
 
     <v-card
       class="mx-auto mt-5 items rounded-lg"
       outlined
-      v-for="onePacketItem in getPackets"
+      v-for="onePacketItem in getCompanies"
       :key="onePacketItem.id"
     >
       <v-list-item three-line>
@@ -100,9 +102,9 @@
     </v-card>
   </div>
 </template>
-  
-      
-      <script>
+    
+        
+        <script>
 import { mapGetters, mapActions } from "vuex";
 
 import axios from "axios";
@@ -112,7 +114,7 @@ export default {
   data: () => ({}),
   async mounted() {
     try {
-      await this.fetchPackets();
+      await this.fetchCompanies();
 
       console.log(this.getPackets);
     } catch (error) {
@@ -120,13 +122,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("packets", ["getPackets"]),
+    ...mapGetters("companies", ["getCompanies"]),
     groupsList() {
       return this.getUsers.map((onePacketItem) => onePacketItem.name);
     },
   },
   methods: {
-    ...mapActions("packets", ["fetchPackets"]),
+    ...mapActions("companies", ["fetchCompanies"]),
     async deleteUser(id) {
       console.log(id, "radiii");
       try {
@@ -163,4 +165,4 @@ export default {
   },
 };
 </script>
-      
+        

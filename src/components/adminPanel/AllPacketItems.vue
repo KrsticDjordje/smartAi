@@ -28,9 +28,8 @@
                 v-bind="attrs"
                 v-on="on"
                 color="blue"
-                @click="editonePacketItem(onePacketItem.id)"
               >
-                <span class="mdi mdi-file-edit"></span> Edit
+                <span class="mdi mdi-text-box-edit"></span> Edit
               </v-btn>
             </template>
             <v-card>

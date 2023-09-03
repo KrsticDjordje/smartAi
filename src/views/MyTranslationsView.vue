@@ -1,9 +1,9 @@
 <template>
   <div>
+    <h5 class="text-left my-4 mx-2">Translations</h5>
     <div
       class="mx-auto mb-8 mt-5 content-container box"
       style="padding: 10px"
-      max-width="97%"
       v-for="transcription in transcriptions"
       :key="transcription.id"
     >
@@ -17,8 +17,9 @@
       <div class="d-flex align-items-center">
         <v-card-title>{{ transcription.filename }}</v-card-title>
         <v-spacer></v-spacer>
-        <v-btn color="deep-purple lighten-2" text> Reserve </v-btn>
-        <v-btn color="deep-red lighten-2" text> Delete </v-btn>
+        <v-btn class="mx-2" outlined fab dark small color="red">
+          <v-icon dark> mdi-delete </v-icon>
+        </v-btn>
       </div>
       <v-divider class="mx-4"></v-divider>
       <div class="text-left">
@@ -33,9 +34,11 @@
 
       <v-card-text>
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
-          <v-chip>Language: {{ transcription.target_language }}</v-chip>
+          <v-chip class="people"
+            >Language: {{ transcription.target_language }}</v-chip
+          >
 
-          <v-chip>Type: Translations</v-chip>
+          <v-chip class="keyword">Type: Translations</v-chip>
         </v-chip-group>
       </v-card-text>
     </div>

@@ -1,12 +1,11 @@
 <template>
   <div>
-    <v-btn class="d-flex ml-5 btn-style-2" rounded color="#5D5FEF" dark>
+    <v-btn class="d-flex mt-3 btn-style-2" rounded color="#5D5FEF" dark>
       + Upload
     </v-btn>
-    <v-card
-      class="mx-auto mb-8 mt-5 transcriptionBox"
+    <div
+      class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
       style="padding: 10px"
-      max-width="97%"
       v-for="transcription in transcriptions"
       :key="transcription.id"
     >
@@ -20,44 +19,73 @@
       <div class="d-flex align-items-center">
         <v-card-title>{{ transcription.filename }}</v-card-title>
         <v-spacer></v-spacer>
-        <v-btn color="deep-purple lighten-2" text> Reserve </v-btn>
-        <v-btn color="deep-red lighten-2" text> Delete </v-btn>
+        <v-btn color="deep-purple" text> Translate </v-btn>
+        <v-btn color="red" text> Delete </v-btn>
       </div>
       <v-divider class="mx-4"></v-divider>
-      <div class="text-left">
-        <v-card-subtitle class="my-0">Chunk title</v-card-subtitle>
+      <div
+        class="text-left mb-4"
+        v-for="oneChunk in transcription.chunks"
+        :key="oneChunk.id"
+      >
+        <div class="d-flex">
+          <v-card-subtitle class="my-0">{{
+            oneChunk.short_title
+          }}</v-card-subtitle>
+          <v-spacer></v-spacer>
+          <v-btn class="mx-2" icon fab dark small color="#05004E">
+            <v-icon dark> mdi-content-copy </v-icon>
+          </v-btn>
+          <v-btn class="mx-2" icon fab dark small color="#05004E">
+            <v-icon dark> mdi-refresh </v-icon>
+          </v-btn>
+        </div>
         <v-card-text class="chunkText">
-          Chunk text Chunk text Chunk text Chunk text Chunk text Chunk text
-          Chunk text
+          {{ oneChunk.improved }}
         </v-card-text>
+        <p class="mx-2 text-right">
+          <span class="mdi mdi-volume-high mx-1"></span>
+          {{ formatTime(oneChunk.start_time) }} -
+          {{ formatTime(oneChunk.end_time) }}
+        </p>
+        <audio ref="recordedAudio" controls>
+          <source :src="oneChunk.file_url" />
+          Your browser does not support the audio element.
+        </audio>
       </div>
-      <v-divider class="mx-4"></v-divider>
-      <v-divider class="mx-4"></v-divider>
-      <div class="text-left">
-        <v-card-subtitle class="my-0">Chunk title</v-card-subtitle>
-        <v-card-text class="chunkText">
-          Chunk text Chunk text Chunk text Chunk text Chunk text Chunk text
-          Chunk text
-        </v-card-text>
-      </div>
-      <v-divider class="mx-4"></v-divider>
-
       <v-card-text>
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
-          <v-chip>Keywords</v-chip>
+          <v-chip
+            class="keyword"
+            small
+            v-for="(keyword, index) in getKeywords(transcription.keywords)"
+            :key="'keyword-' + index"
+            >{{ keyword }}</v-chip
+          >
 
-          <v-chip>Keywords</v-chip>
-
-          <v-chip>People</v-chip>
-
-          <v-chip>People</v-chip>
+          <v-chip
+            class="people"
+            small
+            v-for="(people, index) in getPeople(transcription.people)"
+            :key="'person-' + index"
+            >{{ people }}</v-chip
+          >
         </v-chip-group>
       </v-card-text>
-
-      <audio ref="recordedAudio" controls>
-        Your browser does not support the audio element.
-      </audio>
-    </v-card>
+    </div>
+    <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
+      <v-btn
+        @click="loadMoreTranscriptions"
+        class="ml-5"
+        rounded
+        color="#5D5FEF"
+        dark
+      >
+        <v-wait :active="loading" color="white" size="14">
+          {{ loading ? "Loading..." : "Load More" }}
+        </v-wait>
+      </v-btn>
+    </div>
   </div>
 </template>
   
@@ -69,25 +97,81 @@ export default {
   components: {},
   data() {
     return {
-      loading: true,
+      loading: false,
       transcriptions: null,
+      currentPage: 1,
     };
   },
   mounted() {
     this.fetchTranscriptions();
   },
   methods: {
+    getPeople(keywordsString) {
+      if (!keywordsString) {
+        console.log("Keywords string is null or undefined.");
+        return null;
+      }
+
+      try {
+        const keywordsArray = JSON.parse(keywordsString);
+
+        if (!Array.isArray(keywordsArray)) {
+          console.log("Parsed keywords is not an array.");
+          return null;
+        }
+
+        return keywordsArray.map((keyword) => keyword.trim());
+      } catch (error) {
+        console.log("Error parsing keywords.", error);
+        return null;
+      }
+    },
+
+    getKeywords(keywordsString) {
+      if (!keywordsString) {
+        console.log("Keywords string is null or undefined.");
+        return null;
+      }
+
+      try {
+        const keywordsArray = JSON.parse(keywordsString);
+
+        if (!Array.isArray(keywordsArray)) {
+          console.log("Parsed keywords is not an array.");
+          return null;
+        }
+
+        return keywordsArray.map((keyword) => keyword.trim());
+      } catch (error) {
+        console.log("Error parsing keywords.", error);
+        return null;
+      }
+    },
+    formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    },
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       axios
-        .post("http://49.12.0.17:8000/api/frontend/getTranslationsForUser", {
+        .post("http://49.12.0.17:8000/api/frontend/getTranscriptionsForGroup", {
           userId: userId,
+          limit: 5,
+          page: this.currentPage,
+          roleId: 1,
           token: "test",
         })
         .then((response) => {
-          console.log(response.data.result.translations);
-          this.transcriptions = response.data.result.translations;
-
+          console.log(response.data.result.transcriptions);
+          if (!this.transcriptions) {
+            this.transcriptions = response.data.result.transcriptions;
+          } else {
+            this.transcriptions = [
+              ...this.transcriptions,
+              ...response.data.result.transcriptions,
+            ];
+          }
           this.loading = false;
         })
         .catch((error) => {
@@ -96,6 +180,7 @@ export default {
         });
     },
     loadMoreTranscriptions() {
+      this.loading = true;
       this.currentPage += 1;
       this.fetchTranscriptions();
     },
@@ -103,5 +188,8 @@ export default {
 };
 </script>
 <style scoped>
+p {
+  font-size: 14px;
+}
 </style>
   

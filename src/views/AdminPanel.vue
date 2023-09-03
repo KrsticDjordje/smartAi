@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="content-container box">
+    <div class="content-container box mt-0">
       <v-card class="channelsBox">
         <v-card class="btnMain">
           <v-btn
+            rounded
             class="btn-style"
             :class="{ active: selectedButton === 'group' }"
             @click="selectedButton = 'group'"
@@ -13,6 +14,7 @@
         </v-card>
         <v-card class="btnMain">
           <v-btn
+            rounded
             class="btn-style"
             :class="{ active: selectedButton === 'user' }"
             @click="selectedButton = 'user'"
@@ -22,6 +24,17 @@
         </v-card>
         <v-card class="btnMain">
           <v-btn
+            rounded
+            class="btn-style"
+            :class="{ active: selectedButton === 'editor' }"
+            @click="selectedButton = 'editor'"
+          >
+            Create Editor
+          </v-btn>
+        </v-card>
+        <v-card class="btnMain">
+          <v-btn
+            rounded
             class="btn-style"
             :class="{ active: selectedButton === 'packetItems' }"
             @click="selectedButton = 'packetItems'"
@@ -31,6 +44,7 @@
         </v-card>
         <v-card class="btnMain">
           <v-btn
+            rounded
             class="btn-style"
             :class="{ active: selectedButton === 'packets' }"
             @click="selectedButton = 'packets'"
@@ -40,6 +54,7 @@
         </v-card>
         <v-card class="btnMain">
           <v-btn
+            rounded
             class="btn-style"
             :class="{ active: selectedButton === 'company' }"
             @click="selectedButton = 'company'"
@@ -51,18 +66,21 @@
     </div>
     <CreatePacketItem v-if="selectedButton === 'packetItems'" />
     <CreatePackets v-if="selectedButton === 'packets'" />
+    <RegisterCompany v-if="selectedButton === 'company'" y />
   </div>
 </template>
 
 <script>
 import CreatePacketItem from "@/components/adminPanel/CreatePacketItem.vue";
 import CreatePackets from "@/components/adminPanel/CreatePackets.vue";
+import RegisterCompany from "@/components/adminPanel/RegisterCompany.vue";
 
 export default {
   name: "EditPanel",
   components: {
     CreatePacketItem,
     CreatePackets,
+    RegisterCompany,
   },
   data() {
     return {

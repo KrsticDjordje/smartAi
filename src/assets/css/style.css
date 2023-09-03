@@ -88,6 +88,10 @@ i.v-icon.notranslate.mdi.mdi-magnify.theme--light {
     color: #5D5FEF;
 }
 
+span.mdi.mdi-volume-high.mx-1 {
+    color: #7074f1;
+}
+
 i.v-icon.notranslate.mdi.mdi-hand-clap.theme--light {
     color: #FF947A;
 }
@@ -132,12 +136,21 @@ audio {
     width: 100%;
     background: #f1f3f4;
     border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     margin-bottom: -7px;
 }
 
 .theme--light.v-chip:not(.v-chip--active) {
-    background: #7172f1 !important;
+
     color: white;
+}
+
+.keyword {
+    background: #6088f1 !important;
+}
+
+.people {
+    background: #4493e3 !important;
 }
 
 .channelsBox {
@@ -203,4 +216,36 @@ audio {
 
 .v-list-item__content {
     text-align: left !important;
+}
+
+.theme--light.v-label {
+    color: rgb(121 121 121 / 60%) !important;
+}
+
+.theme--dark.v-btn.v-btn--has-bg {
+    background-color: #5d5fef !important;
+}
+
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+    color: #737791 !important;
+}
+
+a.link.recordingColor.v-list-item.v-list-item--link.theme--light {
+    color: white !important;
+}
+
+.v-card__title {
+    color: #05004E;
+}
+
+span.v-chip--select.v-chip.v-chip--clickable.v-chip--no-color.theme--light.v-size--small {
+    background: #38bff2;
+}
+
+.v-btn--is-elevated {
+    box-shadow: none !important;
+}
+
+.v-text-field.v-text-field--solo .v-input__control {
+    min-height: 43px !important;
 }

@@ -6,16 +6,34 @@
     <v-expand-transition>
       <div class="content-container box" style="padding: 25px" v-show="expand">
         <v-card-title class="textChannel" style="margin: 0; padding: 0"
-          >Create packet item</v-card-title
+          >Register company</v-card-title
         >
-        <v-form ref="form" v-model="valid" @submit.prevent="createPacketItem">
+        <v-form ref="form" v-model="valid" @submit.prevent="createPackets">
           <v-row>
             <v-col cols="12" md="6">
               <v-text-field
-                v-model="packetItemName"
+                v-model="packetsName"
                 :rules="nameRules"
                 :counter="32"
-                label="Packet item name"
+                label="Company name"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="packetsName"
+                :rules="nameRules"
+                :counter="32"
+                label="Adress"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="packetsName"
+                :rules="nameRules"
+                :counter="32"
+                label="PIB"
                 required
               ></v-text-field>
             </v-col>
@@ -30,11 +48,12 @@
             >
               Create
             </v-btn>
+            <v-btn rounded color="error" @click="clear"> clear </v-btn>
           </v-card>
         </v-form>
       </div>
     </v-expand-transition>
-    <AllPacketItems />
+    <AllCompanies />
     <transition name="fade" mode="out-in">
       <v-alert v-if="showAlert" :type="alertType" key="alert">
         {{ alertMessage }}
@@ -42,15 +61,16 @@
     </transition>
   </div>
 </template>
-    
-<script>
+        
+    <script>
 import axios from "axios";
 
 import { mapGetters } from "vuex";
-import AllPacketItems from "@/components/adminPanel/AllPacketItems.vue";
+import AllPackets from "@/components/adminPanel/AllPackets.vue";
+import AllCompanies from "./AllCompanies.vue";
 
 export default {
-  components: { AllPacketItems },
+  components: { AllPackets, AllCompanies },
   data: () => ({
     expand: false,
     date: null,
@@ -58,18 +78,25 @@ export default {
     showAlert: false,
     alertType: "",
     alertMessage: "",
-    packetItemName: "",
+    packetsName: "",
     nameRules: [
-      (v) => !!v || "Name is required",
+      (v) => !!v || "This field is required",
       (v) => v.length <= 32 || "Name must be less than 32 characters",
     ],
   }),
   mounted() {},
   computed: {
-    ...mapGetters(["getGroups"]),
+    ...mapGetters("packetItems", ["getPacketItems"]),
+    itemList() {
+      return this.getPacketItems.map((item) => item.name);
+    },
   },
   methods: {
-    async createPacketItem() {
+    clear() {
+      this.packetsName = "";
+      this.$refs.observer.reset();
+    },
+    async createPackets() {
       if (!this.$refs.form.validate()) {
         // Provera da li su svi validacijski uslovi ispunjeni
         this.$refs.form.resetValidation(); // Resetovanje validacije
@@ -77,19 +104,19 @@ export default {
         return; // Zaustavlja se izvršavanje metode kako se ne bi slao zahtev
       }
       const requestData = {
-        name: this.packetItemName,
+        name: "test123",
         token: "test",
       };
-
+      console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8000/api/frontend/createPacketItem",
+          "http://49.12.0.17:8000/api/frontend/createPacket",
           requestData
         );
 
         if (response.status === 200) {
           console.log("Packet item created successfully!");
-          this.packetItemName = "";
+          this.packetsName = "";
           this.showAlert = true;
           this.alertType = "success";
           this.alertMessage = "Packet item created successfully!";
@@ -116,7 +143,7 @@ export default {
   },
 };
 </script>
-    <style scoped>
+        <style scoped>
 .colorGroup {
   background: #554ba9;
 }
@@ -124,4 +151,4 @@ export default {
   padding: 8px !important;
 }
 </style>
-    
+        

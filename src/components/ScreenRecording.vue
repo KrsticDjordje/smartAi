@@ -1,17 +1,18 @@
 <template>
   <div>
     <v-btn
+      min-width="20%"
+      width="30%"
       rounded
       color="red"
       style="color: white"
-      class="recordingBtn"
+      class="recordingBtn mt-5 m-auto"
       @click="toggleRecording"
       :disabled="isRecording"
     >
       <v-icon style="color: white" class="mx-2">mdi-record-circle</v-icon>
       {{ isRecording ? "Recording Off" : "Recording On" }}
     </v-btn>
-    <v-card-title>Videos</v-card-title>
     <video
       ref="recordedVideo"
       controls

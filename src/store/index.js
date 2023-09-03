@@ -7,6 +7,7 @@ import usersModule from './modules/users';
 import autentificationModule from './modules/autentification';
 import packetItemsModule from './modules/packetItems';
 import packetsModule from './modules/packets';
+import companiesModule from './modules/companies';
 
 Vue.use(Vuex)
 
@@ -17,5 +18,6 @@ export default new Vuex.Store({
     autentification: autentificationModule,
     packetItems: packetItemsModule,
     packets: packetsModule,
+    companies: companiesModule,
   },
 });
