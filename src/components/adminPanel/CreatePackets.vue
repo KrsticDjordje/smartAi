@@ -95,7 +95,7 @@ export default {
         return; // Zaustavlja se izvršavanje metode kako se ne bi slao zahtev
       }
       const requestData = {
-        name: "test123",
+        name: this.packetsName,
         token: "test",
         packetItemIds: this.packetItems.map((groupName) => {
           const group = this.getPacketItems.find((g) => g.name === groupName);

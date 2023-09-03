@@ -32,7 +32,7 @@
             <v-card-subtitle class="text-left"> Transcriptions</v-card-subtitle>
             <v-list-item class="link" router :to="{ name: 'recording' }">
               <v-list-item-icon>
-                <v-icon style="color: red">mdi-record-circle</v-icon>
+                <v-icon style="color: red !important">mdi-record-circle</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Recording Now</v-list-item-title>
             </v-list-item>

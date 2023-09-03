@@ -2,11 +2,11 @@
   <v-container-fluid>
     <!-- Prvi red -->
     <v-row>
-      <v-col cols="8">
+      <v-col cols="12" md="8">
         <!-- Sadržaj za prvu kolonu sa širinom 8 kolona -->
         <div><all-companies /></div>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" md="4">
         <!-- Sadržaj za drugu kolonu sa širinom 4 kolona -->
         <div><weather /></div>
       </v-col>
@@ -14,12 +14,12 @@
 
     <!-- Drugi red -->
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <!-- Sadržaj za treću kolonu sa širinom 6 kolona -->
 
         <div><AllPacketItems /></div>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <!-- Sadržaj za četvrtu kolonu sa širinom 6 kolona -->
         <div><all-packets /></div>
       </v-col>
@@ -27,7 +27,7 @@
 
     <!-- Treći red -->
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" md="12">
         <!-- Sadržaj za petu kolonu sa širinom 12 kolona -->
         <div><all-companies /></div>
       </v-col>

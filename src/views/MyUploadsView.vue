@@ -17,7 +17,7 @@
         ></v-progress-linear>
       </template>
       <div class="d-flex align-items-center">
-        <v-card-title>{{ transcription.filename }}</v-card-title>
+        <v-card-title>{{ transcription.short_title }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn color="deep-purple" text> Translate </v-btn>
         <v-btn color="red" text> Delete </v-btn>
@@ -30,14 +30,16 @@
       >
         <div class="d-flex">
           <v-card-subtitle class="my-0">{{
-            oneChunk.short_title
+            oneChunk.short_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
+              ? "Chunk subtitle"
+              : oneChunk.short_title
           }}</v-card-subtitle>
           <v-spacer></v-spacer>
           <v-btn class="mx-2" icon fab dark small color="#05004E">
             <v-icon dark> mdi-content-copy </v-icon>
           </v-btn>
           <v-btn class="mx-2" icon fab dark small color="#05004E">
-            <v-icon dark> mdi-refresh </v-icon>
+            <v-icon dark> mdi-file-replace-outline </v-icon>
           </v-btn>
         </div>
         <v-card-text class="chunkText">
@@ -48,6 +50,7 @@
           {{ formatTime(oneChunk.start_time) }} -
           {{ formatTime(oneChunk.end_time) }}
         </p>
+        <audio-player />
         <audio ref="recordedAudio" controls>
           <source :src="oneChunk.file_url" />
           Your browser does not support the audio element.
@@ -91,10 +94,11 @@
   
 <script>
 import axios from "axios";
+import AudioPlayer from "@/components/AudioPlayer.vue";
 
 export default {
   name: "MyUploads",
-  components: {},
+  components: { AudioPlayer },
   data() {
     return {
       loading: false,
