@@ -133,7 +133,7 @@ export default {
       console.log(id, "radiii");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8000/api/frontend/deletePackets",
+          "http://49.12.0.17:8080/api/frontend/deletePackets",
           {
             packetsId: id,
             token: "test",
@@ -153,7 +153,7 @@ export default {
         };
         console.log(data);
         await axios.post(
-          "http://49.12.0.17:8000/api/frontend/editPacketItem",
+          "http://49.12.0.17:8080/api/frontend/editPacketItem",
           data
         );
         onePacketItem.openDialog = false;

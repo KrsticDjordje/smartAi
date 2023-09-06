@@ -18,7 +18,7 @@ const actions = {
     async fetchCompanies({ commit }) {
         try {
             const response = await axios.post(
-                'http://49.12.0.17:8000/api/frontend/getCompanies',
+                'http://49.12.0.17:8080/api/frontend/getCompanies',
                 {
                     "token": "test",
                     "limit": 1,

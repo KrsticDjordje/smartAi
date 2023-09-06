@@ -83,7 +83,7 @@ export default {
 
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8000/api/frontend/createPacketItem",
+          "http://49.12.0.17:8080/api/frontend/createPacketItem",
           requestData
         );
 

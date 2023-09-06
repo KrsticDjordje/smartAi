@@ -159,7 +159,7 @@ export default {
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       axios
-        .post("http://49.12.0.17:8000/api/frontend/getTranscriptionsForGroup", {
+        .post("http://49.12.0.17:8080/api/frontend/getTranscriptionsForGroup", {
           userId: userId,
           limit: 5,
           page: this.currentPage,
