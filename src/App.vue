@@ -40,19 +40,19 @@
               <v-list-item-icon>
                 <v-icon>mdi-message-video</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>My Recordings</v-list-item-title>
+              <v-list-item-title>Recordings</v-list-item-title>
             </v-list-item>
             <v-list-item class="link" router :to="{ name: 'myUploads' }">
               <v-list-item-icon>
                 <v-icon>mdi-folder-upload</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>My Uploads</v-list-item-title>
+              <v-list-item-title>Uploads</v-list-item-title>
             </v-list-item>
             <v-list-item class="link" router :to="{ name: 'myTranslations' }">
               <v-list-item-icon>
                 <v-icon>mdi-translate-variant</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>My Translations</v-list-item-title>
+              <v-list-item-title>Translations</v-list-item-title>
             </v-list-item>
             <v-list-item
               class="link"

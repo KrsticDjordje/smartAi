@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="content-container box mt-0">
-      <v-card class="channelsBox">
+    <div class="box mt-0 mb-3">
+      <v-card class="channelsBox" style="background: transparent !important">
         <v-card class="btnMain">
           <v-btn
             rounded

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-btn class="d-flex mt-3 btn-style-2" rounded color="#5D5FEF" dark>
+    <v-btn
+      class="d-flex mt-3 btn-style-2 upload-btn"
+      rounded
+      large
+      color="#5D5FEF"
+    >
       + Upload
     </v-btn>
     <div
@@ -16,47 +21,16 @@
           indeterminate
         ></v-progress-linear>
       </template>
+      <p class="text-right mr-4 mt-2 mb-0">
+        <span class="mdi mdi-timer-edit"></span> 02.05.2023
+      </p>
       <div class="d-flex align-items-center">
         <v-card-title>{{ transcription.short_title }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn color="deep-purple" text> Translate </v-btn>
         <v-btn color="red" text> Delete </v-btn>
       </div>
-      <v-divider class="mx-4"></v-divider>
-      <div
-        class="text-left mb-4"
-        v-for="oneChunk in transcription.chunks"
-        :key="oneChunk.id"
-      >
-        <div class="d-flex">
-          <v-card-subtitle class="my-0">{{
-            oneChunk.short_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
-              ? "Chunk subtitle"
-              : oneChunk.short_title
-          }}</v-card-subtitle>
-          <v-spacer></v-spacer>
-          <v-btn class="mx-2" icon fab dark small color="#05004E">
-            <v-icon dark> mdi-content-copy </v-icon>
-          </v-btn>
-          <v-btn class="mx-2" icon fab dark small color="#05004E">
-            <v-icon dark> mdi-file-replace-outline </v-icon>
-          </v-btn>
-        </div>
-        <v-card-text class="chunkText">
-          {{ oneChunk.improved }}
-        </v-card-text>
-        <p class="mx-2 text-right">
-          <span class="mdi mdi-volume-high mx-1"></span>
-          {{ formatTime(oneChunk.start_time) }} -
-          {{ formatTime(oneChunk.end_time) }}
-        </p>
-        <audio-player />
-        <audio ref="recordedAudio" controls>
-          <source :src="oneChunk.file_url" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
-      <v-card-text>
+      <v-card-text class="px-3 py-0">
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
           <v-chip
             class="keyword"
@@ -75,6 +49,41 @@
           >
         </v-chip-group>
       </v-card-text>
+      <v-hr class=""></v-hr>
+      <div
+        class="text-left mb-4"
+        v-for="oneChunk in transcription.chunks"
+        :key="oneChunk.id"
+      >
+        <div class="d-flex">
+          <v-card-subtitle class="my-0">{{
+            oneChunk.short_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
+              ? "Chunk subtitle"
+              : oneChunk.short_title
+          }}</v-card-subtitle>
+          <p class="mx-3 mb-0 d-flex align-center text-left">
+            <span class="mdi mdi-volume-high mx-1"></span>
+            {{ formatTime(oneChunk.start_time) }} -
+            {{ formatTime(oneChunk.end_time) }}
+          </p>
+          <v-spacer></v-spacer>
+          <v-btn class="mx-2" icon fab dark small color="#05004E">
+            <v-icon dark> mdi-content-copy </v-icon>
+          </v-btn>
+          <v-btn class="mx-2" icon fab dark small color="#05004E">
+            <v-icon dark> mdi-file-replace-outline </v-icon>
+          </v-btn>
+        </div>
+
+        <v-card-text class="chunkText">
+          {{ oneChunk.improved }}
+        </v-card-text>
+        <!-- <audio-player /> -->
+        <audio ref="recordedAudio" controls>
+          <source src="https://www.computerhope.com/jargon/m/example.mp3" />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
     </div>
     <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
       <v-btn
@@ -82,7 +91,6 @@
         class="ml-5"
         rounded
         color="#5D5FEF"
-        dark
       >
         <v-wait :active="loading" color="white" size="14">
           {{ loading ? "Loading..." : "Load More" }}

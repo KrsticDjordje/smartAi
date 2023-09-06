@@ -116,7 +116,7 @@ i.v-icon.notranslate.mdi.mdi-hand-clap.theme--light {
 }
 
 span.v-chip__content {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .theme--light.v-divider {
@@ -174,6 +174,7 @@ audio {
 
 .btn-style-2 {
     background-color: rgb(78 161 242) !important;
+    color: white !important;
 }
 
 .btn-style.active {
@@ -222,8 +223,9 @@ audio {
     color: rgb(121 121 121 / 60%) !important;
 }
 
-.theme--dark.v-btn.v-btn--has-bg {
+.v-btn.v-btn--has-bg {
     background-color: #5d5fef !important;
+    color: white !important;
 }
 
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
@@ -257,4 +259,26 @@ span.v-chip--select.v-chip.v-chip--clickable.v-chip--no-color.theme--light.v-siz
 .v-list .v-list-item--active,
 .v-list .v-list-item--active .v-icon {
     color: white !important;
+}
+
+.upload-btn {
+    position: fixed !important;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    box-shadow: 0 3px 15px 2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12) !important;
+}
+
+/* 
+.transcriptionBox:hover {
+    background: #ecedff !important;
+    transition: 0.2s;
+}
+
+.transcriptionBox {
+    transition: 0.2s;
+} */
+
+button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--light.v-size--default.active {
+    background: #5d5fef75 !important;
 }

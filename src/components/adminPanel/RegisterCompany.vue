@@ -12,7 +12,7 @@
           <v-row>
             <v-col cols="12" md="6">
               <v-text-field
-                v-model="packetsName"
+                v-model="companyName"
                 :rules="nameRules"
                 :counter="32"
                 label="Company name"
@@ -21,7 +21,7 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
-                v-model="packetsName"
+                v-model="companyAdress"
                 :rules="nameRules"
                 :counter="32"
                 label="Adress"
@@ -30,12 +30,25 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
-                v-model="packetsName"
+                v-model="PIB"
                 :rules="nameRules"
                 :counter="32"
                 label="PIB"
                 required
               ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-combobox
+                v-model="packetItems"
+                :items="itemList"
+                label="Add packet"
+                :search-input.sync="search"
+                hint=""
+                dense
+                deletable-chips
+                persistent-hint
+                small-chips
+              ></v-combobox>
             </v-col>
           </v-row>
           <v-card class="mt-5">
@@ -75,10 +88,13 @@ export default {
     expand: false,
     date: null,
     valid: false,
+    search: null,
     showAlert: false,
     alertType: "",
     alertMessage: "",
-    packetsName: "",
+    companyAdress: "",
+    companyName: "",
+    PIB: "",
     nameRules: [
       (v) => !!v || "This field is required",
       (v) => v.length <= 32 || "Name must be less than 32 characters",
@@ -86,14 +102,16 @@ export default {
   }),
   mounted() {},
   computed: {
-    ...mapGetters("packetItems", ["getPacketItems"]),
+    ...mapGetters("packets", ["getPackets"]),
     itemList() {
-      return this.getPacketItems.map((item) => item.name);
+      return this.getPackets.map((item) => item.name);
     },
   },
   methods: {
     clear() {
-      this.packetsName = "";
+      this.companyName = "";
+      this.companyAdress = "";
+      this.PIB = "";
       this.$refs.observer.reset();
     },
     async createPackets() {
@@ -104,13 +122,16 @@ export default {
         return; // Zaustavlja se izvršavanje metode kako se ne bi slao zahtev
       }
       const requestData = {
-        name: "test123",
         token: "test",
+        packet_id: 3,
+        name: this.companyName,
+        pib: this.PIB,
+        address: this.companyAdress,
       };
       console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8080/api/frontend/createPacket",
+          "http://49.12.0.17:8080/api/frontend/createCompany",
           requestData
         );
 
@@ -119,7 +140,7 @@ export default {
           this.packetsName = "";
           this.showAlert = true;
           this.alertType = "success";
-          this.alertMessage = "Packet item created successfully!";
+          this.alertMessage = "Company created successfully!";
           setTimeout(() => {
             this.showAlert = false;
           }, 3000);
@@ -130,7 +151,7 @@ export default {
       } catch (error) {
         this.showAlert = true;
         this.alertType = "error";
-        this.alertMessage = '"Error creating packet item"';
+        this.alertMessage = '"Error creating company"';
         setTimeout(() => {
           this.showAlert = false;
         }, 3000);

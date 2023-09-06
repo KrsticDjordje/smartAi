@@ -58,9 +58,7 @@
 export default {
   data() {
     return {
-      audio: new Audio(
-        "https://s3.eu-central-2.wasabisys.com/qira/12/2023/9/audio_1693571048388/audio_1693571048388_chunk_0.mp3"
-      ),
+      audio: new Audio("https://www.computerhope.com/jargon/m/example.mp3"),
       isPlaying: false,
       currentTime: 0,
       duration: 0,
