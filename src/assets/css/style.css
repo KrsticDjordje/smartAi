@@ -226,6 +226,8 @@ audio {
 .v-btn.v-btn--has-bg {
     background-color: #5d5fef !important;
     color: white !important;
+    text-transform: inherit;
+    font-weight: 500;
 }
 
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
@@ -281,4 +283,10 @@ span.v-chip--select.v-chip.v-chip--clickable.v-chip--no-color.theme--light.v-siz
 
 button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--light.v-size--default.active {
     background: #5d5fef75 !important;
+}
+
+@media only screen and (max-width: 490px) {
+    .v-toolbar__title.app-bar-title.hello {
+        display: none;
+    }
 }

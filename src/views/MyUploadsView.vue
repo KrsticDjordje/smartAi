@@ -1,13 +1,6 @@
 <template>
   <div>
-    <v-btn
-      class="d-flex mt-3 btn-style-2 upload-btn"
-      rounded
-      large
-      color="#5D5FEF"
-    >
-      + Upload
-    </v-btn>
+    <UploadFIle />
     <div
       class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
       style="padding: 10px"
@@ -103,10 +96,11 @@
 <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
+import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
   name: "MyUploads",
-  components: { AudioPlayer },
+  components: { AudioPlayer, UploadFIle },
   data() {
     return {
       loading: false,
