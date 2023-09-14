@@ -45,19 +45,19 @@
       <v-hr class=""></v-hr>
       <div
         class="text-left mb-4"
-        v-for="oneChunk in transcription.chunks"
+        v-for="oneChunk in transcription.pieces"
         :key="oneChunk.id"
       >
         <div class="d-flex">
           <v-card-subtitle class="my-0">{{
-            oneChunk.short_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
+            oneChunk.brief_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
               ? "Chunk subtitle"
-              : oneChunk.short_title
+              : oneChunk.brief_title
           }}</v-card-subtitle>
           <p class="mx-3 mb-0 d-flex align-center text-left">
             <span class="mdi mdi-volume-high mx-1"></span>
-            {{ formatTime(oneChunk.start_time) }} -
-            {{ formatTime(oneChunk.end_time) }}
+            {{ formatTime(oneChunk.beginning_time) }} -
+            {{ formatTime(oneChunk.concluding_time) }}
           </p>
           <v-spacer></v-spacer>
           <v-btn class="mx-2" icon fab dark small color="#05004E">
@@ -69,7 +69,7 @@
         </div>
 
         <v-card-text class="chunkText">
-          {{ oneChunk.improved }}
+          {{ oneChunk.transcript }}
         </v-card-text>
         <!-- <audio-player /> -->
         <audio ref="recordedAudio" controls>
