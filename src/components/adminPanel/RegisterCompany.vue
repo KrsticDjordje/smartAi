@@ -61,7 +61,7 @@
             >
               Create
             </v-btn>
-            <v-btn rounded color="error" @click="clear"> clear </v-btn>
+            <v-btn rounded color="error" @click="clear"> Clear </v-btn>
           </v-card>
         </v-form>
       </div>
@@ -90,6 +90,7 @@ export default {
     valid: false,
     search: null,
     showAlert: false,
+    packetItems: "",
     alertType: "",
     alertMessage: "",
     companyAdress: "",
@@ -121,12 +122,22 @@ export default {
         this.$refs.form.reset(); // Resetovanje forme (prazni polja)
         return; // Zaustavlja se izvršavanje metode kako se ne bi slao zahtev
       }
+
+      // Pronalazi odgovarajući objekt paketa na temelju naziva
+      const selectedPacket = this.getPackets.find(
+        (packet) => packet.name === this.packetItems
+      );
+
+      if (!selectedPacket) {
+        console.error("Paket nije pronađen.");
+        return;
+      }
       const requestData = {
         token: "test",
-        packet_id: 3,
         name: this.companyName,
         pib: this.PIB,
         address: this.companyAdress,
+        packet_id: selectedPacket.id,
       };
       console.log(requestData, "dobijeno");
       try {

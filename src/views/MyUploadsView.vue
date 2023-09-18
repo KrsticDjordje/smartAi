@@ -32,13 +32,14 @@
             :key="'keyword-' + index"
             >{{ keyword }}</v-chip
           >
-
+        </v-chip-group>
+        <v-chip-group active-class="deep-purple accent-4 white--text" column>
           <v-chip
             class="people"
             small
             v-for="(people, index) in getPeople(transcription.people)"
             :key="'person-' + index"
-            >{{ people }}</v-chip
+            >#{{ people }}</v-chip
           >
         </v-chip-group>
       </v-card-text>
@@ -51,7 +52,7 @@
         <div class="d-flex">
           <v-card-subtitle class="my-0">{{
             oneChunk.brief_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
-              ? "Chunk subtitle"
+              ? "Brief subtitle"
               : oneChunk.brief_title
           }}</v-card-subtitle>
           <p class="mx-3 mb-0 d-flex align-center text-left">

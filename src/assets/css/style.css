@@ -150,7 +150,8 @@ audio {
 }
 
 .people {
-    background: #4493e3 !important;
+    background: transparent !important;
+    color: black !important;
 }
 
 .channelsBox {

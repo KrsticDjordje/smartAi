@@ -28,6 +28,7 @@
                 v-bind="attrs"
                 v-on="on"
                 color="blue"
+                @click="edit(oneCompany.id)"
               >
                 <span class="mdi mdi-text-box-edit"></span> Edit
               </v-btn>
@@ -55,7 +56,6 @@
                         chips
                         small-chips
                         label="Select groups to add users to"
-                        multiple
                       ></v-autocomplete>
                     </v-col>
                   </v-row>
@@ -112,6 +112,11 @@
         </v-card-actions>
       </v-list-item>
     </v-card>
+    <transition name="fade" mode="out-in">
+      <v-alert v-if="showAlert" :type="alertType" key="alert">
+        {{ alertMessage }}
+      </v-alert>
+    </transition>
   </div>
 </template>
     
@@ -125,6 +130,9 @@ export default {
   name: "Company",
   data: () => ({
     selectedPackets: [],
+    showAlert: false,
+    alertType: "",
+    alertMessage: "",
   }),
   async mounted() {
     try {
@@ -143,6 +151,25 @@ export default {
   },
   methods: {
     ...mapActions("companies", ["fetchCompanies"]),
+    ...mapActions("packets", ["fetchPackets"]),
+    async edit(companyId) {
+      console.log(companyId, "radi");
+      try {
+        const response = await axios.post(
+          "http://49.12.0.17:8080/api/frontend/getOneCompany",
+          {
+            token: "test",
+            companyId: companyId,
+          }
+        );
+
+        this.selectedPackets = response.data.response.company.packet.name;
+        console.log(this.selectedPackets);
+      } catch (error) {
+        console.error("Error:", error);
+        this.getOneUser = null;
+      }
+    },
     async deleteUser(id) {
       console.log(id, "radiii");
       try {
@@ -154,27 +181,54 @@ export default {
           }
         );
         console.log("Korisnik uspešno obrisan:", response.data);
+        this.showAlert = true;
+        this.alertType = "success";
+        this.alertMessage = "Company deleted successfully!";
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
       } catch (error) {
+        this.showAlert = true;
+        this.alertType = "error";
+        this.alertMessage = "Failed!";
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
         console.error("Greška pri brisanju korisnika:", error);
       }
     },
     async saveChanges(oneCompany, id) {
+      const selectedPacket = this.getPackets.find(
+        (packet) => packet.name === this.selectedPackets
+      );
       try {
         const data = {
           token: "test",
           companyId: id,
-          packetId: 3,
-          name: "Nova kompanijaaa1112333",
+          packetId: selectedPacket.id,
+          name: oneCompany.name,
         };
-        console.log(data);
+        console.log(data, "saveChanges companies");
         await axios.post(
-          "http://49.12.0.17:8080/api/frontend/editCompany11",
+          "http://49.12.0.17:8080/api/frontend/editCompany",
           data
         );
         oneCompany.openDialog = false;
         console.log("Promene uspešno sačuvane");
+        this.showAlert = true;
+        this.alertType = "success";
+        this.alertMessage = "Company edit successfully!";
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
       } catch (error) {
         console.error("Greška pri čuvanju promena:", error);
+        this.showAlert = true;
+        this.alertType = "error";
+        this.alertMessage = "Failed!";
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
       }
     },
   },

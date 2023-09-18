@@ -21,7 +21,7 @@ const actions = {
                 'http://49.12.0.17:8080/api/frontend/getCompanies',
                 {
                     "token": "test",
-                    "limit": 1,
+                    "limit": 20,
                     "page": 1
                 }
             );
