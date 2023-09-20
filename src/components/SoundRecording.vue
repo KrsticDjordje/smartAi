@@ -50,6 +50,7 @@ export default {
         });
       } catch (error) {
         console.error("Error requesting audio permission:", error);
+        console.log("Navigator:", navigator);
       }
     },
     async toggleRecording() {
