@@ -15,7 +15,7 @@
         ></v-progress-linear>
       </template>
       <div class="d-flex align-items-center">
-        <v-card-title>{{ transcription.filename }}</v-card-title>
+        <v-card-title>{{ transcription.document_name }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn class="mx-2" outlined fab dark small color="red">
           <v-icon dark> mdi-delete </v-icon>
@@ -27,7 +27,7 @@
           transcription.short_title
         }}</v-card-subtitle>
         <v-card-text class="chunkText">
-          {{ transcription.transcription }}
+          {{ transcription.transcript }}
         </v-card-text>
       </div>
       <v-divider class="mx-4"></v-divider>

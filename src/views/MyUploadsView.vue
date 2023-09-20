@@ -18,7 +18,7 @@
         <span class="mdi mdi-timer-edit"></span> 02.05.2023
       </p>
       <div class="d-flex align-items-center">
-        <v-card-title>{{ transcription.short_title }}</v-card-title>
+        <v-card-title>{{ transcription.brief_title }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn color="deep-purple" text> Translate </v-btn>
         <v-btn color="red" text> Delete </v-btn>
@@ -37,7 +37,7 @@
           <v-chip
             class="people"
             small
-            v-for="(people, index) in getPeople(transcription.people)"
+            v-for="(people, index) in getPeople(transcription.tags)"
             :key="'person-' + index"
             >#{{ people }}</v-chip
           >
