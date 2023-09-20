@@ -14,8 +14,8 @@
     <span v-if="isRecording">Recording time: {{ formattedRecordingTime }}</span>
   </div>
 </template>
-  
-  <script>
+
+<script>
 export default {
   data() {
     return {
@@ -43,15 +43,27 @@ export default {
     formatNumber(number) {
       return number.toString().padStart(2, "0");
     },
+    async requestAudioPermission() {
+      try {
+        this.stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+      } catch (error) {
+        console.error("Error requesting audio permission:", error);
+      }
+    },
     async toggleRecording() {
       if (!this.isRecording) {
-        this.startRecording();
-        this.recordingStartTime = Date.now() - this.recordingTime * 1000;
-        this.timer = setInterval(() => {
-          this.recordingTime = Math.floor(
-            (Date.now() - this.recordingStartTime) / 1000
-          );
-        }, 1000);
+        await this.requestAudioPermission(); // Zahtevaj dozvolu pre snimanja
+        if (this.stream) {
+          this.startRecording();
+          this.recordingStartTime = Date.now() - this.recordingTime * 1000;
+          this.timer = setInterval(() => {
+            this.recordingTime = Math.floor(
+              (Date.now() - this.recordingStartTime) / 1000
+            );
+          }, 1000);
+        }
       } else {
         this.stopRecording();
         clearInterval(this.timer);
@@ -60,9 +72,6 @@ export default {
     },
     async startRecording() {
       try {
-        this.stream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
         this.mediaRecorder = new MediaRecorder(this.stream);
         this.audioChunks = [];
 
@@ -129,4 +138,3 @@ export default {
   },
 };
 </script>
-  
