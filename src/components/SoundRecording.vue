@@ -51,6 +51,7 @@ export default {
       } catch (error) {
         console.error("Error requesting audio permission:", error);
         console.log("Navigator:", navigator);
+        console.log("MedidaDevices:", navigator.mediaDevices);
       }
     },
     async toggleRecording() {
