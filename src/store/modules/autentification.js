@@ -28,7 +28,7 @@ const actions = {
     async login({ commit }, { email, password }) {
         try {
             const response = await axios.post(
-                "http://49.12.0.17:8080/api/frontend/login",
+                "https://certoe.de:8080/api/frontend/login",
                 {
                     email,
                     password,
