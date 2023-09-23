@@ -105,7 +105,7 @@ export default {
       console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8080/api/frontend/createPacket",
+          "https://certoe.de:8080/api/frontend/createPacket",
           requestData
         );
 

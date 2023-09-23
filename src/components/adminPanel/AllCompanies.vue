@@ -156,7 +156,7 @@ export default {
       console.log(companyId, "radi");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8080/api/frontend/getOneCompany",
+          "https://certoe.de:8080/api/frontend/getOneCompany",
           {
             token: "test",
             companyId: companyId,
@@ -174,7 +174,7 @@ export default {
       console.log(id, "radiii");
       try {
         const response = await axios.post(
-          "http://49.12.0.17:8080/api/frontend/deleteCompany",
+          "https://certoe.de:8080/api/frontend/deleteCompany",
           {
             packetsId: id,
             token: "test",
@@ -210,7 +210,7 @@ export default {
         };
         console.log(data, "saveChanges companies");
         await axios.post(
-          "http://49.12.0.17:8080/api/frontend/editCompany",
+          "https://certoe.de:8080/api/frontend/editCompany",
           data
         );
         oneCompany.openDialog = false;

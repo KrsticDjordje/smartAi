@@ -64,7 +64,7 @@ export default {
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       axios
-        .post("http://49.12.0.17:8080/api/frontend/getTranslationsForUser", {
+        .post("https://certoe.de:8080/api/frontend/getTranslationsForUser", {
           userId: userId,
           token: "test",
         })

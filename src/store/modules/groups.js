@@ -18,7 +18,7 @@ const actions = {
   async fetchGroups({ commit }) {
     try {
       const response = await axios.post(
-        'http://49.12.0.17:8080/api/frontend/getPacketItems',
+        'https://certoe.de:8080/api/frontend/getPacketItems',
         {
           "token": "test",
           "limit": 10,
