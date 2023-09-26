@@ -18,7 +18,7 @@ const actions = {
   async fetchGroups({ commit }) {
     try {
       const response = await axios.post(
-        'https://certoe.de:8080/api/frontend/getPacketItems',
+        'https://certoe.de:8080/api/frontend/getGroups',
         {
           "token": "test",
           "limit": 10,
@@ -27,7 +27,8 @@ const actions = {
       );
 
       if (response.status === 200) {
-        commit('setGroups', response.data);
+        commit('setGroups', response.data.response.groups);
+        console.log(response.data.response.groups)
       } else {
         console.error('Error fetching groups:', response.statusText);
       }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ScreenRecording />
+    <ScreenRecording class="none" />
     <SoundRecording />
   </div>
 </template>

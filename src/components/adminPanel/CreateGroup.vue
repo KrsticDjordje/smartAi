@@ -6,42 +6,25 @@
     <v-expand-transition>
       <div class="content-container box" style="padding: 25px" v-show="expand">
         <v-card-title class="textChannel" style="margin: 0; padding: 0"
-          >Register company</v-card-title
+          >Create group</v-card-title
         >
-        <v-form ref="form" v-model="valid" @submit.prevent="createPackets">
+        <v-form ref="form" v-model="valid" @submit.prevent="create">
           <v-row>
             <v-col cols="12" md="6">
               <v-text-field
-                v-model="companyName"
+                v-model="groupName"
                 :rules="nameRules"
                 :counter="32"
-                label="Company name"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="companyAdress"
-                :rules="nameRules"
-                :counter="32"
-                label="Adress"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="PIB"
-                :rules="nameRules"
-                :counter="32"
-                label="PIB"
+                label="Group name"
                 required
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
               <v-combobox
-                v-model="packetItems"
+                v-model="data"
                 :items="itemList"
-                label="Add packet"
+                label="Add company"
+                hide-selected
                 :search-input.sync="search"
                 hint=""
                 deletable-chips
@@ -60,12 +43,11 @@
             >
               Create
             </v-btn>
-            <v-btn rounded color="error" @click="clear"> Clear </v-btn>
           </v-card>
         </v-form>
       </div>
     </v-expand-transition>
-    <AllCompanies />
+    <AllGroups />
     <transition name="fade" mode="out-in">
       <v-alert v-if="showAlert" :type="alertType" key="alert">
         {{ alertMessage }}
@@ -78,82 +60,71 @@
 import axios from "axios";
 
 import { mapGetters } from "vuex";
-import AllPackets from "@/components/adminPanel/AllPackets.vue";
-import AllCompanies from "./AllCompanies.vue";
+import AllGroups from "./AllGroups.vue";
 
 export default {
-  components: { AllPackets, AllCompanies },
+  components: { AllGroups },
   data: () => ({
     expand: false,
     date: null,
     valid: false,
-    search: null,
     showAlert: false,
-    packetItems: "",
+    data: "",
     alertType: "",
+    search: null,
     alertMessage: "",
-    companyAdress: "",
-    companyName: "",
-    PIB: "",
+    groupName: "",
     nameRules: [
-      (v) => !!v || "This field is required",
+      (v) => !!v || "Name is required",
       (v) => v.length <= 32 || "Name must be less than 32 characters",
     ],
   }),
   mounted() {},
   computed: {
-    ...mapGetters("packets", ["getPackets"]),
+    ...mapGetters("companies", ["getCompanies"]),
     itemList() {
-      return this.getPackets.map((item) => item.name);
+      return this.getCompanies.map((item) => item.name);
     },
   },
   methods: {
-    clear() {
-      this.companyName = "";
-      this.companyAdress = "";
-      this.PIB = "";
-      this.$refs.observer.reset();
-    },
-    async createPackets() {
+    async create() {
+      console.log(this.getCompanies);
       if (!this.$refs.form.validate()) {
         // Provera da li su svi validacijski uslovi ispunjeni
         this.$refs.form.resetValidation(); // Resetovanje validacije
         this.$refs.form.reset(); // Resetovanje forme (prazni polja)
         return; // Zaustavlja se izvršavanje metode kako se ne bi slao zahtev
       }
-
-      // Pronalazi odgovarajući objekt paketa na temelju naziva
-      const selectedPacket = this.getPackets.find(
-        (packet) => packet.name === this.packetItems
+      const selectedData = this.getCompanies.find(
+        (item) => item.name === this.data
       );
 
-      if (!selectedPacket) {
-        console.error("Paket nije pronađen.");
+      if (!selectedData) {
+        console.error("Kompanija nije pronađena.");
         return;
       }
       const requestData = {
+        name: this.groupName,
         token: "test",
-        name: this.companyName,
-        pib: this.PIB,
-        address: this.companyAdress,
-        packet_id: selectedPacket.id,
+        company_id: selectedData.id,
       };
       console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/createCompany",
+          "https://certoe.de:8080/api/frontend/createGroup",
           requestData
         );
 
         if (response.status === 200) {
-          console.log("Packet item created successfully!");
-          this.packetsName = "";
+          console.log("Group created successfully!");
+          this.groupName = "";
           this.showAlert = true;
           this.alertType = "success";
-          this.alertMessage = "Company created successfully!";
+          this.alertMessage = "Group created successfully!";
           setTimeout(() => {
             this.showAlert = false;
           }, 3000);
+
           this.$refs.form.resetValidation(); // Resetovanje validacije
         } else {
           console.error("Error creating group:", response.statusText);
@@ -161,7 +132,7 @@ export default {
       } catch (error) {
         this.showAlert = true;
         this.alertType = "error";
-        this.alertMessage = '"Error creating company"';
+        this.alertMessage = '"Error creating packet item"';
         setTimeout(() => {
           this.showAlert = false;
         }, 3000);

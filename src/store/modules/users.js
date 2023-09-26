@@ -10,7 +10,7 @@ const getters = {
 
 const mutations = {
     setUsers: (state, users) => {
-        state.users = users.result;
+        state.users = users;
     },
 }
 
@@ -18,16 +18,18 @@ const actions = {
     async fetchUsers({ commit }) {
         try {
             const response = await axios.post(
-                'https://certoe.de:8080/api/frontend/getPacketItems',
+                'https://certoe.de:8080/api/frontend/getUserOfCompany',
                 {
                     "token": "test",
-                    "limit": 10,
-                    "page": 0
+                    "companyId": 1,
+                    "page": 0,
+                    "limit": 4
                 }
             );
 
             if (response.status === 200) {
-                commit('setUsers', response.data);
+                commit('setUsers', response.data.response.users);
+                console.log(response.data.response.users)
             } else {
                 console.error('Error fetching users:', response.statusText);
             }

@@ -290,4 +290,8 @@ button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--li
     .v-toolbar__title.app-bar-title.hello {
         display: none;
     }
+
+    .none {
+        display: none
+    }
 }
