@@ -68,6 +68,7 @@
     <CreatePackets v-if="selectedButton === 'packets'" />
     <RegisterCompany v-if="selectedButton === 'company'" />
     <CreateGroup v-if="selectedButton === 'group'" />
+    <CreateUser v-if="selectedButton === 'user'" />
   </div>
 </template>
 
@@ -76,6 +77,7 @@ import CreatePacketItem from "@/components/adminPanel/CreatePacketItem.vue";
 import CreatePackets from "@/components/adminPanel/CreatePackets.vue";
 import RegisterCompany from "@/components/adminPanel/RegisterCompany.vue";
 import CreateGroup from "@/components/adminPanel/CreateGroup.vue";
+import CreateUser from "@/components/adminPanel/CreateUser.vue";
 
 export default {
   name: "EditPanel",
@@ -84,6 +86,7 @@ export default {
     CreatePackets,
     RegisterCompany,
     CreateGroup,
+    CreateUser,
   },
   data() {
     return {
