@@ -6,7 +6,7 @@
     <v-expand-transition>
       <div class="content-container box" style="padding: 25px" v-show="expand">
         <v-card-title class="textChannel" style="margin: 0; padding: 0"
-          >Create user</v-card-title
+          >Create editor</v-card-title
         >
         <v-form ref="form" v-model="valid" @submit.prevent="create">
           <v-row>
@@ -118,7 +118,7 @@
         </v-form>
       </div>
     </v-expand-transition>
-    <AllUsers />
+    <AllEditors />
     <transition name="fade" mode="out-in">
       <v-alert v-if="showAlert" :type="alertType" key="alert">
         {{ alertMessage }}
@@ -126,14 +126,14 @@
     </transition>
   </div>
 </template>
-          
-      <script>
+            
+        <script>
 import axios from "axios";
 
-import AllUsers from "./AllUsers.vue";
+import AllEditors from "./AllEditors.vue";
 
 export default {
-  components: { AllUsers },
+  components: { AllEditors },
   data: () => ({
     showPass: false,
     expand: false,
@@ -201,7 +201,7 @@ export default {
       console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/registrationForUser",
+          "https://certoe.de:8080/api/frontend/registrationForEditor",
           requestData
         );
 
@@ -235,7 +235,7 @@ export default {
   },
 };
 </script>
-          <style scoped>
+            <style scoped>
 .colorGroup {
   background: #554ba9;
 }
@@ -243,4 +243,4 @@ export default {
   padding: 8px !important;
 }
 </style>
-          
+            

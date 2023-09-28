@@ -9,8 +9,9 @@
           color="#5D5FEF"
           @click="toggleForm"
           v-on="on"
-          >+ Upload</v-btn
         >
+          + Upload
+        </v-btn>
       </template>
       <span>Upload a video or audio file to be transcribed.</span>
     </v-tooltip>
@@ -26,52 +27,44 @@
               @dragover.prevent
             >
               <div class="form-group">
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <label for="language-select" class="language-label"
+                      >Select Language:</label
+                    >
+                    <v-select
+                      v-model="selectedLanguage"
+                      :items="languages"
+                      label="Select Language"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <label
+                      for="recording-type-select"
+                      class="recording-type-label"
+                      >Recording type:</label
+                    >
+                    <v-select
+                      v-model="recordingType"
+                      :items="recordingTypes"
+                      label="Recording Type"
+                      required
+                    ></v-select>
+                  </v-col>
+                </v-row>
+
                 <label for="file-upload" class="upload-label"
                   >Upload File</label
                 >
-                <div class="language-select">
-                  <label for="language-select" class="language-label"
-                    >Select Language:</label
-                  >
-                  <select
-                    class="language-dropdown"
-                    v-model="selectedLanguage"
-                    required
-                  >
-                    <option value="" disabled>Please select a language</option>
-                    <option
-                      v-for="language in languages"
-                      :key="language"
-                      :value="language"
-                    >
-                      {{ language }}
-                    </option>
-                  </select>
-                </div>
                 <div class="form-upload">
-                  <label for="file-upload" class="upload-input">
-                    <span class="upload-icon"
-                      ><i class="fas fa-cloud-upload-alt"></i
-                    ></span>
-                    <span class="upload-text">{{
-                      selectedFile
-                        ? selectedFile.name
-                        : "Drag & Drop files here or click to browse"
-                    }}</span>
-                  </label>
-                  <input
-                    type="file"
-                    name="file"
-                    id="file-upload"
+                  <v-file-input
+                    v-model="selectedFile"
+                    label="Drag & Drop files here or click to browse"
+                    accept=".avi,.mp3,.mp4,.wma,.m4a,.wav,.flac,.aac,.oog,.mkv,.mov,.flv,.wmv"
                     @change="onFileSelected"
-                    ref="fileInput"
-                    @input="selectedFile = $event.target.files[0]"
-                  />
+                  ></v-file-input>
                 </div>
-                <!-- <div class="mt-2 mb-5">
-                      Selected file:
-                      {{ selectedFile ? selectedFile.name : "no file selected" }}
-                    </div> -->
 
                 <transition name="fade">
                   <v-alert
@@ -103,51 +96,27 @@
                     than 500MB.
                   </v-alert>
                 </transition>
-
-                <!-- Recording type dropdown -->
-                <div class="recording-type-select">
-                  <label
-                    for="recording-type-select"
-                    class="recording-type-label"
-                    >Recording type:</label
-                  >
-                  <select
-                    class="recording-type-dropdown"
-                    v-model="recordingType"
-                    required
-                  >
-                    <option value="" disabled>
-                      Please select a recording type
-                    </option>
-                    <option
-                      v-for="type in recordingTypes"
-                      :key="type"
-                      :value="type"
-                    >
-                      {{ type }}
-                    </option>
-                  </select>
-                </div>
-                <div class="form-actions">
-                  <button
-                    type="submit"
-                    class="form-submit"
-                    :disabled="
-                      !selectedFile ||
-                      (selectedFile && !isValidFileType(selectedFile.name)) ||
-                      (selectedFile && selectedFile.size > 500000000)
-                    "
-                  >
-                    Submit
-                  </button>
-                </div>
-                <v-progress-circular
-                  v-if="uploadLoading"
-                  class="mt-5"
-                  indeterminate
-                  color="purple"
-                ></v-progress-circular>
               </div>
+
+              <div class="form-actions">
+                <v-btn
+                  type="submit"
+                  class="form-submit"
+                  :disabled="
+                    !selectedFile ||
+                    (selectedFile && !isValidFileType(selectedFile.name)) ||
+                    (selectedFile && selectedFile.size > 500000000)
+                  "
+                >
+                  Submit
+                </v-btn>
+              </div>
+              <v-progress-circular
+                v-if="uploadLoading"
+                class="mt-5"
+                indeterminate
+                color="purple"
+              ></v-progress-circular>
             </form>
           </div>
         </div>
@@ -167,6 +136,7 @@
     </v-snackbar>
   </div>
 </template>
+
   
   <script>
 import axios from "axios";
@@ -306,7 +276,7 @@ export default {
 
       try {
         const response = await axios.post(
-          "http://49.12.0.17:5000/v1/transcribe_video_new",
+          "https://certoe.de:5000/v1/transcribe_video_new",
           formData,
           config
         );

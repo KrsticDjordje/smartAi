@@ -1,13 +1,13 @@
 <template>
   <div class="content-container box" style="padding: 25px">
     <v-card-title class="textChannel" style="margin: 0; padding: 0"
-      >All groups <v-spacer></v-spacer> ({{ getGroups.length }})</v-card-title
+      >All editors <v-spacer></v-spacer> ({{ getGroups.length }})</v-card-title
     >
 
     <v-card
       class="mx-auto mt-5 items rounded-lg"
       outlined
-      v-for="oneItem in getGroups"
+      v-for="oneItem in filteredUsers"
       :key="oneItem.id"
     >
       <v-list-item three-line>
@@ -117,9 +117,9 @@
     </transition>
   </div>
 </template>
-      
           
-          <script>
+              
+              <script>
 import { mapGetters, mapActions } from "vuex";
 
 import axios from "axios";
@@ -145,7 +145,10 @@ export default {
     ...mapGetters("groups", ["getGroups"]),
     ...mapGetters("users", ["getUsers"]),
     listItems() {
-      return this.getUsers.map((oneItem) => oneItem.name);
+      return this.getGroups.map((oneItem) => oneItem.name);
+    },
+    filteredUsers() {
+      return this.getUsers.filter((oneItem) => oneItem.role_id === 3);
     },
   },
   methods: {
@@ -155,15 +158,15 @@ export default {
       console.log(dataId, "radi");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/getOneGroup",
+          "https://certoe.de:8080/api/frontend/getOneUser",
           {
-            groupId: dataId,
             token: "test",
+            userId: dataId,
           }
         );
 
-        this.selectedData = response.data.response.group.users;
-        this.existItem = this.selectedData.map((users) => users.name);
+        this.selectedData = response.data.response.user.groups;
+        this.existItem = this.selectedData.map((groups) => groups.name);
         console.log(this.selectedData);
       } catch (error) {
         console.error("Error:", error);
@@ -177,7 +180,7 @@ export default {
       }
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteGroup",
+          "https://certoe.de:8080/api/frontend/deleteUser",
           {
             groupId: id,
             token: "test",
@@ -186,7 +189,7 @@ export default {
         console.log("Uspešno obrisano:", response.data);
         this.showAlert = true;
         this.alertType = "success";
-        this.alertMessage = "Group deleted successfully!";
+        this.alertMessage = "User deleted successfully!";
         setTimeout(() => {
           this.showAlert = false;
         }, 3000);
@@ -203,10 +206,9 @@ export default {
     async saveChanges(oneItem, id, existItem) {
       try {
         const data = {
-          groupId: id,
-          name: oneItem.name,
-          userIds: existItem.map((groupName) => {
-            const group = this.getUsers.find(
+          userId: id,
+          groupIds: existItem.map((groupName) => {
+            const group = this.getGroups.find(
               (group) => group.name === groupName
             );
             return group.id;
@@ -214,12 +216,15 @@ export default {
           token: "test",
         };
         console.log(data, "saveChanges");
-        await axios.post("https://certoe.de:8080/api/frontend/editGroup", data);
+        await axios.post(
+          "https://certoe.de:8080/api/frontend/editForEveryUser",
+          data
+        );
         oneItem.openDialog = false;
         console.log("Promene uspešno sačuvane");
         this.showAlert = true;
         this.alertType = "success";
-        this.alertMessage = "Group edit successfully!";
+        this.alertMessage = "Company edit successfully!";
         setTimeout(() => {
           this.showAlert = false;
         }, 3000);
@@ -236,4 +241,4 @@ export default {
   },
 };
 </script>
-          
+              

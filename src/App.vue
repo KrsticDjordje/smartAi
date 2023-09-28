@@ -84,7 +84,8 @@
       <v-app-bar app>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title class="app-bar-title hello">
-          <v-icon>mdi-hand-clap</v-icon> Hello, Stranger!</v-toolbar-title
+          <v-icon>mdi-hand-clap</v-icon> Hello,
+          {{ user.name }}!</v-toolbar-title
         >
 
         <v-spacer></v-spacer>
@@ -145,9 +146,13 @@ export default {
   data() {
     return {
       drawer: true,
+      user: null,
     };
   },
-  mounted() {},
+  mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.user = user;
+  },
   methods: {
     getUserRoleId() {
       const user = JSON.parse(localStorage.getItem("user"));
