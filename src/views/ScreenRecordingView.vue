@@ -1,19 +1,13 @@
 <template>
   <div>
-    <!-- <ScreenRecording class="none" /> -->
-    <SoundRecording />
+    <ScreenRecording class="none" />
   </div>
 </template>
 <script>
 import ScreenRecording from "@/components/ScreenRecording.vue";
-import SoundRecording from "@/components/SoundRecording.vue";
 export default {
   components: {
     ScreenRecording,
-    SoundRecording,
   },
 };
 </script>
-<st
-    SoundRecordingyle scoped>
-</style>

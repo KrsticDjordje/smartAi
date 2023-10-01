@@ -1,6 +1,5 @@
 <template>
   <div>
-    <UploadFIle />
     <div
       class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
       style="padding: 10px"
@@ -94,15 +93,14 @@
     </div>
   </div>
 </template>
-  
-<script>
+    
+  <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
-import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
   name: "MyUploads",
-  components: { AudioPlayer, UploadFIle },
+  components: { AudioPlayer },
   data() {
     return {
       loading: false,
@@ -180,7 +178,7 @@ export default {
           page: this.currentPage,
           roleId: 1,
           token: "test",
-          typeOfTranscription: 1,
+          typeOfTranscription: 4,
         })
         .then((response) => {
           console.log(response.data.result.transcriptions);
@@ -207,9 +205,9 @@ export default {
   },
 };
 </script>
-<style scoped>
+  <style scoped>
 p {
   font-size: 14px;
 }
 </style>
-  
+    

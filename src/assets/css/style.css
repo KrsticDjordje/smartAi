@@ -352,3 +352,9 @@ span.mdi.mdi-microphone {
     color: white;
     background: linear-gradient(93.96deg, #5d92ef 6.46%, #0df090 98.85%) !important;
 }
+
+.v-list-item__action,
+.v-list-item__avatar,
+.v-list-item__icon {
+    min-width: 15px !important;
+}

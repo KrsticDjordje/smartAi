@@ -97,6 +97,7 @@ export default {
           const audioBlob = new Blob(this.audioChunks, { type: "audio/mpeg" });
           this.audioUrl = URL.createObjectURL(audioBlob);
           this.stream.getTracks().forEach((track) => track.stop());
+          this.sendAudioToApi(audioBlob); // Dodato slanje audio fajla na API
         };
 
         this.mediaRecorder.start();
@@ -109,22 +110,22 @@ export default {
       if (this.mediaRecorder && this.isRecording) {
         this.mediaRecorder.stop();
         this.isRecording = false;
-        this.sendAudioToApi();
       }
     },
-    async sendAudioToApi() {
+    async sendAudioToApi(audioBlob) {
       try {
         const formData = new FormData();
-        const audioBlob = new Blob(this.audioChunks, { type: "audio/mpeg" });
         formData.append("file", audioBlob);
-        formData.append("start_time", "22");
+        formData.append("start_time", "");
         formData.append("recording_type", "4");
         formData.append("audio_language", "Serbian");
         formData.append("user_id", "1");
         formData.append("groupIds", "[1]");
         formData.append("userIds", "[1]");
         formData.append("ownerId", "1");
-        formData.append("liveTranscriptionGroupName", "Proba Audio Recorder");
+        // formData.append("liveTranscriptionGroupName", "Proba Audio Recorder");
+
+        console.log([...formData.entries()]);
 
         const response = await axios.post(
           "https://certoe.de:5000/v1/transcribe_video_new",
@@ -140,6 +141,7 @@ export default {
           const responseData = response.data;
           console.log("API Response:", responseData);
           alert("Audio je uspešno poslat na API.");
+          this.deleteLocalAudioFile(audioBlob); // Dodato brisanje lokalnog audio fajla
         } else {
           console.error("Neuspešno slanje audio na API.");
           alert("Neuspešno slanje audio na API.");
@@ -148,6 +150,11 @@ export default {
         console.error("Error sending audio to API:", error);
         alert("Greška prilikom slanja audio na API.");
       }
+    },
+
+    deleteLocalAudioFile(audioBlob) {
+      // Ovde dodajte kod za brisanje lokalnog audio fajla
+      // audioBlob sadrži audio podatke koje možete koristiti za brisanje lokalnog fajla
     },
 
     downloadAudio() {

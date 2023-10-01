@@ -19,8 +19,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/recording',
-    name: 'recording',
+    path: '/audioRecording',
+    name: 'audioRecording',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AudioRecording.vue')
+  },
+  {
+    path: '/screenRecording',
+    name: 'screenRecording',
     component: () => import(/* webpackChunkName: "about" */ '../views/ScreenRecordingView.vue')
   },
   {
@@ -52,6 +57,11 @@ const routes = [
     path: '/oneTranscription/:id',
     name: 'oneTranscription',
     component: () => import(/* webpackChunkName: "about" */ '../views/OneTranscription.vue')
+  },
+  {
+    path: '/audioRecordings',
+    name: 'audioRecordings',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AudioRecordings.vue')
   },
   {
     path: '/login',

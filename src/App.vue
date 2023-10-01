@@ -30,18 +30,73 @@
               <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
             <v-card-subtitle class="text-left"> Transcriptions</v-card-subtitle>
-            <v-list-item class="link" router :to="{ name: 'recording' }">
+
+            <v-list-item class="link" @click="toggleRecording">
+              <v-list-item-icon>
+                <v-icon style="color: red !important">mdi-microphone</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Audio Recorder</v-list-item-title>
+              <!-- Dodajte v-icon za strelicu unutar "Recording Now" reda -->
+              <v-icon @click.stop="showSubmenu = !showSubmenu"
+                >mdi-chevron-down</v-icon
+              >
+            </v-list-item>
+            <v-expand-transition>
+              <v-list v-if="showSubmenu">
+                <v-list-item
+                  class="link"
+                  router
+                  :to="{ name: 'audioRecording' }"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-microphone</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Audio Recorder</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  class="link"
+                  router
+                  :to="{ name: 'audioRecordings' }"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-file-check</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Recordings</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-expand-transition>
+
+            <v-list-item class="link" @click="toggleRecording2">
               <v-list-item-icon>
                 <v-icon style="color: red !important">mdi-record-circle</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Recording Now</v-list-item-title>
+              <v-list-item-title>Screen Recorder</v-list-item-title>
+              <!-- Dodajte v-icon za strelicu unutar "Recording Now" reda -->
+              <v-icon @click.stop="showSubmenu2 = !showSubmenu2"
+                >mdi-chevron-down</v-icon
+              >
             </v-list-item>
-            <v-list-item class="link" router :to="{ name: 'myRecordings' }">
-              <v-list-item-icon>
-                <v-icon>mdi-message-video</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Recordings</v-list-item-title>
-            </v-list-item>
+            <v-expand-transition>
+              <v-list v-if="showSubmenu2">
+                <v-list-item
+                  class="link"
+                  router
+                  :to="{ name: 'screenRecording' }"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-record-circle</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Screen Recorder</v-list-item-title>
+                </v-list-item>
+                <v-list-item class="link" router :to="{ name: 'myRecordings' }">
+                  <v-list-item-icon>
+                    <v-icon>mdi-message-video</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Recordings</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-expand-transition>
+
             <v-list-item class="link" router :to="{ name: 'myUploads' }">
               <v-list-item-icon>
                 <v-icon>mdi-folder-upload</v-icon>
@@ -147,6 +202,8 @@ export default {
     return {
       drawer: true,
       user: null,
+      showSubmenu: false,
+      showSubmenu2: false,
     };
   },
   mounted() {
@@ -154,6 +211,12 @@ export default {
     this.user = user;
   },
   methods: {
+    toggleRecording() {
+      this.showSubmenu = !this.showSubmenu;
+    },
+    toggleRecording2() {
+      this.showSubmenu2 = !this.showSubmenu2;
+    },
     getUserRoleId() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user && user.role_id) {
