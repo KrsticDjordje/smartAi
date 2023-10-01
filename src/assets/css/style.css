@@ -157,8 +157,13 @@ audio {
 .channelsBox {
     display: flex !important;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow: scroll;
     box-shadow: none !important;
+}
+
+.channelsBox::-webkit-scrollbar {
+    display: none;
 }
 
 .v-sheet.v-card:not(.v-sheet--outlined) {
@@ -294,4 +299,56 @@ button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--li
     .none {
         display: none
     }
+}
+
+.audioIcon {
+    background: #de4646;
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: 25px auto;
+}
+
+span.mdi.mdi-microphone {
+    font-size: 70px;
+}
+
+.rec {
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, .3);
+    }
+
+    65% {
+        box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, .3);
+    }
+
+    90% {
+        box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+    }
+}
+
+.playRecording {
+    background: #de4646;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.downloadAudio {
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: white;
+    background: linear-gradient(93.96deg, #5d92ef 6.46%, #0df090 98.85%) !important;
 }

@@ -1,9 +1,20 @@
 <template>
   <div>
-    <button @click="toggleRecording">
+    <h5 class="mt-4">Audio Recorder</h5>
+    <div class="audioIcon" :class="{ audioRecorder: true, rec: isRecording }">
+      <span class="mdi mdi-microphone"></span>
+    </div>
+
+    <span
+      >Recording time: <b>{{ formattedRecordingTime }}</b></span
+    >
+    <br />
+    <button class="playRecording" @click="toggleRecording">
       {{ isRecording ? "Stop Recording" : "Start Recording" }}
     </button>
-    <button @click="downloadAudio" :disabled="!audioUrl">Download Audio</button>
+    <button @click="downloadAudio" :disabled="!audioUrl" class="downloadAudio">
+      Download Audio
+    </button>
     <audio
       ref="audioPlayer"
       controls
@@ -11,11 +22,12 @@
       :src="audioUrl"
       type="audio/mpeg"
     ></audio>
-    <span v-if="isRecording">Recording time: {{ formattedRecordingTime }}</span>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -26,7 +38,7 @@ export default {
       timer: null,
       recordingStartTime: null,
       recordingTime: 0,
-      stream: null, // Dodajte stream promenljivu
+      stream: null,
     };
   },
   computed: {
@@ -50,13 +62,11 @@ export default {
         });
       } catch (error) {
         console.error("Error requesting audio permission:", error);
-        console.log("Navigator:", navigator);
-        console.log("MedidaDevices:", navigator.mediaDevices);
       }
     },
     async toggleRecording() {
       if (!this.isRecording) {
-        await this.requestAudioPermission(); // Zahtevaj dozvolu pre snimanja
+        await this.requestAudioPermission();
         if (this.stream) {
           this.startRecording();
           this.recordingStartTime = Date.now() - this.recordingTime * 1000;
@@ -86,7 +96,7 @@ export default {
         this.mediaRecorder.onstop = () => {
           const audioBlob = new Blob(this.audioChunks, { type: "audio/mpeg" });
           this.audioUrl = URL.createObjectURL(audioBlob);
-          this.stream.getTracks().forEach((track) => track.stop()); // Zaustavi audio uređaj
+          this.stream.getTracks().forEach((track) => track.stop());
         };
 
         this.mediaRecorder.start();
@@ -106,23 +116,41 @@ export default {
       try {
         const formData = new FormData();
         const audioBlob = new Blob(this.audioChunks, { type: "audio/mpeg" });
-        formData.append("audio", audioBlob, "recording.mp3");
+        formData.append("file", audioBlob);
+        formData.append("start_time", "22");
+        formData.append("recording_type", "4");
+        formData.append("audio_language", "Serbian");
+        formData.append("user_id", "1");
+        formData.append("groupIds", "[1]");
+        formData.append("userIds", "[1]");
+        formData.append("ownerId", "1");
+        formData.append("liveTranscriptionGroupName", "Proba Audio Recorder");
 
-        // Send audio to API, replace 'your-api-url' with the actual API endpoint.
-        // const response = await fetch('https://your-api-url', {
-        //   method: 'POST',
-        //   body: formData,
-        // });
+        const response = await axios.post(
+          "https://certoe.de:5000/v1/transcribe_video_new",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-        // If sending is successful, you can handle the API response here.
-        // const data = await response.json();
-        // console.log('API Response:', data);
+        if (response.status === 200) {
+          const responseData = response.data;
+          console.log("API Response:", responseData);
+          alert("Audio je uspešno poslat na API.");
+        } else {
+          console.error("Neuspešno slanje audio na API.");
+          alert("Neuspešno slanje audio na API.");
+        }
       } catch (error) {
         console.error("Error sending audio to API:", error);
+        alert("Greška prilikom slanja audio na API.");
       }
     },
+
     downloadAudio() {
-      // Create a download link for the audio file.
       const link = document.createElement("a");
       link.href = this.audioUrl;
       link.download = "recording.mp3";
@@ -135,8 +163,14 @@ export default {
     }
     clearInterval(this.timer);
     if (this.stream) {
-      this.stream.getTracks().forEach((track) => track.stop()); // Dodajte ovu liniju da zaustavite audio uređaj prilikom uništavanja komponente
+      this.stream.getTracks().forEach((track) => track.stop());
     }
   },
 };
 </script>
+
+<style scoped>
+audio {
+  margin-top: 20px;
+}
+</style>
