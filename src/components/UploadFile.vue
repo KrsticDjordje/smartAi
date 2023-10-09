@@ -257,14 +257,14 @@ export default {
 
       const formData = new FormData();
       formData.append("file", this.file);
-      formData.append("start_time", "22");
-      formData.append("recording_type", "1");
-      formData.append("audio_language", "Serbian");
+      // formData.append("start_time", "22");
+      formData.append("typeOfTranscription", "1");
+      formData.append("originalLanguage", "Serbian");
       const user = JSON.parse(localStorage.getItem("user"));
-      formData.append("user_id", "1");
+      formData.append("userId", "1");
       formData.append("groupIds", "[1]");
       formData.append("userIds", "[1]");
-      formData.append("ownerId", "1");
+      // formData.append("ownerId", "1");
 
       console.log([...formData.entries()]);
 

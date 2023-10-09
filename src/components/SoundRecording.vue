@@ -116,13 +116,13 @@ export default {
       try {
         const formData = new FormData();
         formData.append("file", audioBlob);
-        formData.append("start_time", "");
-        formData.append("recording_type", "4");
-        formData.append("audio_language", "Serbian");
-        formData.append("user_id", "1");
+        // formData.append("start_time", "");
+        formData.append("typeOfTranscription", "4");
+        formData.append("originalLanguage", "Serbian");
+        formData.append("userId", "1");
         formData.append("groupIds", "[1]");
         formData.append("userIds", "[1]");
-        formData.append("ownerId", "1");
+        // formData.append("ownerId", "1");
         // formData.append("liveTranscriptionGroupName", "Proba Audio Recorder");
 
         console.log([...formData.entries()]);
