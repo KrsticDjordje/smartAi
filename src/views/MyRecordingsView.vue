@@ -5,6 +5,7 @@
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"
+      @click="routerLink(transcription, transcription.live_transcription_name)"
     >
       <template slot="progress">
         <v-progress-linear
@@ -57,6 +58,13 @@ export default {
     this.fetchTranscriptions();
   },
   methods: {
+    routerLink(item, name) {
+      this.$router.push({
+        name: "oneTranscription",
+        params: { id: item.id, name: name },
+      });
+      this.textTerm = "";
+    },
     formatTime(time) {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);

@@ -54,7 +54,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AdminPanel.vue')
   },
   {
-    path: '/oneTranscription/:id',
+    path: '/oneTranscription/:id/:name',
     name: 'oneTranscription',
     component: () => import(/* webpackChunkName: "about" */ '../views/OneTranscription.vue')
   },
