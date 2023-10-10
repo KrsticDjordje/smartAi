@@ -215,7 +215,7 @@ export default {
         "wav",
         "flac",
         "aac",
-        "oog",
+        "ogg",
         "mkv",
         "mov",
         "flv",
@@ -227,36 +227,38 @@ export default {
       event.dataTransfer.effectAllowed = "copy";
       event.preventDefault();
       const file = event.dataTransfer.files[0];
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedFile = {
-          name: file.name,
-          content: reader.result,
-        };
-        this.file = file;
-        console.log("Dropped file:", this.file);
-      };
-      reader.readAsText(file);
+      this.selectedFile = file;
+      console.log("Dropped file:", this.selectedFile);
     },
     onFileSelected(event) {
-      this.file = event.target.files[0];
-      console.log("Selected file:", this.file);
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedFile = {
-          name: event.target.files[0].name,
-          content: reader.result,
-        };
-      };
-      reader.readAsText(event.target.files[0]);
+      console.log("Selected file:", this.selectedFile);
+
+      // Provera da li je tip fajla validan
+      if (!this.isValidFileType(this.selectedFile.name)) {
+        this.snackbar.message =
+          "This file type is not supported. Please select a file with one of the following extensions: .avi, .mp3, .mp4, .wma, .m4a, .wav, .flac, .aac, .ogg, .mkv, .mov, .flv, .wmv.";
+        this.snackbar.color = "error";
+        this.snackbar.show = true;
+        this.selectedFile = null;
+        return;
+      }
+
+      // Provera veličine fajla
+      if (this.selectedFile.size > 500000000) {
+        this.snackbar.message =
+          "The selected file is too large. Please select a file smaller than 500MB.";
+        this.snackbar.color = "error";
+        this.snackbar.show = true;
+        this.selectedFile = null;
+        return;
+      }
     },
 
     async submitForm() {
       this.uploadLoading = true;
 
       const formData = new FormData();
-      formData.append("file", this.file);
+      formData.append("file", this.selectedFile);
       // formData.append("start_time", "22");
       formData.append("typeOfTranscription", "1");
       formData.append("originalLanguage", "Serbian");
@@ -282,15 +284,11 @@ export default {
         );
         console.log(response.data);
         localStorage.setItem("response", JSON.stringify(response.data));
-        if (response.data.success) {
-          this.showCode = true;
-          this.showForm = false;
-          this.snackbar.message = "File uploaded successfully!";
-          this.snackbar.color = "success";
-        } else {
-          this.snackbar.message = "File upload failed!";
-          this.snackbar.color = "error";
-        }
+
+        this.showCode = true;
+        this.showForm = false;
+        this.snackbar.message = "File uploaded successfully!";
+        this.snackbar.color = "success";
         this.snackbar.show = true;
         this.uploadLoading = false;
       } catch (error) {
