@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-tooltip bottom>
+    <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
           class="d-flex mt-3 btn-style-2 upload-btn"
           rounded
           large
-          color="#5D5FEF"
+          color="success"
           @click="toggleForm"
           v-on="on"
         >

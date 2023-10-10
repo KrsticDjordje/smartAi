@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
+      class="mx-auto transcriptionBox content-container box"
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"
@@ -13,7 +13,10 @@
           indeterminate
         ></v-progress-linear>
       </template>
-      <v-card-text> 02.05.2023. </v-card-text>
+      <v-card-text>
+        <span class="mdi mdi-timer-edit"></span> 02.05.2023. - dodati na
+        API</v-card-text
+      >
       <div class="d-flex align-items-center">
         <v-card-title>{{ transcription.live_transcription_name }}</v-card-title>
         <v-spacer></v-spacer>
@@ -98,6 +101,9 @@ export default {
 <style scoped>
 p {
   font-size: 14px;
+}
+.content-container.box {
+  margin: 10px 0 !important;
 }
 </style>
   

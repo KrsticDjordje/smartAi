@@ -8,7 +8,6 @@
       style="color: white"
       class="recordingBtn mt-5 m-auto"
       @click="toggleRecording"
-      :disabled="isRecording"
     >
       <v-icon style="color: white" class="mx-2">mdi-record-circle</v-icon>
       {{ isRecording ? "Recording Off" : "Recording On" }}
@@ -26,6 +25,7 @@
   
   <script>
 import "webrtc-adapter";
+import axios from "axios";
 
 export default {
   data() {
@@ -36,9 +36,39 @@ export default {
     };
   },
   methods: {
+    async sendRecordingToApi(blob) {
+      try {
+        const formData = new FormData();
+        formData.append("file", blob, "screen-recording.webm");
+        formData.append("typeOfTranscription", "3");
+        formData.append("originalLanguage", "Serbian");
+        formData.append("userId", "1");
+        formData.append("groupIds", "[1]");
+        formData.append("userIds", "[1]");
+        formData.append(
+          "liveTranscriptionGroupName",
+          "screen recording test - code"
+        );
+
+        console.log([...formData.entries()]);
+
+        const apiUrl = "https://certoe.de:5000/v1/transcribe_video_new";
+
+        const response = await axios.post(apiUrl, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        console.log("Snimak je uspješno poslat na API:", response.data);
+      } catch (error) {
+        console.error("Greška pri slanju snimka na API:", error);
+      }
+    },
+
     async toggleRecording() {
       if (this.isRecording) {
-        this.stopRecording();
+        this.mediaRecorder.stop(); // Stopiranje snimanja će automatski pokrenuti mediaRecorder.onstop
       } else {
         try {
           const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -63,6 +93,7 @@ export default {
             const videoUrl = URL.createObjectURL(blob);
             this.$refs.recordedVideo.src = videoUrl;
             this.isRecording = false;
+            this.sendRecordingToApi(blob); // Slanje na API se izvršava tek nakon zaustavljanja snimanja
           };
           this.mediaRecorder.start();
           this.isRecording = true;
@@ -74,6 +105,9 @@ export default {
     stopRecording() {
       if (this.mediaRecorder && this.isRecording) {
         this.mediaRecorder.stop();
+        this.sendRecordingToApi(
+          new Blob(this.recordedChunks, { type: "video/webm" })
+        );
       }
     },
     playRecording() {
