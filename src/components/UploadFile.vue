@@ -15,25 +15,29 @@
       </template>
       <span>Upload a video or audio file to be transcribed.</span>
     </v-tooltip>
-    <v-expand-transition>
-      <v-container v-if="showForm" class="upload-form-container">
-        <div class="upload-form-container">
-          <div class="upload-form">
-            <form
-              @submit.prevent="submitForm"
-              enctype="multipart/form-data"
-              @drop.prevent="onDrop"
-              @dragenter.prevent
-              @dragover.prevent
-            >
-              <div class="form-group">
+
+    <v-dialog v-model="showForm" max-width="800px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Upload files</span>
+        </v-card-title>
+        <v-card-text>
+          <div class="upload-form-container">
+            <div class="upload-form">
+              <form
+                @submit.prevent="submitForm"
+                enctype="multipart/form-data"
+                @drop.prevent="onDrop"
+                @dragenter.prevent
+                @dragover.prevent
+              >
                 <v-row>
                   <v-col cols="12" sm="6">
                     <label for="language-select" class="language-label"
                       >Select Language:</label
                     >
                     <v-select
-                      v-model="selectedLanguage"
+                      v-model="originalLanguage"
                       :items="languages"
                       label="Select Language"
                       required
@@ -46,8 +50,8 @@
                       >Recording type:</label
                     >
                     <v-select
-                      v-model="recordingType"
-                      :items="recordingTypes"
+                      v-model="typeOfTranscription"
+                      :items="typeRecordings"
                       label="Recording Type"
                       required
                     ></v-select>
@@ -96,32 +100,37 @@
                     than 500MB.
                   </v-alert>
                 </transition>
-              </div>
 
-              <div class="form-actions">
                 <v-btn
                   type="submit"
                   class="form-submit"
                   :disabled="
                     !selectedFile ||
-                    (selectedFile && !isValidFileType(selectedFile.name)) ||
-                    (selectedFile && selectedFile.size > 500000000)
+                    !isValidFileType(selectedFile.name) ||
+                    selectedFile.size > 500000000
                   "
                 >
                   Submit
                 </v-btn>
-              </div>
-              <v-progress-circular
-                v-if="uploadLoading"
-                class="mt-5"
-                indeterminate
-                color="purple"
-              ></v-progress-circular>
-            </form>
+                <br />
+                <v-progress-circular
+                  v-if="uploadLoading"
+                  class="mt-5"
+                  indeterminate
+                  color="purple"
+                ></v-progress-circular>
+              </form>
+            </div>
           </div>
-        </div>
-      </v-container>
-    </v-expand-transition>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="showForm = false"
+            >Close</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-snackbar
       v-model="snackbar.show"
@@ -131,11 +140,9 @@
       {{ snackbar.message }}
       <v-btn text @click="snackbar.show = false">Close</v-btn>
     </v-snackbar>
-    <v-snackbar v-model="showSnackbar" bottom color="success" :timeout="2000">
-      Text copied!
-    </v-snackbar>
   </div>
 </template>
+
 
   
   <script>
@@ -152,7 +159,7 @@ export default {
       showCode: false,
       showForm: false,
       file: null,
-      selectedLanguage: "",
+      originalLanguage: "",
       languages: [
         "English",
         "German",
@@ -174,8 +181,8 @@ export default {
         "Turkish",
         "Ukrainian",
       ],
-      recordingType: "",
-      recordingTypes: [
+      typeOfTranscription: "",
+      typeRecordings: [
         "Press conference",
         "Podcast",
         "Lecture",
@@ -190,7 +197,6 @@ export default {
       },
       uploadLoading: false,
       selectedFile: null,
-      showSnackbar: false,
     };
   },
   methods: {
@@ -261,7 +267,7 @@ export default {
       formData.append("file", this.selectedFile);
       // formData.append("start_time", "22");
       formData.append("typeOfTranscription", "1");
-      formData.append("originalLanguage", "Serbian");
+      formData.append("originalLanguage", this.originalLanguage);
       const user = JSON.parse(localStorage.getItem("user"));
       formData.append("userId", "1");
       formData.append("groupIds", "[1]");
