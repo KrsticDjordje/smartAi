@@ -18,7 +18,7 @@
         <span class="mdi mdi-timer-edit"></span> 02.05.2023. - dodati na
         API</v-card-text
       >
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center wrap-reverse-mobile">
         <v-card-title>{{ transcription.live_transcription_name }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn color="deep-purple lighten-2" text> Edit </v-btn>

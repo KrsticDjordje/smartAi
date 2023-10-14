@@ -306,6 +306,10 @@ button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--li
     .none {
         display: none
     }
+
+    .wrap-reverse-mobile {
+        flex-flow: wrap-reverse;
+    }
 }
 
 @media only screen and (min-width: 490px) {
@@ -371,4 +375,8 @@ span.mdi.mdi-microphone {
 .v-list-item__avatar,
 .v-list-item__icon {
     min-width: 15px !important;
+}
+
+p.text-right.mr-4.mt-2.mb-0 {
+    margin-bottom: 5px !important;
 }

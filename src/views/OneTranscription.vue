@@ -18,7 +18,7 @@
         <span class="mdi mdi-timer-edit"></span>
         {{ formatDateTranscription(transcription.created_at) }}
       </p>
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center wrap-reverse-mobile">
         <v-card-title>{{ transcription.brief_title }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn color="deep-purple" text> Translate </v-btn>
@@ -79,7 +79,7 @@
         v-for="oneChunk in transcription.pieces"
         :key="oneChunk.id"
       >
-        <div class="d-flex">
+        <div class="d-flex wrap-reverse-mobile">
           <v-card-subtitle class="my-0">{{
             oneChunk.brief_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
               ? "Brief subtitle"

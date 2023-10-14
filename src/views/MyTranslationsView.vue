@@ -14,7 +14,7 @@
           indeterminate
         ></v-progress-linear>
       </template>
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center wrap-reverse-mobile">
         <v-card-title>{{ transcription.document_name }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn class="mx-2" outlined fab dark small color="red">
