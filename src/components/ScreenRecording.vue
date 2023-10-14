@@ -1,5 +1,16 @@
 <template>
   <div>
+    <v-col cols="12">
+      <v-combobox
+        v-model="folderName"
+        :items="transcriptions"
+        label="Enter the name of the new folder or select an old folder where you will transcribe."
+        hide-selected
+        :search-input.sync="search"
+        deletable-chips
+        chips
+      ></v-combobox>
+    </v-col>
     <v-btn
       min-width="20%"
       width="30%"
@@ -24,9 +35,9 @@
       v-if="downloadUrl"
       :href="downloadUrl"
       download="recording.webm"
-      class="downloadAudio"
+      class="btn btn-success"
     >
-      Dwonlaod video
+      Download video
     </a>
   </div>
 </template>
@@ -42,9 +53,45 @@ export default {
       mediaRecorder: null,
       recordedChunks: [],
       downloadUrl: null,
+      folderName: null,
+      transcriptions: null,
     };
   },
+  mounted() {
+    this.fetchTranscriptions();
+  },
   methods: {
+    fetchTranscriptions() {
+      const userId = JSON.parse(localStorage.getItem("user")).id;
+      axios
+        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
+          userId: userId,
+          limit: 5,
+          page: this.currentPage,
+          roleId: 1,
+          token: "test",
+          live: true,
+        })
+        .then((response) => {
+          console.log(response.data.result.transcriptions);
+          if (!this.transcriptions) {
+            this.transcriptions = response.data.result.transcriptions.map(
+              (t) => t.live_transcription_name
+            );
+          } else {
+            this.transcriptions = [
+              ...this.transcriptions,
+              ...response.data.result.transcriptions,
+            ];
+          }
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
+    },
+
     async sendRecordingToApi(blob) {
       try {
         const formData = new FormData();
@@ -54,10 +101,7 @@ export default {
         formData.append("userId", "1");
         formData.append("groupIds", "[1]");
         formData.append("userIds", "[1]");
-        formData.append(
-          "liveTranscriptionGroupName",
-          "screen recording test - code new"
-        );
+        formData.append("liveTranscriptionGroupName", this.folderName);
 
         console.log([...formData.entries()]);
 

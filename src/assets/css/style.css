@@ -42,6 +42,10 @@ header {
     box-shadow: none;
 }
 
+.v-application a {
+    color: white !important
+}
+
 .v-menu__content.theme--light.rounded.v-menu__content--fixed.menuable__content__active {
     border-radius: 15px !important;
     border: 1px solid #F8F9FA;
@@ -141,8 +145,11 @@ audio {
 }
 
 .theme--light.v-chip:not(.v-chip--active) {
-
     color: white;
+}
+
+span.v-chip--select.v-chip.v-chip--clickable.v-chip--no-color.v-chip--removable.theme--light.v-size--default {
+    background: #509ef1 !important;
 }
 
 .keyword {
