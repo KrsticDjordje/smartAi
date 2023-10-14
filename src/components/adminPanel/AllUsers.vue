@@ -170,15 +170,18 @@ export default {
       }
     },
     async deleteItem(id, item) {
-      const index = this.getGroups.findIndex((u) => u.id === item.id);
+      console.log(id, item);
+      const index = this.getUsers.findIndex((u) => u.id === item.id);
       if (index !== -1) {
-        this.getGroups.splice(index, 1);
+        this.getUsers.splice(index, 1);
       }
       try {
+        const user_id = JSON.parse(localStorage.getItem("user")).id;
         const response = await axios.post(
           "https://certoe.de:8080/api/frontend/deleteUser",
           {
-            groupId: id,
+            userIdForAction: user_id,
+            userIdForDelete: id,
             token: "test",
           }
         );
