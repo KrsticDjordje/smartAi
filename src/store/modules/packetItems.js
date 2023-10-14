@@ -21,7 +21,7 @@ const actions = {
                 'https://certoe.de:8080/api/frontend/getPacketItems',
                 {
                     "token": "test",
-                    "limit": 10,
+                    "limit": 50,
                     "page": 0
                 }
             );

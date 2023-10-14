@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12" md="8">
         <!-- Sadržaj za prvu kolonu sa širinom 8 kolona -->
-        <div><all-companies /></div>
+        <div><AllEditors /></div>
       </v-col>
       <v-col cols="12" md="4">
         <!-- Sadržaj za drugu kolonu sa širinom 4 kolona -->
@@ -40,15 +40,18 @@ import weather from "@/components/dashboard/weather.vue";
 import AllCompanies from "@/components/adminPanel/AllCompanies.vue";
 import AllPacketItems from "@/components/adminPanel/AllPacketItems.vue";
 import AllPackets from "@/components/adminPanel/AllPackets.vue";
+import AllEditors from "@/components/adminPanel/AllEditors.vue";
 export default {
   components: {
     weather,
     AllCompanies,
     AllPacketItems,
     AllPackets,
+    AllEditors,
   },
 };
-</script>
+</script>,
+    AllEditors
 <style scoped>
 .content-container.box {
   margin: 0 !important;

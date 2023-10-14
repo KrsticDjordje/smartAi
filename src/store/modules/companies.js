@@ -21,7 +21,7 @@ const actions = {
                 'https://certoe.de:8080/api/frontend/getCompanies',
                 {
                     "token": "test",
-                    "limit": 20,
+                    "limit": 50,
                     "page": 1
                 }
             );

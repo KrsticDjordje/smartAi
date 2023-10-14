@@ -23,7 +23,7 @@ const actions = {
                     "token": "test",
                     "companyId": 1,
                     "page": 0,
-                    "limit": 4
+                    "limit": 50
                 }
             );
 
