@@ -308,6 +308,13 @@ button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--li
     }
 }
 
+@media only screen and (min-width: 490px) {
+
+    .desktop-version {
+        display: none
+    }
+}
+
 .audioIcon {
     background: #de4646;
     width: 200px;
