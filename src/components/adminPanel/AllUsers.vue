@@ -85,10 +85,10 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="text-h5">Delete group</span>
+                <span class="text-h5">Delete user</span>
               </v-card-title>
               <v-card-text class="text-left"
-                >Are you sure you want to delete this group?</v-card-text
+                >Are you sure you want to delete this user?</v-card-text
               >
               <v-card-actions>
                 <v-spacer></v-spacer>

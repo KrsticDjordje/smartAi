@@ -190,8 +190,9 @@ export default {
       }
 
       const company_id = JSON.parse(localStorage.getItem("user")).company_id;
+      const user_id = JSON.parse(localStorage.getItem("user")).id;
       const requestData = {
-        userId: 1,
+        userId: user_id,
         name: this.name,
         surname: this.surname,
         company_id: company_id,
