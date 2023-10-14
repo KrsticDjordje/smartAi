@@ -34,6 +34,7 @@
                 v-model="userName"
                 :rules="nameRules"
                 :counter="32"
+                autocomplete="off"
                 label="Username"
                 required
               ></v-text-field>
@@ -46,6 +47,7 @@
                 :type="showPass ? 'text' : 'password'"
                 name="input-10-1"
                 label="Password"
+                autocomplete="new-password"
                 hint="At least 8 characters"
                 counter
                 @click:append="showPass = !showPass"
@@ -90,13 +92,13 @@
             <v-col cols="12" md="6">
               <v-combobox
                 v-model="groupsIds"
-                :items="groupsIds"
+                :items="listItems"
                 label="Add in group"
                 hide-selected
                 :search-input.sync="search"
-                hint=""
+                deletable-chips
                 multiple
-                persistent-hint
+                chips
                 small-chips
               ></v-combobox>
             </v-col>
@@ -129,7 +131,7 @@
           
       <script>
 import axios from "axios";
-
+import { mapGetters, mapActions } from "vuex";
 import AllUsers from "./AllUsers.vue";
 
 export default {
@@ -160,7 +162,7 @@ export default {
     },
     nameRules: [
       (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      (v) => (v && v.length <= 20) || "Name must be less than 20 characters",
     ],
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -168,7 +170,12 @@ export default {
     ],
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapGetters("groups", ["getGroups"]),
+    listItems() {
+      return this.getGroups.map((oneItem) => oneItem.name);
+    },
+  },
   methods: {
     reset() {
       this.$refs.form.reset();
@@ -185,15 +192,15 @@ export default {
       const company_id = JSON.parse(localStorage.getItem("user")).company_id;
       const requestData = {
         userId: 1,
-        name: "Test1",
-        surname: "Testovic1",
+        name: this.name,
+        surname: this.surname,
         company_id: company_id,
-        email: "test155@test.com",
-        username: "testAcc",
-        password: "testAcc",
-        phone_number: "0658458545",
-        address: "test testt",
-        unique_user_number: "123",
+        email: this.email,
+        username: this.userName,
+        password: this.password,
+        phone_number: this.phoneNumber,
+        address: this.address,
+        unique_user_number: this.PIB,
         token_of_user: "10000",
         token: "test",
         groupIds: [],

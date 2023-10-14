@@ -263,8 +263,8 @@ export default {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const data = {
         nameOfLive: this.$route.params.name,
-        page: 1,
-        limit: 4,
+        page: this.currentPage,
+        limit: 5,
         token: "test",
       };
       console.log(data, "radi");

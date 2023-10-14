@@ -20,6 +20,14 @@
     >
       Your browser does not support the video element.
     </video>
+    <a
+      v-if="downloadUrl"
+      :href="downloadUrl"
+      download="recording.webm"
+      class="downloadAudio"
+    >
+      Dwonlaod video
+    </a>
   </div>
 </template>
   
@@ -33,6 +41,7 @@ export default {
       isRecording: false,
       mediaRecorder: null,
       recordedChunks: [],
+      downloadUrl: null,
     };
   },
   methods: {
@@ -47,7 +56,7 @@ export default {
         formData.append("userIds", "[1]");
         formData.append(
           "liveTranscriptionGroupName",
-          "screen recording test - code"
+          "screen recording test - code new"
         );
 
         console.log([...formData.entries()]);
@@ -71,6 +80,8 @@ export default {
         this.mediaRecorder.stop(); // Stopiranje snimanja će automatski pokrenuti mediaRecorder.onstop
       } else {
         try {
+          this.recordedChunks = []; // Očisti prethodne snimke
+          this.downloadUrl = null; // Resetuj URL za preuzimanje
           const stream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
             audio: {
@@ -91,6 +102,11 @@ export default {
           this.mediaRecorder.onstop = () => {
             const blob = new Blob(this.recordedChunks, { type: "video/webm" });
             const videoUrl = URL.createObjectURL(blob);
+            if (this.downloadUrl) {
+              URL.revokeObjectURL(this.downloadUrl);
+            }
+
+            this.downloadUrl = videoUrl;
             this.$refs.recordedVideo.src = videoUrl;
             this.isRecording = false;
             this.sendRecordingToApi(blob); // Slanje na API se izvršava tek nakon zaustavljanja snimanja
