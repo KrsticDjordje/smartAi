@@ -60,7 +60,7 @@ export default {
   methods: {
     routerLink(item, name) {
       this.$router.push({
-        name: "oneTranscription",
+        name: "folderTranscriptions",
         params: { id: item.id, name: name },
       });
       this.textTerm = "";

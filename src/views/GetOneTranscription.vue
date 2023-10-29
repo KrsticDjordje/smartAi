@@ -1,10 +1,9 @@
 <template>
   <div>
     <div
-      class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
+      class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
       style="padding: 10px"
-      v-for="transcription in transcriptions"
-      :key="transcription.id"
+      :key="transcriptions.id"
     >
       <template slot="progress">
         <v-progress-linear
@@ -15,13 +14,13 @@
       </template>
       <p class="text-right mr-4 mt-2 mb-0">
         <span class="mdi mdi-timer-edit"></span>
-        {{ formatDateTranscription(transcription.created_at) }}
+        {{ formatDateTranscription(transcriptions.created_at) }}
       </p>
       <div class="d-flex align-items-center wrap-reverse-mobile">
-        <v-card-title>{{ transcription.brief_title }}</v-card-title>
+        <v-card-title>{{ transcriptions.brief_title }}</v-card-title>
         <v-spacer></v-spacer>
         <v-btn color="deep-purple" text> Translate </v-btn>
-        <v-dialog v-model="transcription.openDialogDelete" max-width="600px">
+        <v-dialog v-model="transcriptions.openDialogDelete" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" text color="red">
               <v-icon end icon="mdi-cancel"></v-icon> Delete
@@ -39,13 +38,13 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="transcription.openDialogDelete = false"
+                @click="transcriptions.openDialogDelete = false"
                 >No</v-btn
               >
               <v-btn
                 color="red darken-1"
                 text
-                @click="deleteTranscption(transcription.id)"
+                @click="deleteTranscption(transcriptions.id)"
                 >Yes</v-btn
               >
             </v-card-actions>
@@ -57,7 +56,7 @@
           <v-chip
             class="keyword"
             small
-            v-for="(keyword, index) in getKeywords(transcription.keywords)"
+            v-for="(keyword, index) in getKeywords(transcriptions.keywords)"
             :key="'keyword-' + index"
             >{{ keyword }}</v-chip
           >
@@ -66,7 +65,7 @@
           <v-chip
             class="people"
             small
-            v-for="(people, index) in getPeople(transcription.tags)"
+            v-for="(people, index) in getPeople(transcriptions.tags)"
             :key="'person-' + index"
             >#{{ people }}</v-chip
           >
@@ -75,7 +74,7 @@
       <v-hr class=""></v-hr>
       <div
         class="text-left mb-4"
-        v-for="oneChunk in transcription.pieces"
+        v-for="oneChunk in transcriptions.pieces"
         :key="oneChunk.id"
       >
         <div class="d-flex wrap-reverse-mobile">
@@ -125,32 +124,19 @@
         </audio>
       </div>
     </div>
-    <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
-      <v-btn
-        @click="loadMoreTranscriptions"
-        class="ml-5"
-        rounded
-        color="#5D5FEF"
-      >
-        <v-wait :active="loading" color="white" size="14">
-          {{ loading ? "Loading..." : "Load More" }}
-        </v-wait>
-      </v-btn>
-    </div>
   </div>
 </template>
-  
-<script>
+      
+    <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
-import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
   name: "MyUploads",
-  components: { AudioPlayer, UploadFIle },
+  components: { AudioPlayer },
+  props: ["id", "name"],
   data() {
     return {
-      loading: false,
       transcriptions: null,
       currentPage: 1,
     };
@@ -167,7 +153,6 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(el);
     },
-
     getPeople(keywordsString) {
       if (!keywordsString) {
         console.log("Keywords string is null or undefined.");
@@ -259,45 +244,34 @@ export default {
       }
     },
     fetchTranscriptions() {
-      const userId = JSON.parse(localStorage.getItem("user")).id;
-      const roleId = JSON.parse(localStorage.getItem("user")).role_id;
+      const data = {
+        transcriptionId: this.$route.params.id,
+        token: "test",
+      };
+      console.log(data, "radi");
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
-          userId: userId,
-          limit: 5,
-          page: this.currentPage,
-          roleId: roleId,
-          token: "test",
-          typeOfTranscription: 4,
-        })
+        .post("https://certoe.de:8080/api/frontend/getOneTranscription", data)
         .then((response) => {
-          console.log(response.data.result.transcriptions);
+          console.log(response.data.result.transcription, "radilica");
           if (!this.transcriptions) {
-            this.transcriptions = response.data.result.transcriptions;
+            this.transcriptions = response.data.result.transcription;
           } else {
             this.transcriptions = [
               ...this.transcriptions,
-              ...response.data.result.transcriptions,
+              ...response.data.result.transcription,
             ];
           }
-          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
-          this.loading = false;
         });
-    },
-    loadMoreTranscriptions() {
-      this.loading = true;
-      this.currentPage += 1;
-      this.fetchTranscriptions();
     },
   },
 };
 </script>
-<style scoped>
+    <style scoped>
 p {
   font-size: 14px;
 }
 </style>
-  
+      

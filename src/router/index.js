@@ -54,9 +54,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AdminPanel.vue')
   },
   {
+    path: '/folderTranscriptions/:id/:name',
+    name: 'folderTranscriptions',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FolderTranscriptions.vue')
+  },
+  {
     path: '/oneTranscription/:id/:name',
     name: 'oneTranscription',
-    component: () => import(/* webpackChunkName: "about" */ '../views/OneTranscription.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/GetOneTranscription.vue')
   },
   {
     path: '/audioRecordings',

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <UploadFIle />
     <div
       class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
       style="padding: 10px"
@@ -149,7 +148,6 @@ import UploadFIle from "@/components/UploadFile.vue";
 export default {
   name: "MyUploads",
   components: { AudioPlayer, UploadFIle },
-  props: ["id", "name"],
   data() {
     return {
       loading: false,

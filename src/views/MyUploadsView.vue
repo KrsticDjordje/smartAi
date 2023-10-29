@@ -2,10 +2,11 @@
   <div>
     <UploadFIle />
     <div
-      class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
+      class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"
+      @click="routerLink(transcription.id, transcription.brief_title)"
     >
       <template slot="progress">
         <v-progress-linear
@@ -73,58 +74,6 @@
           >
         </v-chip-group>
       </v-card-text>
-      <v-hr class=""></v-hr>
-      <div
-        class="text-left mb-4"
-        v-for="oneChunk in transcription.pieces"
-        :key="oneChunk.id"
-      >
-        <div class="d-flex wrap-reverse-mobile">
-          <v-card-subtitle class="my-0">{{
-            oneChunk.brief_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
-              ? "Brief subtitle"
-              : oneChunk.brief_title
-          }}</v-card-subtitle>
-          <p class="mx-3 mb-0 d-flex align-center text-left">
-            <span class="mdi mdi-volume-high mx-1"></span>
-            {{ formatTime(oneChunk.beginning_time) }} -
-            {{ formatTime(oneChunk.concluding_time) }}
-          </p>
-          <v-spacer></v-spacer>
-          <v-btn
-            class="mx-2"
-            icon
-            fab
-            dark
-            small
-            @click="copy(oneChunk.transcript)"
-            color="#05004E"
-          >
-            <v-icon dark> mdi-content-copy </v-icon>
-          </v-btn>
-          <v-btn class="mx-2" icon fab dark small color="#05004E">
-            <v-icon dark> mdi-file-replace-outline </v-icon>
-          </v-btn>
-        </div>
-        <v-edit-dialog
-          v-model="oneChunk.dialog"
-          @update:active="editClose(oneChunk.id, oneChunk.transcript)"
-        >
-          <v-card-text class="chunkText">{{ oneChunk.transcript }}</v-card-text>
-          <template v-slot:input>
-            <v-textarea
-              v-model="oneChunk.transcript"
-              @blur="editTextBlur(oneChunk.id, oneChunk.transcript)"
-            ></v-textarea>
-          </template>
-        </v-edit-dialog>
-
-        <!-- <audio-player /> -->
-        <audio ref="recordedAudio" controls>
-          <source src="https://www.computerhope.com/jargon/m/example.mp3" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
     </div>
     <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
       <v-btn
@@ -160,6 +109,13 @@ export default {
     this.fetchTranscriptions();
   },
   methods: {
+    routerLink(id, name) {
+      this.$router.push({
+        name: "oneTranscription",
+        params: { id: id, name: name },
+      });
+      this.textTerm = "";
+    },
     copy(text) {
       const el = document.createElement("textarea");
       el.value = text;

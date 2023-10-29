@@ -1,5 +1,6 @@
 <template>
   <div>
+    <UploadFIle />
     <div
       class="mx-auto mb-8 mt-5 transcriptionBox content-container box"
       style="padding: 10px"
@@ -139,8 +140,8 @@
     </div>
   </div>
 </template>
-  
-<script>
+    
+  <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
 import UploadFIle from "@/components/UploadFile.vue";
@@ -167,7 +168,6 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(el);
     },
-
     getPeople(keywordsString) {
       if (!keywordsString) {
         console.log("Keywords string is null or undefined.");
@@ -268,7 +268,7 @@ export default {
           page: this.currentPage,
           roleId: roleId,
           token: "test",
-          typeOfTranscription: 4,
+          typeOfTranscription: 1,
         })
         .then((response) => {
           console.log(response.data.result.transcriptions);
@@ -295,9 +295,9 @@ export default {
   },
 };
 </script>
-<style scoped>
+  <style scoped>
 p {
   font-size: 14px;
 }
 </style>
-  
+    
