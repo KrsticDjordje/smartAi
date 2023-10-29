@@ -69,6 +69,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AudioRecordings.vue')
   },
   {
+    path: '/subtitles',
+    name: 'subtitles',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Subtitles.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')

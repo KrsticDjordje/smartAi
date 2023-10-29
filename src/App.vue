@@ -119,6 +119,12 @@
               </v-list-item-icon>
               <v-list-item-title>Group Transcriptions</v-list-item-title>
             </v-list-item>
+            <v-list-item class="link" router :to="{ name: 'subtitles' }">
+              <v-list-item-icon>
+                <v-icon>mdi-subtitles</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Subtitles</v-list-item-title>
+            </v-list-item>
             <v-card-subtitle class="text-left"> Content</v-card-subtitle>
             <v-list-item class="link">
               <v-list-item-icon>
