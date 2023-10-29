@@ -6,7 +6,6 @@
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"
-      @click="routerLink(transcription.id, transcription.brief_title)"
     >
       <template slot="progress">
         <v-progress-linear
@@ -20,13 +19,24 @@
         {{ formatDateTranscription(transcription.created_at) }}
       </p>
       <div class="d-flex align-items-center wrap-reverse-mobile">
-        <v-card-title>{{ transcription.brief_title }}</v-card-title>
+        <v-card-title
+          @click="routerLink(transcription.id, transcription.brief_title)"
+          style="cursor: pointer"
+          >{{ transcription.brief_title }}</v-card-title
+        >
         <v-spacer></v-spacer>
-        <v-btn color="deep-purple" text> Translate </v-btn>
+        <v-btn
+          @click="share(transcription.id, transcription.brief_title)"
+          color="teal"
+          text
+        >
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+        <v-btn color="deep-purple" text> <v-icon>mdi-translate</v-icon> </v-btn>
         <v-dialog v-model="transcription.openDialogDelete" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" text color="red">
-              <v-icon end icon="mdi-cancel"></v-icon> Delete
+              <v-icon>mdi-delete-empty</v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -109,6 +119,33 @@ export default {
     this.fetchTranscriptions();
   },
   methods: {
+    share(id, title) {
+      const url = `http://localhost:8080/oneTranscription/${id}/${title}`;
+      if (navigator.clipboard) {
+        // Moderni način: Koristite Clipboard API
+        navigator.clipboard
+          .writeText(url)
+          .then(() => {
+            console.log("URL kopiran u klipbord!");
+          })
+          .catch((err) => {
+            console.error("Greška pri kopiranju:", err);
+          });
+      } else {
+        // Alternativni način: Kreirajte privremeni textarea element za kopiranje
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          console.log("URL kopiran u klipbord!");
+        } catch (err) {
+          console.error("Greška pri kopiranju:", err);
+        }
+        document.body.removeChild(textArea);
+      }
+    },
     routerLink(id, name) {
       this.$router.push({
         name: "oneTranscription",
