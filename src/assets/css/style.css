@@ -397,3 +397,13 @@ p.text-right.mr-4.mt-2.mb-0 {
 .titleBrief {
     width: 450px;
 }
+
+.titleBrief strong {
+    color: #737791 !important;
+    font-weight: 500;
+}
+
+th,
+td {
+    color: #737791 !important;
+}

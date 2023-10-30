@@ -101,7 +101,7 @@
     <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
       <v-btn
         @click="loadMoreTranscriptions"
-        class="ml-5"
+        class="ml-5 mt-2"
         rounded
         color="#5D5FEF"
       >
