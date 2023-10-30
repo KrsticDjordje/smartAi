@@ -37,7 +37,9 @@
                 <strong>{{ transcription.brief_title }}</strong>
               </td>
               <td>{{ transcription.duration }}</td>
-              <td>{{ formatDateTranscription(transcription.created_at) }}</td>
+              <td class="date">
+                {{ formatDateTranscription(transcription.created_at) }}
+              </td>
               <td>{{ transcription.original_language }}</td>
               <td>
                 <div class="statusIcon">
@@ -45,7 +47,7 @@
                 </div>
               </td>
               <td>
-                <div class="d-flex align-items-center wrap-reverse-mobile">
+                <div class="d-flex align-items-center">
                   <v-spacer></v-spacer>
                   <v-btn
                     @click="share(transcription.id, transcription.brief_title)"
