@@ -36,7 +36,7 @@
               >
                 <strong>{{ transcription.brief_title }}</strong>
               </td>
-              <td>{{ transcription.duration }}</td>
+              <td>{{ formatDuration(transcription.duration) }} sec</td>
               <td class="date">
                 {{ formatDateTranscription(transcription.created_at) }}
               </td>
@@ -216,6 +216,11 @@ export default {
         console.log("Error parsing keywords.", error);
         return null;
       }
+    },
+    formatDuration(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
     },
     formatDateTranscription(date) {
       const options = {
