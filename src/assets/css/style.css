@@ -4,6 +4,11 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* 
+body {
+    zoom: 90%;
+} */
+
 .v-main__wrap {
     background: #84c1fe0f;
 }
@@ -379,4 +384,16 @@ span.mdi.mdi-microphone {
 
 p.text-right.mr-4.mt-2.mb-0 {
     margin-bottom: 5px !important;
+}
+
+.statusIcon {
+    background: #4cb54f;
+    border-radius: 20px;
+    color: white;
+    padding: 5px 10px;
+    width: 124px;
+}
+
+.titleBrief {
+    width: 450px;
 }

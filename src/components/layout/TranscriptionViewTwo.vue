@@ -14,89 +14,76 @@
           indeterminate
         ></v-progress-linear>
       </template>
-
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Duration</th>
-              <th class="text-left">Date</th>
-              <th class="text-left">Language</th>
-              <th class="text-left">Status</th>
-              <th class="text-left"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td
-                class="titleBrief"
-                @click="routerLink(transcription.id, transcription.brief_title)"
-                style="cursor: pointer"
+      <p class="text-right mr-4 mt-2 mb-0">
+        <span class="mdi mdi-timer-edit"></span>
+        {{ formatDateTranscription(transcription.created_at) }}
+      </p>
+      <div class="d-flex align-items-center wrap-reverse-mobile">
+        <v-card-title
+          @click="routerLink(transcription.id, transcription.brief_title)"
+          style="cursor: pointer"
+          >{{ transcription.brief_title }}</v-card-title
+        >
+        <v-spacer></v-spacer>
+        <v-btn
+          @click="share(transcription.id, transcription.brief_title)"
+          color="teal"
+          text
+        >
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+        <v-btn color="deep-purple" text> <v-icon>mdi-translate</v-icon> </v-btn>
+        <v-dialog v-model="transcription.openDialogDelete" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" text color="red">
+              <v-icon>mdi-delete-empty</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">Delete transcription</span>
+            </v-card-title>
+            <v-card-text class="text-left"
+              >Are you sure you want to delete this transcription?</v-card-text
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="transcription.openDialogDelete = false"
+                >No</v-btn
               >
-                <strong>{{ transcription.brief_title }}</strong>
-              </td>
-              <td>{{ transcription.duration }}</td>
-              <td>{{ formatDateTranscription(transcription.created_at) }}</td>
-              <td>{{ transcription.original_language }}</td>
-              <td>
-                <div class="statusIcon">
-                  <span class="mdi mdi-check-circle-outline"></span> Transcribed
-                </div>
-              </td>
-              <td>
-                <div class="d-flex align-items-center wrap-reverse-mobile">
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    @click="share(transcription.id, transcription.brief_title)"
-                    color="teal"
-                    text
-                  >
-                    <v-icon>mdi-share-variant</v-icon>
-                  </v-btn>
-                  <v-btn color="deep-purple" text>
-                    <v-icon>mdi-translate</v-icon>
-                  </v-btn>
-                  <v-dialog
-                    v-model="transcription.openDialogDelete"
-                    max-width="600px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn v-bind="attrs" v-on="on" text color="red">
-                        <v-icon>mdi-delete-empty</v-icon>
-                      </v-btn>
-                    </template>
-                    <v-card>
-                      <v-card-title>
-                        <span class="text-h5">Delete transcription</span>
-                      </v-card-title>
-                      <v-card-text class="text-left"
-                        >Are you sure you want to delete this
-                        transcription?</v-card-text
-                      >
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn
-                          color="blue darken-1"
-                          text
-                          @click="transcription.openDialogDelete = false"
-                          >No</v-btn
-                        >
-                        <v-btn
-                          color="red darken-1"
-                          text
-                          @click="deleteTranscption(transcription.id)"
-                          >Yes</v-btn
-                        >
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+              <v-btn
+                color="red darken-1"
+                text
+                @click="deleteTranscption(transcription.id)"
+                >Yes</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+      <v-card-text class="px-3 py-0">
+        <v-chip-group active-class="deep-purple accent-4 white--text" column>
+          <v-chip
+            class="keyword"
+            small
+            v-for="(keyword, index) in getKeywords(transcription.keywords)"
+            :key="'keyword-' + index"
+            >{{ keyword }}</v-chip
+          >
+        </v-chip-group>
+        <v-chip-group active-class="deep-purple accent-4 white--text" column>
+          <v-chip
+            class="people"
+            small
+            v-for="(people, index) in getPeople(transcription.tags)"
+            :key="'person-' + index"
+            >#{{ people }}</v-chip
+          >
+        </v-chip-group>
+      </v-card-text>
     </div>
     <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
       <v-btn
@@ -112,8 +99,8 @@
     </div>
   </div>
 </template>
-  
-<script>
+    
+  <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
 import UploadFIle from "@/components/UploadFile.vue";
@@ -270,7 +257,7 @@ export default {
       axios
         .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
           userId: userId,
-          limit: 20,
+          limit: 5,
           page: this.currentPage,
           roleId: roleId,
           token: "test",
@@ -301,9 +288,9 @@ export default {
   },
 };
 </script>
-<style scoped>
+  <style scoped>
 p {
   font-size: 14px;
 }
 </style>
-  
+    
