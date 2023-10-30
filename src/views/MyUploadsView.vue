@@ -135,7 +135,7 @@ export default {
   },
   methods: {
     share(id, title) {
-      const url = `http://localhost:8080/oneTranscription/${id}/${title}`;
+      const url = `${window.location.origin}/oneTranscription/${id}/${title}`;
       if (navigator.clipboard) {
         // Moderni način: Koristite Clipboard API
         navigator.clipboard
