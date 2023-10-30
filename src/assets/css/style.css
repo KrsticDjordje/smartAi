@@ -412,3 +412,8 @@ td {
 .date {
     white-space: nowrap;
 }
+
+.statusTranscription {
+    border-radius: 12px !important;
+    border: 1px solid #5d5fef1b;
+}

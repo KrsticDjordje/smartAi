@@ -1,5 +1,81 @@
 <template>
   <div>
+    <v-simple-table class="mb-5 statusTranscription">
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-center">Tokens spent</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Duration</th>
+            <th class="text-center">Language</th>
+            <th class="text-right">More Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>73 tokens</td>
+            <td>
+              <span class="mdi mdi-calendar-range"></span>
+              {{ formatDateTranscription(transcriptions.created_at) }}
+            </td>
+            <td>
+              <span class="mdi mdi-timer-play-outline"></span>
+              {{ formatDuration(transcriptions.duration) }} sec
+            </td>
+            <td>{{ transcriptions.original_language }}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <v-spacer></v-spacer>
+                <v-btn
+                  @click="share(transcriptions.id, transcriptions.brief_title)"
+                  color="teal"
+                  text
+                >
+                  <v-icon>mdi-share-variant</v-icon>
+                </v-btn>
+                <v-btn color="deep-purple" text>
+                  <v-icon>mdi-translate</v-icon>
+                </v-btn>
+                <v-dialog
+                  v-model="transcriptions.openDialogDelete"
+                  max-width="600px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on" text color="red">
+                      <v-icon>mdi-delete-empty</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      <span class="text-h5">Delete transcription</span>
+                    </v-card-title>
+                    <v-card-text class="text-left"
+                      >Are you sure you want to delete this
+                      transcription?</v-card-text
+                    >
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="blue darken-1"
+                        text
+                        @click="transcriptions.openDialogDelete = false"
+                        >No</v-btn
+                      >
+                      <v-btn
+                        color="red darken-1"
+                        text
+                        @click="deleteTranscption(transcriptions.id)"
+                        >Yes</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
     <div
       class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
       style="padding: 10px"
@@ -12,46 +88,7 @@
           indeterminate
         ></v-progress-linear>
       </template>
-      <p class="text-right mr-4 mt-2 mb-0">
-        <span class="mdi mdi-timer-edit"></span>
-        {{ formatDateTranscription(transcriptions.created_at) }}
-      </p>
-      <div class="d-flex align-items-center wrap-reverse-mobile">
-        <v-card-title>{{ transcriptions.brief_title }}</v-card-title>
-        <v-spacer></v-spacer>
-        <v-btn color="deep-purple" text> Translate </v-btn>
-        <v-dialog v-model="transcriptions.openDialogDelete" max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" text color="red">
-              <v-icon end icon="mdi-cancel"></v-icon> Delete
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">Delete transcription</span>
-            </v-card-title>
-            <v-card-text class="text-left"
-              >Are you sure you want to delete this transcription?</v-card-text
-            >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="transcriptions.openDialogDelete = false"
-                >No</v-btn
-              >
-              <v-btn
-                color="red darken-1"
-                text
-                @click="deleteTranscption(transcriptions.id)"
-                >Yes</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </div>
-      <v-card-text class="px-3 py-0">
+      <v-card-text class="px-3 mt-2 py-0 d-flex">
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
           <v-chip
             class="keyword"
@@ -71,6 +108,10 @@
           >
         </v-chip-group>
       </v-card-text>
+      <div class="d-flex align-items-center wrap-reverse-mobile">
+        <v-card-title>{{ transcriptions.brief_title }}</v-card-title>
+      </div>
+
       <v-hr class=""></v-hr>
       <div
         class="text-left mb-4"
@@ -145,6 +186,33 @@ export default {
     this.fetchTranscriptions();
   },
   methods: {
+    share(id, title) {
+      const url = `${window.location.origin}/oneTranscription/${id}/${title}`;
+      if (navigator.clipboard) {
+        // Moderni način: Koristite Clipboard API
+        navigator.clipboard
+          .writeText(url)
+          .then(() => {
+            console.log("URL kopiran u klipbord!");
+          })
+          .catch((err) => {
+            console.error("Greška pri kopiranju:", err);
+          });
+      } else {
+        // Alternativni način: Kreirajte privremeni textarea element za kopiranje
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          console.log("URL kopiran u klipbord!");
+        } catch (err) {
+          console.error("Greška pri kopiranju:", err);
+        }
+        document.body.removeChild(textArea);
+      }
+    },
     copy(text) {
       const el = document.createElement("textarea");
       el.value = text;
@@ -193,6 +261,11 @@ export default {
         console.log("Error parsing keywords.", error);
         return null;
       }
+    },
+    formatDuration(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
     },
     formatDateTranscription(date) {
       const options = {
@@ -269,9 +342,13 @@ export default {
   },
 };
 </script>
-    <style scoped>
+
+<style scoped>
 p {
   font-size: 14px;
+}
+td {
+  white-space: nowrap;
 }
 </style>
       
