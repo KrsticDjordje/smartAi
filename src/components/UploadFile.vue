@@ -269,9 +269,11 @@ export default {
       formData.append("originalLanguage", this.originalLanguage);
       const user = JSON.parse(localStorage.getItem("user"));
       formData.append("userId", user.id);
-      const companyId = JSON.parse(localStorage.getItem("user").company_id);
-      formData.append("groupIds", JSON.stringify([companyId]));
+      const groupId = JSON.parse(localStorage.getItem("user").company_id);
+      formData.append("groupIds", []);
       formData.append("userIds", JSON.stringify([user.id]));
+      const companyId = JSON.parse(localStorage.getItem("user").company_id);
+      formData.append("companieId", JSON.stringify([companyId]));
 
       console.log([...formData.entries()]);
 
