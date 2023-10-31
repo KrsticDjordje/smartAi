@@ -173,7 +173,6 @@ export default {
         console.log("Keywords string is null or undefined.");
         return null;
       }
-
       try {
         const keywordsArray = JSON.parse(keywordsString);
 
