@@ -265,14 +265,12 @@ export default {
 
       const formData = new FormData();
       formData.append("file", this.selectedFile);
-      // formData.append("start_time", "22");
       formData.append("typeOfTranscription", "1");
       formData.append("originalLanguage", this.originalLanguage);
       const user = JSON.parse(localStorage.getItem("user"));
       formData.append("userId", user.id);
       formData.append("groupIds", "[1]");
       formData.append("userIds", "[1]");
-      // formData.append("ownerId", "1");
 
       console.log([...formData.entries()]);
 

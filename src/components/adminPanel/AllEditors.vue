@@ -148,7 +148,7 @@ export default {
       return this.getGroups.map((oneItem) => oneItem.name);
     },
     filteredUsers() {
-      return this.getUsers.filter((oneItem) => oneItem.role_id === 3);
+      return this.getUsers.filter((oneItem) => oneItem.role_id === 2);
     },
   },
   methods: {
