@@ -20,6 +20,7 @@
           <thead>
             <tr>
               <th class="text-left">Name</th>
+              <th class="text-left">User Upload</th>
               <th class="text-left">Duration</th>
               <th class="text-left">Date</th>
               <th class="text-left">Language</th>
@@ -36,6 +37,7 @@
               >
                 <strong>{{ transcription.brief_title }}</strong>
               </td>
+              <td>User name</td>
               <td>{{ formatDuration(transcription.duration) }} sec</td>
               <td class="date">
                 {{ formatDateTranscription(transcription.created_at) }}

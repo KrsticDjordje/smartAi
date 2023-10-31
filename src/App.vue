@@ -88,7 +88,11 @@
                   </v-list-item-icon>
                   <v-list-item-title>Screen Recorder</v-list-item-title>
                 </v-list-item>
-                <v-list-item class="link" router :to="{ name: 'myRecordings' }">
+                <v-list-item
+                  class="link"
+                  router
+                  :to="{ name: 'screenRecordings' }"
+                >
                   <v-list-item-icon>
                     <v-icon>mdi-message-video</v-icon>
                   </v-list-item-icon>

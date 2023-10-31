@@ -263,17 +263,22 @@ export default {
     async submitForm() {
       this.uploadLoading = true;
 
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userIdAsArray = JSON.stringify([user.id]);
+
+      const companyIdAsArray = JSON.stringify([user.company_id]);
+
+      const groupIds = user.groups.map((group) => group.id);
+      const groupIdsAsArray = JSON.stringify(groupIds);
+
       const formData = new FormData();
       formData.append("file", this.selectedFile);
       formData.append("typeOfTranscription", "1");
       formData.append("originalLanguage", this.originalLanguage);
-      const user = JSON.parse(localStorage.getItem("user"));
       formData.append("userId", user.id);
-      const groupId = JSON.parse(localStorage.getItem("user").company_id);
-      formData.append("groupIds", []);
-      formData.append("userIds", JSON.stringify([user.id]));
-      const companyId = JSON.parse(localStorage.getItem("user").company_id);
-      formData.append("companieId", JSON.stringify([companyId]));
+      formData.append("groupIds", groupIdsAsArray);
+      formData.append("userIds", userIdAsArray);
+      formData.append("companieId", companyIdAsArray);
 
       console.log([...formData.entries()]);
 
