@@ -274,15 +274,22 @@ export default {
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const roleId = JSON.parse(localStorage.getItem("user")).role_id;
+
+      const data = {
+        userId: userId,
+        limit: 20,
+        page: this.currentPage,
+        roleId: roleId,
+        token: "test",
+        typeOfTranscription: 1,
+      };
+
+      console.log(data, "Za prikaz upload-a");
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
-          userId: userId,
-          limit: 20,
-          page: this.currentPage,
-          roleId: roleId,
-          token: "test",
-          typeOfTranscription: 1,
-        })
+        .post(
+          "https://certoe.de:8080/api/frontend/getTranscriptionsForGroup",
+          data
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {
