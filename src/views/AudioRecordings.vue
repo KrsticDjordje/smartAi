@@ -262,11 +262,10 @@ export default {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const roleId = JSON.parse(localStorage.getItem("user")).role_id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
+        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForUser", {
           userId: userId,
           limit: 5,
           page: this.currentPage,
-          roleId: roleId,
           token: "test",
           typeOfTranscription: 4,
         })

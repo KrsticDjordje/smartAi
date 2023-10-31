@@ -279,15 +279,13 @@ export default {
         userId: userId,
         limit: 20,
         page: this.currentPage,
-        roleId: roleId,
         token: "test",
-        typeOfTranscription: 1,
       };
 
       console.log(data, "Za prikaz upload-a");
       axios
         .post(
-          "https://certoe.de:8080/api/frontend/getTranscriptionsForGroup",
+          "https://certoe.de:8080/api/frontend/getTranscriptionsForUser",
           data
         )
         .then((response) => {

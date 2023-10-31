@@ -73,11 +73,10 @@ export default {
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
+        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForUser", {
           userId: userId,
           limit: 5,
           page: this.currentPage,
-          roleId: 1,
           token: "test",
           live: true,
         })
