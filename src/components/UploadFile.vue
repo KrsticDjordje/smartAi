@@ -266,8 +266,6 @@ export default {
       const user = JSON.parse(localStorage.getItem("user"));
       const userIdAsArray = JSON.stringify([user.id]);
 
-      const companyIdAsArray = JSON.stringify([user.company_id]);
-
       const groupIds = user.groups.map((group) => group.id);
       const groupIdsAsArray = JSON.stringify(groupIds);
 
@@ -278,7 +276,7 @@ export default {
       formData.append("userId", user.id);
       formData.append("groupIds", groupIdsAsArray);
       formData.append("userIds", userIdAsArray);
-      formData.append("companieId", companyIdAsArray);
+      formData.append("companieId", user.company_id);
 
       console.log([...formData.entries()]);
 
