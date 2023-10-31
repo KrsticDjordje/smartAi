@@ -95,14 +95,19 @@ export default {
 
     async sendRecordingToApi(blob) {
       try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const userIdAsArray = JSON.stringify([user.id]);
+
+        const groupIds = user.groups.map((group) => group.id);
+        const groupIdsAsArray = JSON.stringify(groupIds);
+
         const formData = new FormData();
         formData.append("file", blob, "screen-recording.webm");
         formData.append("typeOfTranscription", "3");
         formData.append("originalLanguage", "Serbian");
-        const user = JSON.parse(localStorage.getItem("user"));
         formData.append("userId", user.id);
-        formData.append("groupIds", "[1]");
-        formData.append("userIds", "[1]");
+        formData.append("groupIds", groupIdsAsArray);
+        formData.append("userIds", userIdAsArray);
         formData.append("liveTranscriptionGroupName", this.folderName);
 
         console.log([...formData.entries()]);

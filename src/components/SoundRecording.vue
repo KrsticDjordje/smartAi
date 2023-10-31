@@ -114,17 +114,19 @@ export default {
     },
     async sendAudioToApi(audioBlob) {
       try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const userIdAsArray = JSON.stringify([user.id]);
+
+        const groupIds = user.groups.map((group) => group.id);
+        const groupIdsAsArray = JSON.stringify(groupIds);
+
         const formData = new FormData();
         formData.append("file", audioBlob);
-        // formData.append("start_time", "");
         formData.append("typeOfTranscription", "4");
         formData.append("originalLanguage", "Serbian");
-        const user = JSON.parse(localStorage.getItem("user"));
         formData.append("userId", user.id);
-        formData.append("groupIds", "[1]");
-        formData.append("userIds", "[1]");
-        // formData.append("ownerId", "1");
-        // formData.append("liveTranscriptionGroupName", "Proba Audio Recorder");
+        formData.append("groupIds", groupIdsAsArray);
+        formData.append("userIds", userIdAsArray);
 
         console.log([...formData.entries()]);
 
