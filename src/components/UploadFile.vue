@@ -269,8 +269,9 @@ export default {
       formData.append("originalLanguage", this.originalLanguage);
       const user = JSON.parse(localStorage.getItem("user"));
       formData.append("userId", user.id);
-      formData.append("groupIds", "[1]");
-      formData.append("userIds", "[1]");
+      const companyId = JSON.parse(localStorage.getItem("user").company_id);
+      formData.append("groupIds", JSON.stringify([companyId]));
+      formData.append("userIds", JSON.stringify([user.id]));
 
       console.log([...formData.entries()]);
 
