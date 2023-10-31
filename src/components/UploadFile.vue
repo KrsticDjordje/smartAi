@@ -269,7 +269,7 @@ export default {
       formData.append("typeOfTranscription", "1");
       formData.append("originalLanguage", this.originalLanguage);
       const user = JSON.parse(localStorage.getItem("user"));
-      formData.append("userId", "1");
+      formData.append("userId", user.id);
       formData.append("groupIds", "[1]");
       formData.append("userIds", "[1]");
       // formData.append("ownerId", "1");
