@@ -20,7 +20,7 @@
           <thead>
             <tr>
               <th class="text-left">Name</th>
-              <th class="text-left">User Upload</th>
+              <th class="text-left">User uploaded</th>
               <th class="text-left">Duration</th>
               <th class="text-left">Date</th>
               <th class="text-left">Language</th>
@@ -37,7 +37,14 @@
               >
                 <strong>{{ transcription.brief_title }}</strong>
               </td>
-              <td>User name</td>
+              <td>
+                <div
+                  v-for="userOwner in transcription.users"
+                  :key="userOwner.id"
+                >
+                  <v-text>{{ userOwner.name }}</v-text>
+                </div>
+              </td>
               <td>{{ formatDuration(transcription.duration) }} sec</td>
               <td class="date">
                 {{ formatDateTranscription(transcription.created_at) }}
@@ -310,9 +317,12 @@ export default {
   },
 };
 </script>
-  <style scoped>
+<style scoped>
 p {
   font-size: 14px;
+}
+th.text-left {
+  text-wrap: nowrap;
 }
 </style>
     
