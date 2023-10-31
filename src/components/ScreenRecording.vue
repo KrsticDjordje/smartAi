@@ -99,7 +99,8 @@ export default {
         formData.append("file", blob, "screen-recording.webm");
         formData.append("typeOfTranscription", "3");
         formData.append("originalLanguage", "Serbian");
-        formData.append("userId", "1");
+        const user = JSON.parse(localStorage.getItem("user"));
+        formData.append("userId", user.id);
         formData.append("groupIds", "[1]");
         formData.append("userIds", "[1]");
         formData.append("liveTranscriptionGroupName", this.folderName);

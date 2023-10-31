@@ -119,7 +119,8 @@ export default {
         // formData.append("start_time", "");
         formData.append("typeOfTranscription", "4");
         formData.append("originalLanguage", "Serbian");
-        formData.append("userId", "1");
+        const user = JSON.parse(localStorage.getItem("user"));
+        formData.append("userId", user.id);
         formData.append("groupIds", "[1]");
         formData.append("userIds", "[1]");
         // formData.append("ownerId", "1");
