@@ -72,7 +72,7 @@
           >
         </v-chip-group>
       </v-card-text>
-      <v-hr class=""></v-hr>
+      <hr class="" />
       <div
         class="text-left mb-4"
         v-for="oneChunk in transcription.pieces"
@@ -132,9 +132,9 @@
         rounded
         color="#5D5FEF"
       >
-        <v-wait :active="loading" color="white" size="14">
+        <div :active="loading" color="white" size="14">
           {{ loading ? "Loading..." : "Load More" }}
-        </v-wait>
+        </div>
       </v-btn>
     </div>
   </div>
@@ -146,8 +146,13 @@ import AudioPlayer from "@/components/AudioPlayer.vue";
 import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
-  name: "MyUploads",
+  name: "GroupAudios",
   components: { AudioPlayer, UploadFIle },
+  props: {
+    groupId: {
+      type: Number,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -157,6 +162,14 @@ export default {
   },
   mounted() {
     this.fetchTranscriptions();
+  },
+  watch: {
+    groupId(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.transcriptions = null;
+        this.fetchTranscriptions();
+      }
+    },
   },
   methods: {
     copy(text) {
@@ -261,14 +274,18 @@ export default {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const roleId = JSON.parse(localStorage.getItem("user")).role_id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
-          userId: userId,
-          limit: 5,
-          page: this.currentPage,
-          roleId: roleId,
-          token: "test",
-          typeOfTranscription: 4,
-        })
+        .post(
+          "https://certoe.de:8080/api/frontend/getTranscriptionsForOneGroup",
+          {
+            userId: userId,
+            limit: 5,
+            page: this.currentPage,
+            roleId: roleId,
+            token: "test",
+            typeOfTranscription: 4,
+            groupId: this.groupId,
+          }
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {

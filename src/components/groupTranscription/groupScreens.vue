@@ -33,9 +33,9 @@
         color="#5D5FEF"
         dark
       >
-        <v-wait :active="loading" color="white" size="14">
+        <div :active="loading" color="white" size="14">
           {{ loading ? "Loading..." : "Load More" }}
-        </v-wait>
+        </div>
       </v-btn>
     </div>
   </div>
@@ -47,6 +47,11 @@ import axios from "axios";
 export default {
   name: "MyUploads",
   components: {},
+  props: {
+    groupId: {
+      type: Number,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -56,6 +61,14 @@ export default {
   },
   mounted() {
     this.fetchTranscriptions();
+  },
+  watch: {
+    groupId(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.transcriptions = null;
+        this.fetchTranscriptions();
+      }
+    },
   },
   methods: {
     routerLink(item, name) {
@@ -72,15 +85,21 @@ export default {
     },
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
+      const data = {
+        userId: userId,
+        limit: 5,
+        page: this.currentPage,
+        roleId: 1,
+        token: "test",
+        live: true,
+        groupId: this.groupId,
+      };
+      console.log(data, "sad");
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
-          userId: userId,
-          limit: 5,
-          page: this.currentPage,
-          roleId: 1,
-          token: "test",
-          live: true,
-        })
+        .post(
+          "https://certoe.de:8080/api/frontend/getTranscriptionsForOneGroup",
+          data
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {

@@ -33,9 +33,9 @@
         color="#5D5FEF"
         dark
       >
-        <v-wait :active="loading" color="white" size="14">
+        <div :active="loading" color="white" size="14">
           {{ loading ? "Loading..." : "Load More" }}
-        </v-wait>
+        </div>
       </v-btn>
     </div>
   </div>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <UploadFIle />
     <div
       class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
       style="padding: 10px"
@@ -42,7 +41,7 @@
                   v-for="userOwner in transcription.users"
                   :key="userOwner.id"
                 >
-                  <v-text>{{ userOwner.name }}</v-text>
+                  <span>{{ userOwner.name }}</span>
                 </div>
               </td>
               <td>{{ formatDuration(transcription.duration) }} sec</td>
@@ -116,9 +115,9 @@
         rounded
         color="#5D5FEF"
       >
-        <v-wait :active="loading" color="white" size="14">
+        <div :active="loading" color="white" size="14">
           {{ loading ? "Loading..." : "Load More" }}
-        </v-wait>
+        </div>
       </v-btn>
     </div>
   </div>
@@ -127,17 +126,29 @@
   <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
-import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
-  name: "MyUploads",
-  components: { AudioPlayer, UploadFIle },
+  name: "GroupUploads",
+  components: { AudioPlayer },
+  props: {
+    groupId: {
+      type: Number,
+    },
+  },
   data() {
     return {
       loading: false,
       transcriptions: null,
       currentPage: 1,
     };
+  },
+  watch: {
+    groupId(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.transcriptions = null;
+        this.fetchTranscriptions();
+      }
+    },
   },
   mounted() {
     this.fetchTranscriptions();
@@ -284,14 +295,17 @@ export default {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const roleId = JSON.parse(localStorage.getItem("user")).role_id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForGroup", {
-          userId: userId,
-          limit: 20,
-          page: this.currentPage,
-          roleId: roleId,
-          token: "test",
-          typeOfTranscription: 1,
-        })
+        .post(
+          "https://certoe.de:8080/api/frontend/getTranscriptionsForOneGroup",
+          {
+            userId: userId,
+            limit: 20,
+            page: this.currentPage,
+            roleId: roleId,
+            token: "test",
+            groupId: this.groupId,
+          }
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {

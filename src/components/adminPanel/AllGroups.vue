@@ -116,12 +116,10 @@
       </v-alert>
     </transition>
   </div>
-</template>
-      
+</template> 
           
-          <script>
+<script>
 import { mapGetters, mapActions } from "vuex";
-
 import axios from "axios";
 
 export default {
