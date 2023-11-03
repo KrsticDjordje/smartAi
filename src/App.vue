@@ -44,7 +44,7 @@
             <v-expand-transition>
               <v-list v-if="showSubmenu">
                 <v-list-item
-                  class="link"
+                  class="link ml-2"
                   router
                   :to="{ name: 'audioRecording' }"
                 >
@@ -54,7 +54,7 @@
                   <v-list-item-title>Audio Recorder</v-list-item-title>
                 </v-list-item>
                 <v-list-item
-                  class="link"
+                  class="link ml-2"
                   router
                   :to="{ name: 'audioRecordings' }"
                 >
@@ -79,7 +79,7 @@
             <v-expand-transition>
               <v-list v-if="showSubmenu2">
                 <v-list-item
-                  class="link"
+                  class="link ml-2"
                   router
                   :to="{ name: 'screenRecording' }"
                 >
@@ -89,7 +89,7 @@
                   <v-list-item-title>Screen Recorder</v-list-item-title>
                 </v-list-item>
                 <v-list-item
-                  class="link"
+                  class="link ml-2"
                   router
                   :to="{ name: 'screenRecordings' }"
                 >
@@ -141,6 +141,30 @@
                 <v-icon>mdi-text-box-multiple</v-icon>
               </v-list-item-icon>
               <v-list-item-title>My Contents</v-list-item-title>
+            </v-list-item>
+            <v-list-item class="link">
+              <v-list-item-icon>
+                <v-icon>mdi-translate-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Translate text</v-list-item-title>
+            </v-list-item>
+            <v-card-subtitle class="text-left">
+              Generate images</v-card-subtitle
+            >
+            <v-list-item class="link">
+              <v-list-item-icon>
+                <v-icon>mdi-image-edit</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Image generator</v-list-item-title>
+            </v-list-item>
+            <v-card-subtitle class="text-left">
+              Live match blog
+            </v-card-subtitle>
+            <v-list-item class="link">
+              <v-list-item-icon>
+                <v-icon>mdi-post</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Find matches</v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list>

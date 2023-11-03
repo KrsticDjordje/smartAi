@@ -417,3 +417,7 @@ td {
     border-radius: 12px !important;
     border: 1px solid #5d5fef1b;
 }
+
+.theme--light.v-text-field--filled>.v-input__control>.v-input__slot {
+    background: rgb(0 22 255 / 6%) !important;
+}
