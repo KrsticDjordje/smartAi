@@ -61,7 +61,6 @@
 import GroupAudios from "@/components/groupTranscription/groupAudios.vue";
 import GroupScreens from "@/components/groupTranscription/groupScreens.vue";
 import GroupUploads from "@/components/groupTranscription/groupUploads.vue";
-import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "GroupTranscription",
@@ -77,32 +76,21 @@ export default {
       selectedGroupId: null,
     };
   },
-  selectedGroupId: function (newGroup, oldGroup) {
-    console.log("Izabrana grupa:", newGroup);
-  },
-  mounted() {
-    this.fetchGroups()
-      .then(() => {
-        this.processGroups();
-        if (this.groupItems.length > 0) {
-          this.selectedGroupId = this.groupItems[0].value;
-        }
-      })
-      .catch((error) => {
-        console.error("Greška pri dohvatanju:", error);
-      });
-  },
-  computed: {
-    ...mapGetters("groups", ["getGroups"]),
+  created() {
+    this.getGroups();
   },
   methods: {
-    ...mapActions("groups", ["fetchGroups"]),
-
-    processGroups() {
-      this.groupItems = this.getGroups.map((group) => ({
+    getGroups() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const groupIds = user.groups.map((group) => ({
         text: group.name,
         value: group.id,
       }));
+      this.groupItems = groupIds;
+
+      if (this.groupItems.length > 0) {
+        this.selectedGroupId = this.groupItems[0].value;
+      }
     },
   },
 };
