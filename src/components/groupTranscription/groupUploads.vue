@@ -2,7 +2,7 @@
   <div>
     <div
       class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
-      :class="{ 'in-progress-bcg': transcription.finished === 0 }"
+      :class="{ 'in-progress-bcg-p': transcription.finished === 0 }"
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"

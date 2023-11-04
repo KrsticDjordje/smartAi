@@ -424,6 +424,10 @@ td {
 
 .in-progress-bcg {
     background: #eaedff !important;
+}
+
+.in-progress-bcg-p {
+    background: #eaedff !important;
     padding: 10px 10px 0 10px !important;
 }
 
