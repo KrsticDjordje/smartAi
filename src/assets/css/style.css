@@ -421,3 +421,12 @@ td {
 .theme--light.v-text-field--filled>.v-input__control>.v-input__slot {
     background: rgb(0 22 255 / 6%) !important;
 }
+
+.in-progress-bcg {
+    background: #eaedff !important;
+    padding: 10px 10px 0 10px !important;
+}
+
+.in-progress-icon {
+    background: #f0913c;
+}
