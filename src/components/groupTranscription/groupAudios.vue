@@ -33,10 +33,12 @@
               </td>
               <td>
                 <div
-                  v-for="userOwner in transcription.users"
+                  v-for="userOwner in transcription.users_with_owner_flag"
                   :key="userOwner.id"
                 >
-                  <span>{{ userOwner.name }}</span>
+                  <span v-if="userOwner.is_owner === 1">{{
+                    userOwner.name
+                  }}</span>
                 </div>
               </td>
               <td>{{ formatDuration(transcription.duration) }} sec</td>

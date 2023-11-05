@@ -7,6 +7,7 @@
             <th class="text-center">Tokens spent</th>
             <th class="text-center">Date</th>
             <th class="text-center">Duration</th>
+            <th class="text-center">Type</th>
             <th class="text-center">Language</th>
             <th class="text-right">More Options</th>
           </tr>
@@ -21,6 +22,11 @@
             <td>
               <span class="mdi mdi-timer-play-outline"></span>
               {{ formatDuration(transcriptions.duration) }} sec
+            </td>
+            <td>
+              <span v-if="transcriptions.type === 4">Audio</span>
+              <span v-else-if="transcriptions.type === 3">Screen</span>
+              <span v-else-if="transcriptions.type === 1">Upload</span>
             </td>
             <td>{{ transcriptions.original_language }}</td>
             <td>
@@ -140,9 +146,6 @@
             color="#05004E"
           >
             <v-icon dark> mdi-content-copy </v-icon>
-          </v-btn>
-          <v-btn class="mx-2" icon fab dark small color="#05004E">
-            <v-icon dark> mdi-file-replace-outline </v-icon>
           </v-btn>
         </div>
         <v-edit-dialog

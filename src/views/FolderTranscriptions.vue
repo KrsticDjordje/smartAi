@@ -101,9 +101,6 @@
           >
             <v-icon dark> mdi-content-copy </v-icon>
           </v-btn>
-          <v-btn class="mx-2" icon fab dark small color="#05004E">
-            <v-icon dark> mdi-file-replace-outline </v-icon>
-          </v-btn>
         </div>
         <v-edit-dialog
           v-model="oneChunk.dialog"

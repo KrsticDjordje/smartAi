@@ -15,7 +15,6 @@
           <thead>
             <tr>
               <th class="text-left">Name</th>
-              <th class="text-left">User uploaded</th>
               <th class="text-left">Duration</th>
               <th class="text-left">Date</th>
               <th class="text-left">Language</th>
@@ -31,14 +30,6 @@
                 style="cursor: pointer"
               >
                 <strong>{{ transcription.brief_title }}</strong>
-              </td>
-              <td>
-                <div
-                  v-for="userOwner in transcription.users"
-                  :key="userOwner.id"
-                >
-                  <span>{{ userOwner.name }}</span>
-                </div>
               </td>
               <td>{{ formatDuration(transcription.duration) }} sec</td>
               <td class="date">
