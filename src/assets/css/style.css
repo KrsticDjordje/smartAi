@@ -442,3 +442,17 @@ td {
 .rotate-icon.rotate {
     transform: rotate(180deg);
 }
+
+button.editFolder {
+    position: absolute;
+    top: 0;
+    background: white;
+    left: 0;
+}
+
+button.deleteFolder {
+    position: absolute;
+    top: 0;
+    background: white;
+    right: 0;
+}

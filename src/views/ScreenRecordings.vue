@@ -14,7 +14,12 @@
         >
           <div
             class="transcriptionBox content-container box"
-            style="padding: 10px; height: 340px; cursor: pointer"
+            style="
+              padding: 10px;
+              height: 290px;
+              cursor: pointer;
+              position: relative;
+            "
           >
             <div>
               <v-img
@@ -27,8 +32,24 @@
                   transcription.live_transcription_name
                 }}</v-card-text>
               </div>
-              <v-btn color="deep-purple lighten-2" text> Edit </v-btn>
-              <v-btn color="red lighten-2" text> Delete </v-btn>
+              <v-btn
+                class="editFolder"
+                v-bind="attrs"
+                v-on="on"
+                text
+                color="purple"
+              >
+                <v-icon>mdi-folder-edit</v-icon>
+              </v-btn>
+              <v-btn
+                class="deleteFolder"
+                v-bind="attrs"
+                v-on="on"
+                text
+                color="red"
+              >
+                <v-icon>mdi-delete-empty</v-icon>
+              </v-btn>
             </div>
           </div>
         </v-col>
