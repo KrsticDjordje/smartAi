@@ -28,7 +28,10 @@
               <span v-else-if="transcriptions.type === 3">Screen</span>
               <span v-else-if="transcriptions.type === 1">Upload</span>
             </td>
-            <td>{{ transcriptions.original_language }}</td>
+            <td>
+              <span class="mdi mdi-translate"></span>
+              {{ transcriptions.original_language }}
+            </td>
             <td>
               <div class="d-flex align-items-center">
                 <v-spacer></v-spacer>

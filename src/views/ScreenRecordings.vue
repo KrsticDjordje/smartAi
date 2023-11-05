@@ -1,38 +1,43 @@
 <template>
   <div>
-    <div
-      class="mx-auto transcriptionBox content-container box"
-      style="padding: 10px"
-      v-for="transcription in transcriptions"
-      :key="transcription.id"
-      @click="routerLink(transcription, transcription.live_transcription_name)"
-    >
-      <template slot="progress">
-        <v-progress-linear
-          color="deep-purple"
-          height="10"
-          indeterminate
-        ></v-progress-linear>
-      </template>
-      <v-card-text>
-        <span class="mdi mdi-timer-edit"></span> 02.05.2023. - dodati na
-        API</v-card-text
-      >
-      <div class="d-flex align-items-center wrap-reverse-mobile">
-        <v-card-title>{{ transcription.live_transcription_name }}</v-card-title>
-        <v-spacer></v-spacer>
-        <v-btn color="deep-purple lighten-2" text> Edit </v-btn>
-        <v-btn color="red lighten-2" text> Delete </v-btn>
-      </div>
-    </div>
+    <v-container fluid>
+      <v-row>
+        <v-col
+          cols="12"
+          md="6"
+          lg="3"
+          v-for="transcription in transcriptions"
+          :key="transcription.id"
+          @click="
+            routerLink(transcription, transcription.live_transcription_name)
+          "
+        >
+          <div
+            class="transcriptionBox content-container box"
+            style="padding: 10px; height: 340px; cursor: pointer"
+          >
+            <div>
+              <v-img
+                :src="require('@/assets/folder.png')"
+                height="200"
+                class="rounded"
+              ></v-img>
+              <div class="d-flex align-items-center wrap-reverse-mobile">
+                <v-card-text class="px-1" style="overflow-wrap: anywhere">{{
+                  transcription.live_transcription_name
+                }}</v-card-text>
+              </div>
+              <v-btn color="deep-purple lighten-2" text> Edit </v-btn>
+              <v-btn color="red lighten-2" text> Delete </v-btn>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <!-- Load More Button -->
     <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
-      <v-btn
-        @click="loadMoreTranscriptions"
-        class="ml-5"
-        rounded
-        color="#5D5FEF"
-        dark
-      >
+      <v-btn @click="loadMoreTranscriptions" rounded color="#5D5FEF" dark>
         <div :active="loading" color="white" size="14">
           {{ loading ? "Loading..." : "Load More" }}
         </div>
@@ -40,6 +45,7 @@
     </div>
   </div>
 </template>
+
   
 <script>
 import axios from "axios";
@@ -75,7 +81,7 @@ export default {
       axios
         .post("https://certoe.de:8080/api/frontend/getTranscriptionsForUser", {
           userId: userId,
-          limit: 5,
+          limit: 8,
           page: this.currentPage,
           token: "test",
           live: true,
