@@ -52,7 +52,7 @@
           </v-card>
         </v-dialog>
       </div>
-      <v-card-text class="px-3 py-0">
+      <v-card-text class="px-3 py-0 d-flex">
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
           <v-chip
             class="keyword"
