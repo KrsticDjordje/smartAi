@@ -3,23 +3,19 @@
     <UploadFIle />
     <div
       class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
+      :class="{ 'in-progress-bcg-p': transcription.finished === 0 }"
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"
     >
-      <template slot="progress">
-        <v-progress-linear
-          color="deep-purple"
-          height="10"
-          indeterminate
-        ></v-progress-linear>
-      </template>
-
-      <v-simple-table>
+      <v-simple-table
+        :class="{ 'in-progress-bcg': transcription.finished === 0 }"
+      >
         <template v-slot:default>
           <thead>
             <tr>
               <th class="text-left">Name</th>
+              <th class="text-left">User uploaded</th>
               <th class="text-left">Duration</th>
               <th class="text-left">Date</th>
               <th class="text-left">Language</th>
@@ -36,14 +32,35 @@
               >
                 <strong>{{ transcription.brief_title }}</strong>
               </td>
+              <td>
+                <div
+                  v-for="userOwner in transcription.users"
+                  :key="userOwner.id"
+                >
+                  <span>{{ userOwner.name }}</span>
+                </div>
+              </td>
               <td>{{ formatDuration(transcription.duration) }} sec</td>
               <td class="date">
                 {{ formatDateTranscription(transcription.created_at) }}
               </td>
               <td>{{ transcription.original_language }}</td>
               <td>
-                <div class="statusIcon">
-                  <span class="mdi mdi-check-circle-outline"></span> Transcribed
+                <div
+                  class="statusIcon"
+                  :class="{ 'in-progress-icon': transcription.finished === 0 }"
+                >
+                  <v-progress-circular
+                    v-if="transcription.finished === 0"
+                    :width="3"
+                    :size="15"
+                    color="white"
+                    class="mr-2"
+                    indeterminate
+                  ></v-progress-circular>
+                  <span v-else class="mdi mdi-check-circle-outline mr-1"></span>
+                  <span v-if="transcription.finished === 0">In Progress</span>
+                  <span v-else class="transcribed-text">Transcribed</span>
                 </div>
               </td>
               <td>
@@ -99,6 +116,12 @@
           </tbody>
         </template>
       </v-simple-table>
+      <v-progress-linear
+        v-if="transcription.finished === 0"
+        class="mt-1 rounded"
+        color="#3792ef"
+        :value="transcription.progress"
+      ></v-progress-linear>
     </div>
     <div class="text-center" v-if="transcriptions && transcriptions.length > 0">
       <v-btn
@@ -114,21 +137,34 @@
     </div>
   </div>
 </template>
-  
-<script>
+    
+  <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
 import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
-  name: "MyUploads",
+  name: "GroupUploads",
   components: { AudioPlayer, UploadFIle },
+  props: {
+    groupId: {
+      type: Number,
+    },
+  },
   data() {
     return {
       loading: false,
       transcriptions: null,
       currentPage: 1,
     };
+  },
+  watch: {
+    groupId(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.transcriptions = null;
+        this.fetchTranscriptions();
+      }
+    },
   },
   mounted() {
     this.fetchTranscriptions();
@@ -317,5 +353,8 @@ export default {
 p {
   font-size: 14px;
 }
+th.text-left {
+  text-wrap: nowrap;
+}
 </style>
-  
+    
