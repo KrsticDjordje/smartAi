@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="back-audio">
     <h5 class="mt-4">Audio Recorder</h5>
     <div class="audioIcon" :class="{ audioRecorder: true, rec: isRecording }">
       <span class="mdi mdi-microphone"></span>

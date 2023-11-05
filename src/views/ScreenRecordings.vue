@@ -139,5 +139,9 @@ p {
 .content-container.box {
   margin: 10px 0 !important;
 }
+.transcriptionBox.content-container.box:hover {
+  background: #eef3fb !important;
+  transition: 0.3s;
+}
 </style>
   

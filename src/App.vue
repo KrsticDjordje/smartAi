@@ -184,7 +184,7 @@
         <Search />
         <v-spacer></v-spacer>
         <router-link
-          v-if="getUserRoleId() === 3"
+          v-if="roleId() === 2 || roleId() === 3"
           router
           :to="{ name: 'adminPanel' }"
         >
@@ -254,7 +254,7 @@ export default {
     toggleRecording2() {
       this.showSubmenu2 = !this.showSubmenu2;
     },
-    getUserRoleId() {
+    roleId() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user && user.role_id) {
         return user.role_id;
