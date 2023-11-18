@@ -171,10 +171,7 @@
       </v-navigation-drawer>
 
       <v-app-bar app>
-        <v-app-bar-nav-icon
-          @click.stop="drawer = !drawer"
-          :class="{ rotate: rotateIcon }"
-        ></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title class="app-bar-title hello">
           <v-icon>mdi-hand-clap</v-icon> Hello,
           {{ user.name }}!</v-toolbar-title
