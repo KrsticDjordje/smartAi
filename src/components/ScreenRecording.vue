@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-container box p-5">
     <v-col cols="12">
       <v-combobox
         v-model="folderName"
