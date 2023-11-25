@@ -104,21 +104,17 @@
                 <v-btn
                   type="submit"
                   class="form-submit"
+                  :active="loading"
                   :disabled="
+                    uploadLoading ||
                     !selectedFile ||
                     !isValidFileType(selectedFile.name) ||
                     selectedFile.size > 500000000
                   "
                 >
-                  Submit
+                  {{ uploadLoading ? "Loading..." : "Submit" }}
                 </v-btn>
                 <br />
-                <v-progress-circular
-                  v-if="uploadLoading"
-                  class="mt-5"
-                  indeterminate
-                  color="purple"
-                ></v-progress-circular>
               </form>
             </div>
           </div>
@@ -129,6 +125,13 @@
             >Close</v-btn
           >
         </v-card-actions>
+        <v-progress-linear
+          v-if="uploadLoading"
+          :value="progressUpload"
+          :height="10"
+          class="mt-4"
+          color="primary"
+        ></v-progress-linear>
       </v-card>
     </v-dialog>
 
@@ -189,6 +192,7 @@ export default {
         "Interview",
         "Short quote",
       ],
+      progressUpload: 0,
       snackbar: {
         show: false,
         message: "",
@@ -197,6 +201,7 @@ export default {
       },
       uploadLoading: false,
       selectedFile: null,
+      uploadLoading: false,
     };
   },
   methods: {
@@ -284,6 +289,11 @@ export default {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        onUploadProgress: (progressEvent) => {
+          this.progressUpload = Math.round(
+            (progressEvent.loaded / progressEvent.total) * 100
+          );
+        },
       };
 
       try {
@@ -301,10 +311,12 @@ export default {
         this.snackbar.color = "success";
         this.snackbar.show = true;
         this.uploadLoading = false;
+        this.uploadLoading = true;
       } catch (error) {
         alert("Error - Network Error");
         console.log(error);
         this.uploadLoading = false;
+        this.uploadLoading = true;
       }
     },
   },
