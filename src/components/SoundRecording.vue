@@ -1,6 +1,12 @@
 <template>
   <div class="back-audio content-container box text-center p-5">
-    <h5 class="mt-4">Audio Recorder</h5>
+    <h5 class="mt-4 mb-2">Audio Recorder</h5>
+    <v-combobox
+      clearable
+      :items="languages"
+      v-model="selectLanguage"
+      label="Select lanugage"
+    ></v-combobox>
     <div class="audioIcon" :class="{ audioRecorder: true, rec: isRecording }">
       <span class="mdi mdi-microphone"></span>
     </div>
@@ -39,6 +45,42 @@ export default {
       recordingStartTime: null,
       recordingTime: 0,
       stream: null,
+      selectLanguage: "English",
+      languages: [
+        "English",
+        "Chinese",
+        "German",
+        "Italian",
+        "Spanish",
+        "French",
+        "Azerbaijani",
+        "Bosnian",
+        "Bulgarian",
+        "Croatian",
+        "Czech",
+        "Danish",
+        "Dutch",
+        "Estonian",
+        "Finnish",
+        "Hungarian",
+        "Japanese",
+        "Korean",
+        "Greek",
+        "Latvian",
+        "Lithuanian",
+        "Macedonian",
+        "Norwegian",
+        "Portuguese",
+        "Polish",
+        "Romanian",
+        "Russian",
+        "Serbian",
+        "Slovenian",
+        "Slovak",
+        "Swedish",
+        "Turkish",
+        "Ukrainian",
+      ],
     };
   },
   computed: {
@@ -123,7 +165,7 @@ export default {
         const formData = new FormData();
         formData.append("file", audioBlob);
         formData.append("typeOfTranscription", "4");
-        formData.append("originalLanguage", "Serbian");
+        formData.append("originalLanguage", this.selectLanguage);
         formData.append("userId", user.id);
         formData.append("groupIds", groupIdsAsArray);
         formData.append("userIds", userIdAsArray);
