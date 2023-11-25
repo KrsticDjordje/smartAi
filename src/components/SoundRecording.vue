@@ -9,12 +9,12 @@
       >Recording time: <b>{{ formattedRecordingTime }}</b></span
     >
     <br />
-    <button class="playRecording" @click="toggleRecording">
+    <v-btn class="playRecording p-4" rounded @click="toggleRecording">
       {{ isRecording ? "Stop Recording" : "Start Recording" }}
-    </button>
-    <button @click="downloadAudio" :disabled="!audioUrl" class="downloadAudio">
+    </v-btn>
+    <!-- <button @click="downloadAudio" :disabled="!audioUrl" class="downloadAudio">
       Download Audio
-    </button>
+    </button> -->
     <audio
       ref="audioPlayer"
       controls

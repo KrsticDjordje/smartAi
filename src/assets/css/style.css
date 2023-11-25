@@ -367,7 +367,7 @@ span.mdi.mdi-microphone {
 }
 
 .playRecording {
-    background: #de4646;
+    background: linear-gradient(93.96deg, #5d92ef 6.46%, #de4646 98.85%) !important;
     padding: 10px 20px;
     color: white;
     border-radius: 20px;
