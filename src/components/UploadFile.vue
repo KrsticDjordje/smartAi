@@ -106,13 +106,13 @@
                   class="form-submit"
                   :active="loading"
                   :disabled="
-                    uploadLoading ||
+                    uploadLoadingBtn ||
                     !selectedFile ||
                     !isValidFileType(selectedFile.name) ||
                     selectedFile.size > 500000000
                   "
                 >
-                  {{ uploadLoading ? "Loading..." : "Submit" }}
+                  {{ uploadLoadingBtn ? "Loading..." : "Submit" }}
                 </v-btn>
                 <br />
               </form>
@@ -125,13 +125,14 @@
             >Close</v-btn
           >
         </v-card-actions>
-        <v-progress-linear
-          v-if="uploadLoading"
-          :value="progressUpload"
-          :height="10"
-          class="mt-4"
-          color="primary"
-        ></v-progress-linear>
+        <v-expand-transition v-if="uploadLoading">
+          <v-progress-linear
+            :value="progressUpload"
+            :height="8"
+            class="mt-4"
+            color="primary"
+          ></v-progress-linear>
+        </v-expand-transition>
       </v-card>
     </v-dialog>
 
@@ -201,7 +202,7 @@ export default {
       },
       uploadLoading: false,
       selectedFile: null,
-      uploadLoading: false,
+      uploadLoadingBtn: false,
     };
   },
   methods: {
@@ -267,6 +268,7 @@ export default {
 
     async submitForm() {
       this.uploadLoading = true;
+      this.uploadLoadingBtn = true;
 
       const user = JSON.parse(localStorage.getItem("user"));
       const userIdAsArray = JSON.stringify([user.id]);
@@ -311,12 +313,14 @@ export default {
         this.snackbar.color = "success";
         this.snackbar.show = true;
         this.uploadLoading = false;
-        this.uploadLoading = true;
+        this.uploadLoadingBtn = false;
+        this.file = null;
+        this.progressUpload = 0;
       } catch (error) {
         alert("Error - Network Error");
         console.log(error);
         this.uploadLoading = false;
-        this.uploadLoading = true;
+        this.uploadLoadingBtn = false;
       }
     },
   },
