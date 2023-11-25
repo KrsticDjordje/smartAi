@@ -68,6 +68,19 @@
                 <div class="d-flex align-items-center">
                   <v-spacer></v-spacer>
                   <v-btn
+                    @click="
+                      translate(transcription.id, transcription.brief_title)
+                    "
+                    color="blue"
+                    text
+                    :disabled="
+                      !transcription.translations ||
+                      transcription.translations.length === 0
+                    "
+                  >
+                    <v-icon>mdi-text-recognition</v-icon>
+                  </v-btn>
+                  <v-btn
                     @click="share(transcription.id, transcription.brief_title)"
                     color="teal"
                     text
