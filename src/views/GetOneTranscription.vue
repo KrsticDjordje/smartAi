@@ -35,19 +35,72 @@
             <td>
               <div class="d-flex align-items-center">
                 <v-spacer></v-spacer>
-                <v-btn
-                  @click="
-                    translate(transcriptions.id, transcriptions.brief_title)
-                  "
-                  color="blue"
-                  text
-                  :disabled="
-                    !transcriptions.translations ||
-                    transcriptions.translations.length === 0
-                  "
+                <v-dialog
+                  v-model="dialog"
+                  fullscreen
+                  hide-overlay
+                  transition="dialog-bottom-transition"
                 >
-                  <v-icon>mdi-text-recognition</v-icon>
-                </v-btn>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="blue"
+                      text
+                      :disabled="
+                        !transcriptions.translations ||
+                        transcriptions.translations.length === 0
+                      "
+                    >
+                      <v-icon>mdi-text-recognition</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-toolbar dark color="primary">
+                      <v-btn icon dark @click="dialog = false">
+                        <v-icon>mdi-close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title>Translations</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                    </v-toolbar>
+                    <v-list three-line subheader>
+                      <v-list-item
+                        v-for="oneTranslation in transcriptions.translations"
+                        :key="oneTranslation.id"
+                      >
+                        <v-list-item-content>
+                          <v-card class="d-flex my-3">
+                            <v-list-item-title>{{
+                              oneTranslation.translated_language
+                            }}</v-list-item-title>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              class="mx-2"
+                              icon
+                              fab
+                              dark
+                              small
+                              @click="copy(oneTranslation.transcript)"
+                              color="#05004E"
+                            >
+                              <v-icon dark> mdi-content-copy </v-icon>
+                            </v-btn>
+                            <v-btn
+                              @click="deleteTranslation(oneTranslation.id)"
+                              color="red"
+                              text
+                            >
+                              <v-icon>mdi-delete-empty</v-icon>
+                            </v-btn>
+                          </v-card>
+                          <v-list-item-subtitle>{{
+                            oneTranslation.transcript
+                          }}</v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-card>
+                </v-dialog>
                 <v-btn
                   @click="share(transcriptions.id, transcriptions.brief_title)"
                   color="teal"
@@ -198,7 +251,10 @@ export default {
   data() {
     return {
       transcriptions: null,
-      currentPage: 1,
+      dialog: false,
+      notifications: false,
+      sound: true,
+      widgets: false,
     };
   },
   mounted() {
@@ -244,7 +300,7 @@ export default {
       }
     },
     copy(text) {
-      this.notify("You have successfully copy this transcription", "success");
+      this.notify("You have successfully copy text", "success");
       const el = document.createElement("textarea");
       el.value = text;
       document.body.appendChild(el);
@@ -344,6 +400,32 @@ export default {
         this.$router.go(-1);
         this.notify(
           "You have successfully deleted this transcription",
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+        this.notify("Failed", "error");
+      }
+    },
+    async deleteTranslation(transcriptId) {
+      console.log(transcriptId, "Korpa transkription");
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        await axios.post(
+          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          {
+            userId: user.id,
+            transcriptionId: transcriptId,
+            token: "test",
+          }
+        );
+        this.transcriptions.translations =
+          this.transcriptions.translations.filter(
+            (translation) => translation.id !== transcriptId
+          );
+        this.notify(
+          "You have successfully deleted this translation",
           "success"
         );
       } catch (error) {
