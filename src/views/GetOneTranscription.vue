@@ -163,7 +163,7 @@
           indeterminate
         ></v-progress-linear>
       </template>
-      <v-card-text class="px-3 mt-2 py-0 d-flex">
+      <v-card-text class="px-3 mt-2 py-0 d-flex flex-wrap">
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
           <v-chip
             class="keyword"
@@ -194,11 +194,11 @@
         :key="oneChunk.id"
       >
         <div class="d-flex wrap-reverse-mobile">
-          <v-card-subtitle class="my-0">{{
+          <!-- <v-card-subtitle class="my-0">{{
             oneChunk.brief_title === "&#91;&#39;&lt;NONE&gt;&#39;&#93;"
               ? "Brief subtitle"
               : oneChunk.brief_title
-          }}</v-card-subtitle>
+          }}</v-card-subtitle> -->
           <p class="mx-3 mb-0 d-flex align-center text-left">
             <span class="mdi mdi-volume-high mx-1"></span>
             {{ formatTime(oneChunk.beginning_time) }} -
