@@ -1,5 +1,11 @@
 <template>
-  <div class="back-audio content-container box text-center p-5">
+  <div
+    class="back-audio content-container box text-center p-5"
+    style="
+      border-radius: 20px;
+      background: linear-gradient(93.96deg, #277bb029 6.46%, #5d5fef1f 98.85%);
+    "
+  >
     <h5 class="mt-4 mb-2">Audio Recorder</h5>
     <v-combobox
       clearable
