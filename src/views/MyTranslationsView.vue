@@ -17,7 +17,7 @@
       <div class="d-flex align-items-center wrap-reverse-mobile">
         <v-card-title>{{ transcription.document_name }}</v-card-title>
         <v-spacer></v-spacer>
-        <v-btn class="mx-2" outlined fab dark small color="red">
+        <v-btn class="mx-2" outlined fab dark small text color="red">
           <v-icon dark> mdi-delete </v-icon>
         </v-btn>
       </div>

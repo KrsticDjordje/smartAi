@@ -143,15 +143,18 @@ export default {
         if (response.status === 200) {
           const responseData = response.data;
           console.log("API Response:", responseData);
-          alert("Audio je uspešno poslat na API.");
+          this.notify(
+            "Your audio has been successfully submitted for transcription!",
+            "success"
+          );
           this.deleteLocalAudioFile(audioBlob); // Dodato brisanje lokalnog audio fajla
         } else {
           console.error("Neuspešno slanje audio na API.");
-          alert("Neuspešno slanje audio na API.");
+          this.notify("Failed!", "error");
         }
       } catch (error) {
         console.error("Error sending audio to API:", error);
-        alert("Greška prilikom slanja audio na API.");
+        this.notify("Failed!", "error");
       }
     },
 
