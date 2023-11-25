@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12" md="8">
         <!-- Sadržaj za prvu kolonu sa širinom 8 kolona -->
-        <div><AllEditors /></div>
+        <div><all-packets /></div>
       </v-col>
       <v-col cols="12" md="4">
         <!-- Sadržaj za drugu kolonu sa širinom 4 kolona -->
