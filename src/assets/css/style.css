@@ -114,6 +114,11 @@ i.v-icon.notranslate.mdi.mdi-hand-clap.theme--light {
     border: 1px solid #F8F9FA;
     background: #FFF;
     box-shadow: 0px 4px 20px 0px rgb(219 225 250 / 57%) !important;
+    transition: 0.5s;
+}
+
+.theme--light.v-data-table {
+    transition: 0.5s;
 }
 
 .align-items-center {
@@ -424,15 +429,18 @@ td {
 
 .in-progress-bcg {
     background: #eaedff !important;
+    transition: 0.5s;
 }
 
 .in-progress-bcg-p {
     background: #eaedff !important;
     padding: 10px 10px 0 10px !important;
+    transition: 0.5s;
 }
 
 .in-progress-icon {
     background: #f0913c;
+    transition: 0.5s;
 }
 
 .rotate-icon {

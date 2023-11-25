@@ -5,23 +5,27 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import Pusher from 'pusher-js';
 
+Vue.prototype.$bus = new Vue();
 
-// Inicijalizacija Pusher-a
-Pusher.logToConsole = true; // Ovo omogućava logovanje za Pusher, koristiti samo u razvoju
+Vue.prototype.$globalStore = {
+  pusherData: null
+};
 
+// Inicijalizacija Pusher-a i povezivanje na kanal
+Pusher.logToConsole = true;
 const pusher = new Pusher('527e5f64e5fd092e6b5e', {
   cluster: 'eu',
   encrypted: true
 });
-
 const channel = pusher.subscribe('my-channel');
 
-// Povezivanje na događaj koji prima transkripcije
-channel.bind('transcription-event', function (transcriptions) {
-  // Kada se primi podatak preko Pusher-a, ažurira se Vuex stanje sa filtriranim transkripcijama
-  store.dispatch('pusherData/updateDataFromPusher', transcriptions);
+// Povezivanje na događaj koji prima podatke
+channel.bind('my-event', function (newTranscription) {
+  console.log('Podaci primljeni sa Pusher-a:', newTranscription);
+  Vue.prototype.$bus.$emit('pusher-data-received', newTranscription);
 });
-Vue.config.productionTip = false
+
+
 new Vue({
   router,
   store,

@@ -2,13 +2,19 @@
   <div>
     <div
       class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
-      :class="{ 'in-progress-bcg-p': transcription.finished === 0 }"
+      :class="{
+        'in-progress-bcg-p':
+          transcription.finished === 0 || transcription.finished === false,
+      }"
       style="padding: 10px"
       v-for="transcription in transcriptions"
       :key="transcription.id"
     >
       <v-simple-table
-        :class="{ 'in-progress-bcg': transcription.finished === 0 }"
+        :class="{
+          'in-progress-bcg':
+            transcription.finished === 0 || transcription.finished === false,
+        }"
       >
         <template v-slot:default>
           <thead>
@@ -49,10 +55,17 @@
               <td>
                 <div
                   class="statusIcon"
-                  :class="{ 'in-progress-icon': transcription.finished === 0 }"
+                  :class="{
+                    'in-progress-icon':
+                      transcription.finished === 0 ||
+                      transcription.finished === false,
+                  }"
                 >
                   <v-progress-circular
-                    v-if="transcription.finished === 0"
+                    v-if="
+                      transcription.finished === 0 ||
+                      transcription.finished === false
+                    "
                     :width="3"
                     :size="15"
                     color="white"
@@ -60,7 +73,13 @@
                     indeterminate
                   ></v-progress-circular>
                   <span v-else class="mdi mdi-check-circle-outline mr-1"></span>
-                  <span v-if="transcription.finished === 0">In Progress</span>
+                  <span
+                    v-if="
+                      transcription.finished === 0 ||
+                      transcription.finished === false
+                    "
+                    >In Progress</span
+                  >
                   <span v-else class="transcribed-text">Transcribed</span>
                 </div>
               </td>
@@ -131,7 +150,7 @@
         </template>
       </v-simple-table>
       <v-progress-linear
-        v-if="transcription.finished === 0"
+        v-if="transcription.finished === 0 || transcription.finished === false"
         class="mt-1 rounded"
         color="#3792ef"
         :value="transcription.progress"
@@ -181,6 +200,41 @@ export default {
   },
   mounted() {
     this.fetchTranscriptions();
+
+    this.$bus.$on("pusher-data-received", (newTranscription) => {
+      if (newTranscription && typeof newTranscription === "object") {
+        const transcriptionData = newTranscription.message
+          ? newTranscription.message
+          : newTranscription;
+
+        const index = this.transcriptions.findIndex(
+          (t) => t.external_id === transcriptionData.external_id
+        );
+
+        if (index !== -1) {
+          // Ažuriranje postojećeg objekta
+          this.$set(this.transcriptions, index, {
+            ...this.transcriptions[index],
+            ...transcriptionData,
+          });
+          // Pomeranje ažuriranog elementa na početak niza
+          const updatedItem = this.transcriptions.splice(index, 1)[0];
+          this.transcriptions.unshift(updatedItem);
+        } else {
+          // Dodavanje novog objekta na početak niza
+          this.transcriptions.unshift(transcriptionData);
+        }
+      }
+    });
+  },
+  watch: {
+    transcriptions: {
+      handler(newVal) {
+        // Ovde možete dodati dodatnu logiku ako je potrebno
+        console.log("Transcriptions updated:", newVal);
+      },
+      deep: true, // Ovo osigurava da Vue prati sve promene unutar niza
+    },
   },
   methods: {
     share(id, title) {
@@ -358,6 +412,10 @@ export default {
       this.currentPage += 1;
       this.fetchTranscriptions();
     },
+  },
+  beforeDestroy() {
+    // Uklanjanje osluškivača kada komponenta nije više aktivna
+    this.$bus.$off("pusher-data-received");
   },
 };
 </script>
