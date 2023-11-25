@@ -464,3 +464,7 @@ button.deleteFolder {
     background: white;
     right: 0;
 }
+
+.Vue-Toastification__toast-body {
+    font-size: 14px !important;
+}

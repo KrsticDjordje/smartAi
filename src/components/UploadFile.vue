@@ -247,20 +247,20 @@ export default {
 
       // Provera da li je tip fajla validan
       if (!this.isValidFileType(this.selectedFile.name)) {
-        this.snackbar.message =
-          "This file type is not supported. Please select a file with one of the following extensions: .avi, .mp3, .mp4, .wma, .m4a, .wav, .flac, .aac, .ogg, .mkv, .mov, .flv, .wmv.";
-        this.snackbar.color = "error";
-        this.snackbar.show = true;
+        this.notify(
+          "This file type is not supported. Please select a file with one of the following extensions: .avi, .mp3, .mp4, .wma, .m4a, .wav, .flac, .aac, .ogg, .mkv, .mov, .flv, .wmv.",
+          "error"
+        );
         this.selectedFile = null;
         return;
       }
 
       // Provera veličine fajla
       if (this.selectedFile.size > 500000000) {
-        this.snackbar.message =
-          "The selected file is too large. Please select a file smaller than 500MB.";
-        this.snackbar.color = "error";
-        this.snackbar.show = true;
+        this.notify(
+          "The selected file is too large. Please select a file smaller than 500MB.",
+          "error"
+        );
         this.selectedFile = null;
         return;
       }
@@ -309,15 +309,13 @@ export default {
 
         this.showCode = true;
         this.showForm = false;
-        this.snackbar.message = "File uploaded successfully!";
-        this.snackbar.color = "success";
-        this.snackbar.show = true;
+        this.notify("File uploaded successfully!", "success");
         this.uploadLoading = false;
         this.uploadLoadingBtn = false;
         this.file = null;
         this.progressUpload = 0;
       } catch (error) {
-        alert("Error - Network Error");
+        this.notify("Failed", "error");
         console.log(error);
         this.uploadLoading = false;
         this.uploadLoadingBtn = false;

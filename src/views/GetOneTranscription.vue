@@ -206,6 +206,11 @@ export default {
   },
   methods: {
     share(id, title) {
+      this.notify(
+        "You have successfully copied the link, you can now share this transcription",
+        "success"
+      );
+
       const url = `${window.location.origin}/oneTranscription/${id}/${title}`;
       if (navigator.clipboard) {
         // Moderni način: Koristite Clipboard API
@@ -216,8 +221,13 @@ export default {
           })
           .catch((err) => {
             console.error("Greška pri kopiranju:", err);
+            this.notify("Failed", "error");
           });
       } else {
+        this.notify(
+          "You have successfully copied the link, you can now share this transcription",
+          "success"
+        );
         // Alternativni način: Kreirajte privremeni textarea element za kopiranje
         const textArea = document.createElement("textarea");
         textArea.value = url;
@@ -228,11 +238,13 @@ export default {
           console.log("URL kopiran u klipbord!");
         } catch (err) {
           console.error("Greška pri kopiranju:", err);
+          this.notify("Failed", "error");
         }
         document.body.removeChild(textArea);
       }
     },
     copy(text) {
+      this.notify("You have successfully copy this transcription", "success");
       const el = document.createElement("textarea");
       el.value = text;
       document.body.appendChild(el);
@@ -303,6 +315,8 @@ export default {
       return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     },
     async editTextBlur(id, editText) {
+      this.notify("You have successfully edited the transcription", "success");
+
       console.log(id, editText, "Edit teksta");
       try {
         await axios.post("https://certoe.de:8080/api/frontend/editPiece", {
@@ -327,12 +341,14 @@ export default {
             token: "test",
           }
         );
-
-        this.transcriptions = this.transcriptions.filter(
-          (transcript) => transcript.id !== transcriptId
+        this.$router.go(-1);
+        this.notify(
+          "You have successfully deleted this transcription",
+          "success"
         );
       } catch (error) {
         console.error(error);
+        this.notify("Failed", "error");
       }
     },
     fetchTranscriptions() {

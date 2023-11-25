@@ -4,6 +4,28 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import Pusher from 'pusher-js';
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
+import notificationMixin from './mixin/notificationMixin';
+
+const toastOptions = {
+  position: 'top-right',
+  timeout: 3000,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.6,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  closeButton: 'button',
+  icon: true,
+  rtl: false
+};
+
+Vue.mixin(notificationMixin);
+
+Vue.use(Toast, toastOptions);
 
 Vue.prototype.$bus = new Vue();
 

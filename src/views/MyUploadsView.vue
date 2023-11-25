@@ -229,6 +229,11 @@ export default {
   },
   methods: {
     share(id, title) {
+      this.notify(
+        "You have successfully copied the link, you can now share this transcription",
+        "success"
+      );
+
       const url = `${window.location.origin}/oneTranscription/${id}/${title}`;
       if (navigator.clipboard) {
         // Moderni način: Koristite Clipboard API
@@ -241,6 +246,10 @@ export default {
             console.error("Greška pri kopiranju:", err);
           });
       } else {
+        this.notify(
+          "You have successfully copied the link, you can now share this transcription",
+          "success"
+        );
         // Alternativni način: Kreirajte privremeni textarea element za kopiranje
         const textArea = document.createElement("textarea");
         textArea.value = url;
@@ -261,14 +270,6 @@ export default {
         params: { id: id, name: name },
       });
       this.textTerm = "";
-    },
-    copy(text) {
-      const el = document.createElement("textarea");
-      el.value = text;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
     },
     getPeople(keywordsString) {
       if (!keywordsString) {
@@ -332,18 +333,6 @@ export default {
       const seconds = Math.floor(time % 60);
       return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     },
-    async editTextBlur(id, editText) {
-      console.log(id, editText, "Edit teksta");
-      try {
-        await axios.post("https://certoe.de:8080/api/frontend/editPiece", {
-          pieceId: id,
-          editedContent: editText,
-          token: "test",
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    },
     async deleteTranscption(transcriptId) {
       console.log(transcriptId, "Korpa");
       try {
@@ -361,8 +350,13 @@ export default {
         this.transcriptions = this.transcriptions.filter(
           (transcript) => transcript.id !== transcriptId
         );
+        this.notify(
+          "You have successfully deleted this transcription",
+          "success"
+        );
       } catch (error) {
         console.error(error);
+        this.notify("Failed", "error");
       }
     },
     fetchTranscriptions() {
@@ -397,6 +391,7 @@ export default {
         .catch((error) => {
           console.log(error);
           this.loading = false;
+          this.notify("Failed", "error");
         });
     },
     loadMoreTranscriptions() {
