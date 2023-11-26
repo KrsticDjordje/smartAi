@@ -14,9 +14,9 @@ export default {
   },
   methods: {
     isIOS() {
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        return /iphone|ipad|ipod/.test(userAgent);
-      },
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    },
     addToHomeScreen() {
       if (this.installPrompt) {
         // Ako je prompt dostupan, pozovite ga
@@ -33,11 +33,13 @@ export default {
           // Resetujte instalacijski prompt
           this.installPrompt = null;
         });
-      },
+      }
     },
     showIOSInstructions() {
-        alert("Da dodate našu aplikaciju na početni ekran: otvorite Safari meni za deljenje i izaberite 'Add to Home Screen'.");
-      },
+      alert(
+        "Da dodate našu aplikaciju na početni ekran: otvorite Safari meni za deljenje i izaberite 'Add to Home Screen'."
+      );
+    },
   },
   mounted() {
     window.addEventListener("beforeinstallprompt", (e) => {

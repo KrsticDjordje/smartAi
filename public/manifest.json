@@ -5,6 +5,7 @@
     "display": "standalone",
     "background_color": "#FFFFFF",
     "description": "Opis vaše aplikacije",
+    "theme_color": "#5d5fef",
     "icons": [
         {
             "src": "https://certoe.de/img/LogoSmartScript.9fddb744.png",
@@ -16,5 +17,6 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ]
+    ],
+    "apple-mobile-web-app-status-bar-style": "black-translucent"
 }
