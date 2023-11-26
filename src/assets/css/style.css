@@ -325,7 +325,7 @@ button.btn-style.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--rounded.theme--li
 @media only screen and (min-width: 490px) {
 
     .desktop-version {
-        display: none
+        display: none !important;
     }
 }
 
