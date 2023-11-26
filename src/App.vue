@@ -23,6 +23,12 @@
         <v-list>
           <v-list-item-group>
             <!-- Navigacija -->
+            <v-list-item class="link">
+              <v-list-item-icon>
+                <v-icon>mdi-cellphone-screenshot</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title><add-icon-home-screen /></v-list-item-title>
+            </v-list-item>
             <v-list-item class="link" router :to="{ name: 'home' }">
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
@@ -225,12 +231,14 @@ import Login from "./components/auth/Login.vue";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import UserDropDown from "./components/auth/UserDropDown.vue";
+import AddIconHomeScreen from "./components/AddIconHomeScreen.vue";
 
 export default {
   components: {
     Search,
     Login,
     UserDropDown,
+    AddIconHomeScreen,
   },
   data() {
     return {
