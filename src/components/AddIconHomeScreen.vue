@@ -1,38 +1,44 @@
-<!-- U vašoj Vue komponenti -->
 <template>
   <div>
     <!-- Vaša Vue komponenta i sadržaj -->
-    <button @click="addToHomeScreen">Add on home screen</button>
+    <button @click="addToHomeScreen" v-if="installPrompt">
+      Add on home screen
+    </button>
+    <p v-else>Your browser does not support adding to home screen.</p>
   </div>
 </template>
   
   <script>
 export default {
+  data() {
+    return {
+      installPrompt: null,
+    };
+  },
   methods: {
     addToHomeScreen() {
-      if ("installPrompt" in window) {
+      if (this.installPrompt) {
         // Ako je prompt dostupan, pozovite ga
-        window.installPrompt.prompt();
+        this.installPrompt.prompt();
 
-        // Sačekajte da se korisnik odluči pre nego što se sakrije prompt
-        window.installPrompt.userChoice.then((choiceResult) => {
+        // Sačekajte da se korisnik odluči
+        this.installPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === "accepted") {
             console.log("Korisnik je prihvatio dodavanje na početni ekran");
           } else {
             console.log("Korisnik je odbio dodavanje na početni ekran");
           }
 
-          // Postavite instalacijski prompt na null da biste mogli ponovo zatražiti instalaciju
-          window.installPrompt = null;
+          // Resetujte instalacijski prompt
+          this.installPrompt = null;
         });
       }
     },
   },
   mounted() {
-    // Pratite install prompt događaj
-    window.addEventListener("beforeinstallprompt", (event) => {
-      // Spremite prompt da biste ga kasnije pozvali
-      window.installPrompt = event;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault(); // Sprečite odmah prikazivanje prompta
+      this.installPrompt = e; // Sačuvajte event za kasnije
     });
   },
 };
