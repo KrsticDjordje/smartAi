@@ -76,19 +76,76 @@
               <td>
                 <div class="d-flex align-items-center">
                   <v-spacer></v-spacer>
-                  <v-btn
-                    @click="
-                      translate(transcription.id, transcription.brief_title)
-                    "
-                    color="blue"
-                    text
-                    :disabled="
-                      !transcription.translations ||
-                      transcription.translations.length === 0
-                    "
+                  <v-dialog
+                    v-model="transcription.openDialogTranslations"
+                    fullscreen
+                    hide-overlay
+                    transition="dialog-bottom-transition"
                   >
-                    <v-icon>mdi-text-recognition</v-icon>
-                  </v-btn>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        color="blue"
+                        text
+                        :disabled="
+                          !transcription.translations ||
+                          transcription.translations.length === 0
+                        "
+                      >
+                        <v-icon>mdi-text-recognition</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-toolbar dark color="mainGradientColor">
+                        <v-btn
+                          icon
+                          dark
+                          @click="transcription.openDialogTranslations = false"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                        <v-toolbar-title>Translations</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                      </v-toolbar>
+                      <v-list three-line subheader>
+                        <v-list-item
+                          v-for="oneTranslation in transcription.translations"
+                          :key="oneTranslation.id"
+                        >
+                          <v-list-item-content>
+                            <v-card class="d-flex my-3">
+                              <v-list-item-title>{{
+                                oneTranslation.translated_language
+                              }}</v-list-item-title>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                class="mx-2"
+                                icon
+                                fab
+                                dark
+                                small
+                                @click="copy(oneTranslation.transcript)"
+                                color="#05004E"
+                              >
+                                <v-icon dark> mdi-content-copy </v-icon>
+                              </v-btn>
+                              <v-btn
+                                @click="deleteTranslation(oneTranslation.id)"
+                                color="red"
+                                text
+                              >
+                                <v-icon>mdi-delete-empty</v-icon>
+                              </v-btn>
+                            </v-card>
+                            <v-list-item-subtitle>{{
+                              oneTranslation.transcript
+                            }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-dialog>
                   <v-btn
                     @click="share(transcription.id, transcription.brief_title)"
                     color="teal"
@@ -263,6 +320,15 @@ export default {
         }
         document.body.removeChild(textArea);
       }
+    },
+    copy(text) {
+      this.notify("You have successfully copy text", "success");
+      const el = document.createElement("textarea");
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
     },
     routerLink(id, name) {
       this.$router.push({

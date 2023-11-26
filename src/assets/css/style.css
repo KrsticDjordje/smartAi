@@ -366,6 +366,10 @@ span.mdi.mdi-microphone {
     }
 }
 
+.mainGradientColor {
+    background: linear-gradient(93.96deg, #5D5FEF 6.46%, #0dcaf0 98.85%) !important;
+}
+
 .playRecording {
     background: linear-gradient(93.96deg, #5d92ef 6.46%, #de4646 98.85%) !important;
     padding: 10px 20px;

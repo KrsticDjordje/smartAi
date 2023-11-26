@@ -196,9 +196,9 @@
             <v-icon dark> mdi-file-edit </v-icon>
           </v-btn>
         </router-link>
-        <v-btn class="notification mx-2" outlined fab dark small color="orange">
-          <v-icon dark> mdi-bell-ring </v-icon>
-        </v-btn>
+        <!-- <v-btn class="notification mx-2" outlined fab dark small color="orange">
+          <v-icon dark> mdi-text-search </v-icon>
+        </v-btn> -->
 
         <UserDropDown />
       </v-app-bar>

@@ -103,7 +103,7 @@
 
                 <v-btn
                   type="submit"
-                  class="form-submit"
+                  class="form-submit mt-4"
                   :active="loading"
                   :disabled="
                     uploadLoadingBtn ||
@@ -147,17 +147,12 @@
   </div>
 </template>
 
-
-  
-  <script>
+<script>
 import axios from "axios";
-// import LoadingTranscription from "@/components/LoadingTranscription.vue";
 
 export default {
   name: "FileUpload",
-  components: {
-    // LoadingTranscription,
-  },
+  components: {},
   data() {
     return {
       showCode: false,
