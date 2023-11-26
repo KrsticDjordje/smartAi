@@ -7,12 +7,12 @@
     "description": "Opis vaše aplikacije",
     "icons": [
         {
-            "src": "@/assets/LogoSmartScript.png",
+            "src": "https://certoe.de/img/LogoSmartScript.9fddb744.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "@/assets/LogoSmartScript.png",
+            "src": "https://certoe.de/img/LogoSmartScript.9fddb744.png",
             "sizes": "512x512",
             "type": "image/png"
         }
