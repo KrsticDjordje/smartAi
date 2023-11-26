@@ -237,31 +237,50 @@ export default {
     },
   },
   methods: {
-    share(id, title) {
+    async share(id, title) {
       const url = `${window.location.origin}/oneTranscription/${id}/${title}`;
-      if (navigator.clipboard) {
-        // Moderni način: Koristite Clipboard API
-        navigator.clipboard
-          .writeText(url)
-          .then(() => {
-            console.log("URL kopiran u klipbord!");
-          })
-          .catch((err) => {
-            console.error("Greška pri kopiranju:", err);
+
+      try {
+        if (
+          navigator.userAgent.match(
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+          ) &&
+          navigator.share
+        ) {
+          // Provera da li je korisnik na mobilnom uređaju i da li podržava navigator.share
+          await navigator.share({
+            title: "Naslov vašeg dela",
+            text: "Opis vašeg dela",
+            url: url,
           });
-      } else {
-        // Alternativni način: Kreirajte privremeni textarea element za kopiranje
-        const textArea = document.createElement("textarea");
-        textArea.value = url;
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-          document.execCommand("copy");
-          console.log("URL kopiran u klipbord!");
-        } catch (err) {
-          console.error("Greška pri kopiranju:", err);
+
+          // Ako share uspešno završi, obavesti korisnika
+          this.notify(
+            "You have successfully shared this transcription",
+            "success"
+          );
+        } else if (navigator.clipboard) {
+          // Ako nije podržan navigator.share, koristi Clipboard API
+          await navigator.clipboard.writeText(url);
+
+          // Ako kopiranje u klipbord uspešno završi, obavesti korisnika
+          this.notify(
+            "You have successfully copied the link, you can now share this transcription",
+            "success"
+          );
+        } else {
+          // Ako nijedna opcija nije podržana, obavesti korisnika
+          this.notify(
+            "Sharing is not supported on this device or browser.",
+            "warning"
+          );
         }
-        document.body.removeChild(textArea);
+      } catch (error) {
+        console.error("Greška prilikom deljenja ili kopiranja:", error);
+        this.notify(
+          "Error sharing or copying the link. Please try again.",
+          "error"
+        );
       }
     },
     routerLink(id, name) {
