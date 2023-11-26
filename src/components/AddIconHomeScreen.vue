@@ -4,6 +4,7 @@
     <button v-if="!isAppInstalled" @click="addToHomeScreen">
       Add on home screen
     </button>
+    <div v-else>Installed</div>
   </div>
 </template>
   
