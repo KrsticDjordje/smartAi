@@ -1,10 +1,7 @@
 <template>
   <div>
     <!-- Vaša Vue komponenta i sadržaj -->
-    <button @click="addToHomeScreen" v-if="installPrompt">
-      Add on home screen
-    </button>
-    <p v-else>Your browser does not support adding to home screen.</p>
+    <button @click="addToHomeScreen">Add on home screen</button>
   </div>
 </template>
   

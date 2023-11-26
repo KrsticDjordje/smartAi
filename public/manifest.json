@@ -1,0 +1,20 @@
+{
+    "name": "SmartScript",
+    "short_name": "SmartScript",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "description": "Opis vaše aplikacije",
+    "icons": [
+        {
+            "src": "@/assets/LogoSmartScript.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "@/assets/LogoSmartScript.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
