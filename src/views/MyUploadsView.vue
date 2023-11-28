@@ -165,7 +165,7 @@
                       </v-btn>
                     </template>
                     <v-card>
-                      <v-card-title>Select Country</v-card-title>
+                      <v-card-title>Choose Language</v-card-title>
                       <v-divider></v-divider>
                       <v-card-text style="height: 300px">
                         <v-radio-group v-model="selectLanguage" column>
