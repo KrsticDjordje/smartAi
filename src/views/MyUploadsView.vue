@@ -577,7 +577,6 @@ export default {
         externalId: transcriptExternalId,
         userIds: [user.id],
         ownerId: user.id,
-        token: "test",
       };
 
       console.log(data);
