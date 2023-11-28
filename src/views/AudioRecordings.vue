@@ -193,6 +193,9 @@ export default {
     this.fetchTranscriptions();
     const userId = JSON.parse(localStorage.getItem("user")).id;
 
+    // Mapa za praćenje external_id-jeva koji su već provereni
+    const checkedExternalIds = {};
+
     this.$bus.$on("pusher-data-received", (newTranscription) => {
       if (newTranscription && typeof newTranscription === "object") {
         const transcriptionData = newTranscription.message
@@ -201,26 +204,54 @@ export default {
 
         // Provera da li se user_id poklapa
         if (transcriptionData.user_id === userId) {
-          const index = this.transcriptions.findIndex(
-            (t) => t.external_id === transcriptionData.external_id
-          );
+          if (!checkedExternalIds[transcriptionData.external_id]) {
+            // Prvi put kada se pojavi novi external_id, proveri type === "4"
+            if (transcriptionData.type === "4") {
+              const index = this.transcriptions.findIndex(
+                (t) => t.external_id === transcriptionData.external_id
+              );
 
-          if (index !== -1) {
-            // Ažuriranje postojećeg objekta
-            this.$set(this.transcriptions, index, {
-              ...this.transcriptions[index],
-              ...transcriptionData,
-            });
-            // Pomeranje ažuriranog elementa na početak niza
-            const updatedItem = this.transcriptions.splice(index, 1)[0];
-            this.transcriptions.unshift(updatedItem);
+              if (index !== -1) {
+                // Ažuriranje postojećeg objekta
+                this.$set(this.transcriptions, index, {
+                  ...this.transcriptions[index],
+                  ...transcriptionData,
+                });
+                // Pomeranje ažuriranog elementa na početak niza
+                const updatedItem = this.transcriptions.splice(index, 1)[0];
+                this.transcriptions.unshift(updatedItem);
+              } else {
+                // Dodavanje novog objekta na početak niza
+                this.transcriptions.unshift(transcriptionData);
+              }
+
+              // Obeležavanje external_id-a kao proverenog
+              checkedExternalIds[transcriptionData.external_id] = true;
+            }
           } else {
-            // Dodavanje novog objekta na početak niza
-            this.transcriptions.unshift(transcriptionData);
-          }
+            // External_id je već proveren, dodaj transkripciju bez provere type-a
+            const index = this.transcriptions.findIndex(
+              (t) => t.external_id === transcriptionData.external_id
+            );
 
-          if (transcriptionData.finished === true) {
-            this.fetchTranscriptions();
+            if (index !== -1) {
+              // Ažuriranje postojećeg objekta
+              this.$set(this.transcriptions, index, {
+                ...this.transcriptions[index],
+                ...transcriptionData,
+              });
+              // Pomeranje ažuriranog elementa na početak niza
+              const updatedItem = this.transcriptions.splice(index, 1)[0];
+              this.transcriptions.unshift(updatedItem);
+            } else {
+              // Dodavanje novog objekta na početak niza
+              this.transcriptions.unshift(transcriptionData);
+            }
+
+            // Provera da li je transkripcija završena
+            if (transcriptionData.finished === true) {
+              this.fetchTranscriptions();
+            }
           }
         }
       }

@@ -153,9 +153,110 @@
                   >
                     <v-icon>mdi-share-variant</v-icon>
                   </v-btn>
-                  <v-btn color="deep-purple" text>
-                    <v-icon>mdi-translate</v-icon>
-                  </v-btn>
+
+                  <v-dialog
+                    v-model="transcription.openTranslate"
+                    scrollable
+                    max-width="300px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-bind="attrs" v-on="on" color="deep-purple" text>
+                        <v-icon>mdi-translate</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>Select Country</v-card-title>
+                      <v-divider></v-divider>
+                      <v-card-text style="height: 300px">
+                        <v-radio-group v-model="selectLanguage" column>
+                          <v-radio label="English" value="English"></v-radio>
+                          <v-radio label="Chinese" value="Chinese"></v-radio>
+                          <v-radio label="German" value="German"></v-radio>
+                          <v-radio label="Italian" value="Italian"></v-radio>
+                          <v-radio label="Spanish" value="Spanish"></v-radio>
+                          <v-radio label="French" value="French"></v-radio>
+                          <hr />
+                          <v-radio
+                            label="Azerbaijani"
+                            value="Azerbaijani"
+                          ></v-radio>
+                          <v-radio label="Bosnian" value="Bosnian"></v-radio>
+                          <v-radio
+                            label="Bulgarian"
+                            value="Bulgarian"
+                          ></v-radio>
+                          <v-radio label="Croatian" value="Croatian"></v-radio>
+                          <v-radio label="Czech" value="Czech"></v-radio>
+                          <v-radio label="Danish" value="Danish"></v-radio>
+                          <v-radio label="Dutch" value="Dutch"></v-radio>
+                          <v-radio label="Estonian" value="Estonian"></v-radio>
+                          <v-radio label="Finnish" value="Finnish"></v-radio>
+                          <v-radio
+                            label="Hungarian"
+                            value="Hungarian"
+                          ></v-radio>
+                          <v-radio label="Japanese" value="Japanese"></v-radio>
+                          <v-radio label="Korean" value="Korean"></v-radio>
+                          <v-radio label="Greek" value="Greek"></v-radio>
+                          <v-radio label="Latvian" value="Latvian"></v-radio>
+                          <v-radio
+                            label="Lithuanian"
+                            value="Lithuanian"
+                          ></v-radio>
+                          <v-radio
+                            label="Macedonian"
+                            value="Macedonian"
+                          ></v-radio>
+                          <v-radio
+                            label="Norwegian"
+                            value="Norwegian"
+                          ></v-radio>
+                          <v-radio
+                            label="Portuguese"
+                            value="Portuguese"
+                          ></v-radio>
+                          <v-radio label="Polish" value="Polish"></v-radio>
+                          <v-radio label="Romanian" value="Romanian"></v-radio>
+                          <v-radio label="Russian" value="Russian"></v-radio>
+                          <v-radio label="Serbian" value="Serbian"></v-radio>
+                          <v-radio
+                            label="Slovenian"
+                            value="Slovenian"
+                          ></v-radio>
+                          <v-radio label="Slovak" value="Slovak"></v-radio>
+                          <v-radio label="Swedish" value="Swedish"></v-radio>
+                          <v-radio label="Turkish" value="Turkish"></v-radio>
+                          <v-radio
+                            label="Ukrainian"
+                            value="Ukrainian"
+                          ></v-radio>
+                        </v-radio-group>
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="transcription.openTranslate = false"
+                        >
+                          Close
+                        </v-btn>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="
+                            translateSend(
+                              transcription.external_id,
+                              transcription.original_language
+                            )
+                          "
+                        >
+                          Save
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+
                   <v-dialog
                     v-model="transcription.openDialogDelete"
                     max-width="600px"
@@ -236,6 +337,7 @@ export default {
       loading: false,
       transcriptions: null,
       currentPage: 1,
+      selectLanguage: "",
     };
   },
   watch: {
@@ -251,6 +353,9 @@ export default {
 
     const userId = JSON.parse(localStorage.getItem("user")).id;
 
+    // Mapa za praćenje external_id-jeva koji su već provereni
+    const checkedExternalIds = {};
+
     this.$bus.$on("pusher-data-received", (newTranscription) => {
       if (newTranscription && typeof newTranscription === "object") {
         const transcriptionData = newTranscription.message
@@ -259,26 +364,54 @@ export default {
 
         // Provera da li se user_id poklapa
         if (transcriptionData.user_id === userId) {
-          const index = this.transcriptions.findIndex(
-            (t) => t.external_id === transcriptionData.external_id
-          );
+          if (!checkedExternalIds[transcriptionData.external_id]) {
+            // Prvi put kada se pojavi novi external_id, proveri type === "1"
+            if (transcriptionData.type === "1") {
+              const index = this.transcriptions.findIndex(
+                (t) => t.external_id === transcriptionData.external_id
+              );
 
-          if (index !== -1) {
-            // Ažuriranje postojećeg objekta
-            this.$set(this.transcriptions, index, {
-              ...this.transcriptions[index],
-              ...transcriptionData,
-            });
-            // Pomeranje ažuriranog elementa na početak niza
-            const updatedItem = this.transcriptions.splice(index, 1)[0];
-            this.transcriptions.unshift(updatedItem);
+              if (index !== -1) {
+                // Ažuriranje postojećeg objekta
+                this.$set(this.transcriptions, index, {
+                  ...this.transcriptions[index],
+                  ...transcriptionData,
+                });
+                // Pomeranje ažuriranog elementa na početak niza
+                const updatedItem = this.transcriptions.splice(index, 1)[0];
+                this.transcriptions.unshift(updatedItem);
+              } else {
+                // Dodavanje novog objekta na početak niza
+                this.transcriptions.unshift(transcriptionData);
+              }
+
+              // Obeležavanje external_id-a kao proverenog
+              checkedExternalIds[transcriptionData.external_id] = true;
+            }
           } else {
-            // Dodavanje novog objekta na početak niza
-            this.transcriptions.unshift(transcriptionData);
-          }
+            // External_id je već proveren, dodaj transkripciju bez provere type-a
+            const index = this.transcriptions.findIndex(
+              (t) => t.external_id === transcriptionData.external_id
+            );
 
-          if (transcriptionData.finished === true) {
-            this.fetchTranscriptions();
+            if (index !== -1) {
+              // Ažuriranje postojećeg objekta
+              this.$set(this.transcriptions, index, {
+                ...this.transcriptions[index],
+                ...transcriptionData,
+              });
+              // Pomeranje ažuriranog elementa na početak niza
+              const updatedItem = this.transcriptions.splice(index, 1)[0];
+              this.transcriptions.unshift(updatedItem);
+            } else {
+              // Dodavanje novog objekta na početak niza
+              this.transcriptions.unshift(transcriptionData);
+            }
+
+            // Provera da li je transkripcija završena
+            if (transcriptionData.finished === true) {
+              this.fetchTranscriptions();
+            }
           }
         }
       }
@@ -428,6 +561,38 @@ export default {
         );
         this.notify(
           "You have successfully deleted this transcription",
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+        this.notify("Failed", "error");
+      }
+    },
+    async translateSend(transcriptExternalId, transcriptOriginalLang) {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      const data = {
+        originalLanguage: transcriptOriginalLang,
+        translatedLanguage: this.selectLanguage,
+        externalId: transcriptExternalId,
+        userIds: [user.id],
+        ownerId: user.id,
+        token: "test",
+      };
+
+      console.log(data);
+
+      try {
+        await axios.post(
+          "https://certoe.de:5000/v1/translateForTranscription",
+          data
+        );
+
+        this.transcriptions = this.transcriptions.filter(
+          (transcript) => transcript.id !== transcriptId
+        );
+        this.notify(
+          "You have successfully sent your text for translation",
           "success"
         );
       } catch (error) {
