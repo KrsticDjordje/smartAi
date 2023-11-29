@@ -80,7 +80,7 @@ export default {
     return {
       loading: true,
       transcriptions: null,
-      currentPage: 0,
+      currentPage: 1,
     };
   },
   mounted() {
@@ -134,11 +134,20 @@ export default {
         .post("https://certoe.de:8080/api/frontend/getTranslationsForUser", {
           userId: userId,
           token: "test",
+          limit: 10,
+          page: this.currentPage,
         })
         .then((response) => {
           console.log(response.data.result.translations);
-          this.transcriptions = response.data.result.translations;
 
+          if (!this.transcriptions) {
+            this.transcriptions = response.data.result.translations;
+          } else {
+            this.transcriptions = [
+              ...this.transcriptions,
+              ...response.data.result.translations,
+            ];
+          }
           this.loading = false;
         })
         .catch((error) => {
@@ -147,6 +156,7 @@ export default {
         });
     },
     loadMoreTranscriptions() {
+      this.loading = true;
       this.currentPage += 1;
       this.fetchTranscriptions();
     },
