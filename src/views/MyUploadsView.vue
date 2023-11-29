@@ -353,65 +353,31 @@ export default {
 
     const userId = JSON.parse(localStorage.getItem("user")).id;
 
-    // Mapa za praćenje external_id-jeva koji su već provereni
-    const checkedExternalIds = {};
-
     this.$bus.$on("pusher-data-received", (newTranscription) => {
       if (newTranscription && typeof newTranscription === "object") {
         const transcriptionData = newTranscription.message
           ? newTranscription.message
           : newTranscription;
-
         // Provera da li se user_id poklapa
         if (transcriptionData.user_id === userId) {
-          if (!checkedExternalIds[transcriptionData.external_id]) {
-            // Prvi put kada se pojavi novi external_id, proveri type === "1"
-            if (transcriptionData.type === "1") {
-              const index = this.transcriptions.findIndex(
-                (t) => t.external_id === transcriptionData.external_id
-              );
-
-              if (index !== -1) {
-                // Ažuriranje postojećeg objekta
-                this.$set(this.transcriptions, index, {
-                  ...this.transcriptions[index],
-                  ...transcriptionData,
-                });
-                // Pomeranje ažuriranog elementa na početak niza
-                const updatedItem = this.transcriptions.splice(index, 1)[0];
-                this.transcriptions.unshift(updatedItem);
-              } else {
-                // Dodavanje novog objekta na početak niza
-                this.transcriptions.unshift(transcriptionData);
-              }
-
-              // Obeležavanje external_id-a kao proverenog
-              checkedExternalIds[transcriptionData.external_id] = true;
-            }
+          const index = this.transcriptions.findIndex(
+            (t) => t.external_id === transcriptionData.external_id
+          );
+          if (index !== -1) {
+            // Ažuriranje postojećeg objekta
+            this.$set(this.transcriptions, index, {
+              ...this.transcriptions[index],
+              ...transcriptionData,
+            });
+            // Pomeranje ažuriranog elementa na početak niza
+            const updatedItem = this.transcriptions.splice(index, 1)[0];
+            this.transcriptions.unshift(updatedItem);
           } else {
-            // External_id je već proveren, dodaj transkripciju bez provere type-a
-            const index = this.transcriptions.findIndex(
-              (t) => t.external_id === transcriptionData.external_id
-            );
-
-            if (index !== -1) {
-              // Ažuriranje postojećeg objekta
-              this.$set(this.transcriptions, index, {
-                ...this.transcriptions[index],
-                ...transcriptionData,
-              });
-              // Pomeranje ažuriranog elementa na početak niza
-              const updatedItem = this.transcriptions.splice(index, 1)[0];
-              this.transcriptions.unshift(updatedItem);
-            } else {
-              // Dodavanje novog objekta na početak niza
-              this.transcriptions.unshift(transcriptionData);
-            }
-
-            // Provera da li je transkripcija završena
-            if (transcriptionData.finished === true) {
-              this.fetchTranscriptions();
-            }
+            // Dodavanje novog objekta na početak niza
+            this.transcriptions.unshift(transcriptionData);
+          }
+          if (transcriptionData.finished === true) {
+            this.fetchTranscriptions();
           }
         }
       }
@@ -531,16 +497,45 @@ export default {
         year: "numeric",
         month: "short",
         day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: false,
       };
-      return new Date(date).toLocaleString("en-US", options);
+      return new Date(date).toLocaleString("en-GB", options);
     },
     formatTime(time) {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
       return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    },
+    async deleteTranslation(transcriptId) {
+      console.log(transcriptId, "Korpa transkription");
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        await axios.post(
+          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          {
+            userId: user.id,
+            transcriptionId: transcriptId,
+            token: "test",
+          }
+        );
+        this.transcriptions.forEach((transcription) => {
+          transcription.translations = transcription.translations.filter(
+            (translation) => translation.id !== transcriptId
+          );
+        });
+        this.$forceUpdate();
+
+        this.notify(
+          "You have successfully deleted this translation",
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+        this.notify("Failed", "error");
+      }
     },
     async deleteTranscption(transcriptId) {
       console.log(transcriptId, "Korpa");

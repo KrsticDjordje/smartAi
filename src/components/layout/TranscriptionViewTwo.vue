@@ -226,11 +226,11 @@ export default {
         year: "numeric",
         month: "short",
         day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: false,
       };
-      return new Date(date).toLocaleString("en-US", options);
+      return new Date(date).toLocaleString("en-GB", options);
     },
     formatTime(time) {
       const minutes = Math.floor(time / 60);

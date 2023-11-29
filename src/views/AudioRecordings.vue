@@ -1,6 +1,5 @@
 <template>
   <div>
-    <UploadFIle />
     <div
       class="mx-auto mb-2 mt-2 transcriptionBox content-container box"
       :class="{
@@ -76,19 +75,76 @@
               <td>
                 <div class="d-flex align-items-center">
                   <v-spacer></v-spacer>
-                  <v-btn
-                    @click="
-                      translate(transcription.id, transcription.brief_title)
-                    "
-                    color="blue"
-                    text
-                    :disabled="
-                      !transcription.translations ||
-                      transcription.translations.length === 0
-                    "
+                  <v-dialog
+                    v-model="transcription.openDialogTranslations"
+                    fullscreen
+                    hide-overlay
+                    transition="dialog-bottom-transition"
                   >
-                    <v-icon>mdi-text-recognition</v-icon>
-                  </v-btn>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        color="blue"
+                        text
+                        :disabled="
+                          !transcription.translations ||
+                          transcription.translations.length === 0
+                        "
+                      >
+                        <v-icon>mdi-text-recognition</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-toolbar dark color="mainGradientColor">
+                        <v-btn
+                          icon
+                          dark
+                          @click="transcription.openDialogTranslations = false"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                        <v-toolbar-title>Translations</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                      </v-toolbar>
+                      <v-list three-line subheader>
+                        <v-list-item
+                          v-for="oneTranslation in transcription.translations"
+                          :key="oneTranslation.id"
+                        >
+                          <v-list-item-content>
+                            <v-card class="d-flex my-3">
+                              <v-list-item-title>{{
+                                oneTranslation.translated_language
+                              }}</v-list-item-title>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                class="mx-2"
+                                icon
+                                fab
+                                dark
+                                small
+                                @click="copy(oneTranslation.transcript)"
+                                color="#05004E"
+                              >
+                                <v-icon dark> mdi-content-copy </v-icon>
+                              </v-btn>
+                              <v-btn
+                                @click="deleteTranslation(oneTranslation.id)"
+                                color="red"
+                                text
+                              >
+                                <v-icon>mdi-delete-empty</v-icon>
+                              </v-btn>
+                            </v-card>
+                            <v-list-item-subtitle>{{
+                              oneTranslation.transcript
+                            }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-card>
+                  </v-dialog>
                   <v-btn
                     @click="share(transcription.id, transcription.brief_title)"
                     color="teal"
@@ -96,9 +152,110 @@
                   >
                     <v-icon>mdi-share-variant</v-icon>
                   </v-btn>
-                  <v-btn color="deep-purple" text>
-                    <v-icon>mdi-translate</v-icon>
-                  </v-btn>
+
+                  <v-dialog
+                    v-model="transcription.openTranslate"
+                    scrollable
+                    max-width="300px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn v-bind="attrs" v-on="on" color="deep-purple" text>
+                        <v-icon>mdi-translate</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>Choose Language</v-card-title>
+                      <v-divider></v-divider>
+                      <v-card-text style="height: 300px">
+                        <v-radio-group v-model="selectLanguage" column>
+                          <v-radio label="English" value="English"></v-radio>
+                          <v-radio label="Chinese" value="Chinese"></v-radio>
+                          <v-radio label="German" value="German"></v-radio>
+                          <v-radio label="Italian" value="Italian"></v-radio>
+                          <v-radio label="Spanish" value="Spanish"></v-radio>
+                          <v-radio label="French" value="French"></v-radio>
+                          <hr />
+                          <v-radio
+                            label="Azerbaijani"
+                            value="Azerbaijani"
+                          ></v-radio>
+                          <v-radio label="Bosnian" value="Bosnian"></v-radio>
+                          <v-radio
+                            label="Bulgarian"
+                            value="Bulgarian"
+                          ></v-radio>
+                          <v-radio label="Croatian" value="Croatian"></v-radio>
+                          <v-radio label="Czech" value="Czech"></v-radio>
+                          <v-radio label="Danish" value="Danish"></v-radio>
+                          <v-radio label="Dutch" value="Dutch"></v-radio>
+                          <v-radio label="Estonian" value="Estonian"></v-radio>
+                          <v-radio label="Finnish" value="Finnish"></v-radio>
+                          <v-radio
+                            label="Hungarian"
+                            value="Hungarian"
+                          ></v-radio>
+                          <v-radio label="Japanese" value="Japanese"></v-radio>
+                          <v-radio label="Korean" value="Korean"></v-radio>
+                          <v-radio label="Greek" value="Greek"></v-radio>
+                          <v-radio label="Latvian" value="Latvian"></v-radio>
+                          <v-radio
+                            label="Lithuanian"
+                            value="Lithuanian"
+                          ></v-radio>
+                          <v-radio
+                            label="Macedonian"
+                            value="Macedonian"
+                          ></v-radio>
+                          <v-radio
+                            label="Norwegian"
+                            value="Norwegian"
+                          ></v-radio>
+                          <v-radio
+                            label="Portuguese"
+                            value="Portuguese"
+                          ></v-radio>
+                          <v-radio label="Polish" value="Polish"></v-radio>
+                          <v-radio label="Romanian" value="Romanian"></v-radio>
+                          <v-radio label="Russian" value="Russian"></v-radio>
+                          <v-radio label="Serbian" value="Serbian"></v-radio>
+                          <v-radio
+                            label="Slovenian"
+                            value="Slovenian"
+                          ></v-radio>
+                          <v-radio label="Slovak" value="Slovak"></v-radio>
+                          <v-radio label="Swedish" value="Swedish"></v-radio>
+                          <v-radio label="Turkish" value="Turkish"></v-radio>
+                          <v-radio
+                            label="Ukrainian"
+                            value="Ukrainian"
+                          ></v-radio>
+                        </v-radio-group>
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="transcription.openTranslate = false"
+                        >
+                          Close
+                        </v-btn>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="
+                            translateSend(
+                              transcription.external_id,
+                              transcription.original_language
+                            )
+                          "
+                        >
+                          Save
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+
                   <v-dialog
                     v-model="transcription.openDialogDelete"
                     max-width="600px"
@@ -164,11 +321,10 @@
   <script>
 import axios from "axios";
 import AudioPlayer from "@/components/AudioPlayer.vue";
-import UploadFIle from "@/components/UploadFile.vue";
 
 export default {
   name: "GroupUploads",
-  components: { AudioPlayer, UploadFIle },
+  components: { AudioPlayer },
   props: {
     groupId: {
       type: Number,
@@ -179,6 +335,7 @@ export default {
       loading: false,
       transcriptions: null,
       currentPage: 1,
+      selectLanguage: "",
     };
   },
   watch: {
@@ -191,75 +348,38 @@ export default {
   },
   mounted() {
     this.fetchTranscriptions();
-    const userId = JSON.parse(localStorage.getItem("user")).id;
 
-    // Mapa za praćenje external_id-jeva koji su već provereni
-    const checkedExternalIds = {};
+    const userId = JSON.parse(localStorage.getItem("user")).id;
 
     this.$bus.$on("pusher-data-received", (newTranscription) => {
       if (newTranscription && typeof newTranscription === "object") {
         const transcriptionData = newTranscription.message
           ? newTranscription.message
           : newTranscription;
-
         // Provera da li se user_id poklapa
         if (transcriptionData.user_id === userId) {
-          if (!checkedExternalIds[transcriptionData.external_id]) {
-            // Prvi put kada se pojavi novi external_id, proveri type === "4"
-            if (transcriptionData.type === "4") {
-              const index = this.transcriptions.findIndex(
-                (t) => t.external_id === transcriptionData.external_id
-              );
-
-              if (index !== -1) {
-                // Ažuriranje postojećeg objekta
-                this.$set(this.transcriptions, index, {
-                  ...this.transcriptions[index],
-                  ...transcriptionData,
-                });
-                // Pomeranje ažuriranog elementa na početak niza
-                const updatedItem = this.transcriptions.splice(index, 1)[0];
-                this.transcriptions.unshift(updatedItem);
-              } else {
-                // Dodavanje novog objekta na početak niza
-                this.transcriptions.unshift(transcriptionData);
-              }
-
-              // Obeležavanje external_id-a kao proverenog
-              checkedExternalIds[transcriptionData.external_id] = true;
-            }
+          const index = this.transcriptions.findIndex(
+            (t) => t.external_id === transcriptionData.external_id
+          );
+          if (index !== -1) {
+            // Ažuriranje postojećeg objekta
+            this.$set(this.transcriptions, index, {
+              ...this.transcriptions[index],
+              ...transcriptionData,
+            });
+            // Pomeranje ažuriranog elementa na početak niza
+            const updatedItem = this.transcriptions.splice(index, 1)[0];
+            this.transcriptions.unshift(updatedItem);
           } else {
-            // External_id je već proveren, dodaj transkripciju bez provere type-a
-            const index = this.transcriptions.findIndex(
-              (t) => t.external_id === transcriptionData.external_id
-            );
-
-            if (index !== -1) {
-              // Ažuriranje postojećeg objekta
-              this.$set(this.transcriptions, index, {
-                ...this.transcriptions[index],
-                ...transcriptionData,
-              });
-              // Pomeranje ažuriranog elementa na početak niza
-              const updatedItem = this.transcriptions.splice(index, 1)[0];
-              this.transcriptions.unshift(updatedItem);
-            } else {
-              // Dodavanje novog objekta na početak niza
-              this.transcriptions.unshift(transcriptionData);
-            }
-
-            // Provera da li je transkripcija završena
-            if (transcriptionData.finished === true) {
-              this.fetchTranscriptions();
-            }
+            // Dodavanje novog objekta na početak niza
+            this.transcriptions.unshift(transcriptionData);
+          }
+          if (transcriptionData.finished === true) {
+            this.fetchTranscriptions();
           }
         }
       }
     });
-  },
-  beforeDestroy() {
-    // Uklanjanje osluškivača kada komponenta nije više aktivna
-    this.$bus.$off("pusher-data-received");
   },
   methods: {
     async share(id, title) {
@@ -308,20 +428,21 @@ export default {
         );
       }
     },
-    routerLink(id, name) {
-      this.$router.push({
-        name: "oneTranscription",
-        params: { id: id, name: name },
-      });
-      this.textTerm = "";
-    },
     copy(text) {
+      this.notify("You have successfully copy text", "success");
       const el = document.createElement("textarea");
       el.value = text;
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
       document.body.removeChild(el);
+    },
+    routerLink(id, name) {
+      this.$router.push({
+        name: "oneTranscription",
+        params: { id: id, name: name },
+      });
+      this.textTerm = "";
     },
     getPeople(keywordsString) {
       if (!keywordsString) {
@@ -374,27 +495,44 @@ export default {
         year: "numeric",
         month: "short",
         day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: false,
       };
-      return new Date(date).toLocaleString("en-US", options);
+      return new Date(date).toLocaleString("en-GB", options);
     },
     formatTime(time) {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
       return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     },
-    async editTextBlur(id, editText) {
-      console.log(id, editText, "Edit teksta");
+    async deleteTranslation(transcriptId) {
+      console.log(transcriptId, "Korpa transkription");
       try {
-        await axios.post("https://certoe.de:8080/api/frontend/editPiece", {
-          pieceId: id,
-          editedContent: editText,
-          token: "test",
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        await axios.post(
+          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          {
+            userId: user.id,
+            transcriptionId: transcriptId,
+            token: "test",
+          }
+        );
+        this.transcriptions.forEach((transcription) => {
+          transcription.translations = transcription.translations.filter(
+            (translation) => translation.id !== transcriptId
+          );
         });
+        this.$forceUpdate();
+
+        this.notify(
+          "You have successfully deleted this translation",
+          "success"
+        );
       } catch (error) {
         console.error(error);
+        this.notify("Failed", "error");
       }
     },
     async deleteTranscption(transcriptId) {
@@ -414,21 +552,67 @@ export default {
         this.transcriptions = this.transcriptions.filter(
           (transcript) => transcript.id !== transcriptId
         );
+        this.notify(
+          "You have successfully deleted this transcription",
+          "success"
+        );
       } catch (error) {
         console.error(error);
+        this.notify("Failed", "error");
+      }
+    },
+    async translateSend(transcriptExternalId, transcriptOriginalLang) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userIdAsArray = JSON.stringify([user.id]);
+      const data = {
+        originalLanguage: transcriptOriginalLang,
+        translatedLanguage: this.selectLanguage,
+        externalId: transcriptExternalId,
+        userIds: userIdAsArray,
+        ownerId: user.id,
+      };
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      console.log(data);
+
+      try {
+        await axios.post(
+          "https://certoe.de:5000/v1/translateForTranscription",
+          data,
+          config
+        );
+        this.notify(
+          "You have successfully sent your text for translation",
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+        this.notify("Failed", "error");
       }
     },
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const roleId = JSON.parse(localStorage.getItem("user")).role_id;
+
+      const data = {
+        userId: userId,
+        limit: 20,
+        page: this.currentPage,
+        token: "test",
+        typeOfTranscription: 4,
+      };
+
+      console.log(data, "Za prikaz upload-a");
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForUser", {
-          userId: userId,
-          limit: 5,
-          page: this.currentPage,
-          token: "test",
-          typeOfTranscription: 4,
-        })
+        .post(
+          "https://certoe.de:8080/api/frontend/getTranscriptionsForUser",
+          data
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {
@@ -444,6 +628,7 @@ export default {
         .catch((error) => {
           console.log(error);
           this.loading = false;
+          this.notify("Failed", "error");
         });
     },
     loadMoreTranscriptions() {
@@ -451,6 +636,10 @@ export default {
       this.currentPage += 1;
       this.fetchTranscriptions();
     },
+  },
+  beforeDestroy() {
+    // Uklanjanje osluškivača kada komponenta nije više aktivna
+    this.$bus.$off("pusher-data-received");
   },
 };
 </script>

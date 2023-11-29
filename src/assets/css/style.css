@@ -473,49 +473,6 @@ button.deleteFolder {
     font-size: 14px !important;
 }
 
-audio {
-    background-color: #91adf5;
-    height: 100px;
-    padding: 23px 5px;
-    position: sticky;
-    bottom: 12px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin: 0 auto;
-}
-
-/* Boja za pozadinu dugmadi reprodukcije, pauze i stop */
-audio::-webkit-media-controls-panel {
-    background-color: #91adf5;
-    /* Postavite željenu boju pozadine */
-}
-
-/* Boja za ikone reprodukcije, pauze i stop */
-audio::-webkit-media-controls-play-button,
-audio::-webkit-media-controls-pause-button,
-audio::-webkit-media-controls-stop-button {
-    color: #fff;
-    /* Postavite željenu boju ikona */
-}
-
-/* Boja za progresnu traku reprodukcije */
-audio::-webkit-media-controls-current-time-display,
-audio::-webkit-media-controls-time-remaining-display,
-audio::-webkit-media-controls-seek-back-button,
-audio::-webkit-media-controls-seek-forward-button {
-    color: #000;
-    /* Postavite željenu boju teksta i ikona */
-}
-
-/* Boja za progresnu traku reprodukcije */
-audio::-webkit-media-controls-timeline {
-    color: #fff;
-    /* Postavite željenu boju trake */
-}
-
-/* Boja za traku punjenja progresne trake reprodukcije */
-audio::-webkit-media-controls-timeline-progress-bar {
-    background-color: #fff;
-    /* Postavite željenu boju trake punjenja */
+.date-time {
+    font-size: 14px !important;
 }

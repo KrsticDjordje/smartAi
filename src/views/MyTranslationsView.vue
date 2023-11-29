@@ -14,6 +14,10 @@
           indeterminate
         ></v-progress-linear>
       </template>
+      <p class="text-right mr-4 mt-2 mb-0 date-time">
+        <span class="mdi mdi-timer-edit"></span>
+        {{ formatDateTranscription(transcription.created_at) }}
+      </p>
       <div class="d-flex align-items-center wrap-reverse-mobile">
         <v-card-title>{{ transcription.document_name }}</v-card-title>
         <v-spacer></v-spacer>
@@ -43,11 +47,11 @@
 
       <v-card-text>
         <v-chip-group active-class="deep-purple accent-4 white--text" column>
-          <v-chip class="people"
-            >Language: {{ transcription.target_language }}</v-chip
-          >
+          <v-chip class="people">Type: Translations</v-chip>
 
-          <v-chip class="keyword">Type: Translations</v-chip>
+          <v-chip class="keyword">
+            Language: {{ transcription.translated_language }}</v-chip
+          >
         </v-chip-group>
       </v-card-text>
     </div>
@@ -83,6 +87,17 @@ export default {
     this.fetchTranscriptions();
   },
   methods: {
+    formatDateTranscription(date) {
+      const options = {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+      return new Date(date).toLocaleString("en-GB", options);
+    },
     copy(text) {
       this.notify("You have successfully copy text", "success");
       const el = document.createElement("textarea");
