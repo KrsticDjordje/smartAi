@@ -199,7 +199,11 @@
               ? "Brief subtitle"
               : oneChunk.brief_title
           }}</v-card-subtitle> -->
-          <p class="mx-3 mb-0 d-flex align-center text-left">
+          <p
+            class="mx-3 mb-0 d-flex align-center text-left"
+            style="cursor: pointer"
+            @click="goToBeginningTime(oneChunk)"
+          >
             <span class="mdi mdi-volume-high mx-1"></span>
             {{ formatTime(oneChunk.beginning_time) }} -
             {{ formatTime(oneChunk.concluding_time) }}
@@ -229,14 +233,13 @@
             ></v-textarea>
           </template>
         </v-edit-dialog>
-
-        <!-- <audio-player /> -->
-        <audio ref="recordedAudio" controls>
-          <source src="https://www.computerhope.com/jargon/m/example.mp3" />
-          Your browser does not support the audio element.
-        </audio>
       </div>
     </div>
+    <!-- <audio-player /> -->
+    <audio ref="recordedAudio" controls>
+      <source src="https://www.computerhope.com/jargon/m/example.mp3" />
+      Your browser does not support the audio element.
+    </audio>
   </div>
 </template>
       
@@ -261,9 +264,12 @@ export default {
     this.fetchTranscriptions();
   },
   methods: {
+    goToBeginningTime(oneChunk) {
+      const beginningTime = oneChunk.beginning_time;
+      this.$refs.recordedAudio.currentTime = beginningTime;
+    },
     async share(id, title) {
       const url = `${window.location.origin}/oneTranscription/${id}/${title}`;
-
       try {
         if (
           navigator.userAgent.match(
