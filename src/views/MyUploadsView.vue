@@ -570,13 +570,19 @@ export default {
     },
     async translateSend(transcriptExternalId, transcriptOriginalLang) {
       const user = JSON.parse(localStorage.getItem("user"));
-
+      const userIdAsArray = JSON.stringify([user.id]);
       const data = {
         originalLanguage: transcriptOriginalLang,
         translatedLanguage: this.selectLanguage,
         externalId: transcriptExternalId,
-        userIds: [user.id],
+        userIds: userIdAsArray,
         ownerId: user.id,
+      };
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       };
 
       console.log(data);
@@ -584,11 +590,8 @@ export default {
       try {
         await axios.post(
           "https://certoe.de:5000/v1/translateForTranscription",
-          data
-        );
-
-        this.transcriptions = this.transcriptions.filter(
-          (transcript) => transcript.id !== transcriptId
+          data,
+          config
         );
         this.notify(
           "You have successfully sent your text for translation",
