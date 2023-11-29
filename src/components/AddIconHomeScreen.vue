@@ -10,8 +10,8 @@
       Install on your phone (iOS)
     </button>
 
-    <!-- Poruka kada je aplikacija instalirana -->
-    <div v-else>Installed</div>
+    <!-- Poruka kada je aplikacija instalirana (samo za Android) -->
+    <div v-if="isAppInstalled && !isIOS()">Installed</div>
   </div>
 </template>
 
@@ -24,18 +24,22 @@ export default {
     };
   },
   methods: {
-    // Proverava da li je uređaj iOS
     isIOS() {
       const userAgent = window.navigator.userAgent.toLowerCase();
       return /iphone|ipad|ipod/.test(userAgent);
     },
-    // Proverava da li je aplikacija već instalirana
     checkAppInstalled() {
-      this.isAppInstalled = window.matchMedia(
-        "(display-mode: standalone)"
-      ).matches;
+      // Posebna logika za Android i iOS
+      if (this.isIOS()) {
+        // iOS ne podržava beforeinstallprompt, pa se oslanjamo na standalone mod
+        this.isAppInstalled = window.matchMedia(
+          "(display-mode: standalone)"
+        ).matches;
+      } else {
+        // Za Android, proveravamo installPrompt
+        this.isAppInstalled = !!this.installPrompt;
+      }
     },
-    // Funkcija za dodavanje aplikacije na početni ekran na Androidu
     addToHomeScreen() {
       if (this.installPrompt) {
         this.installPrompt.prompt();
@@ -45,10 +49,9 @@ export default {
         });
       }
     },
-    // Prikazuje instrukcije za iOS
     showIOSInstructions() {
       alert(
-        "To add our app to your home screen: open Safari's sharing menu and select 'Add to Home Screen'."
+        "Da dodate našu aplikaciju na početni ekran: otvorite Safari meni za deljenje i izaberite 'Add to Home Screen'."
       );
     },
   },
