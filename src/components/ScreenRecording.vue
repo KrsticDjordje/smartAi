@@ -108,6 +108,7 @@ export default {
         formData.append("groupIds", groupIdsAsArray);
         formData.append("userIds", userIdAsArray);
         formData.append("liveTranscriptionGroupName", this.folderName);
+        formData.append("companieId", user.company_id);
 
         console.log([...formData.entries()]);
 

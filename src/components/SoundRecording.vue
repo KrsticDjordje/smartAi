@@ -175,6 +175,7 @@ export default {
         formData.append("userId", user.id);
         formData.append("groupIds", groupIdsAsArray);
         formData.append("userIds", userIdAsArray);
+        formData.append("companieId", user.company_id);
 
         console.log([...formData.entries()]);
 
