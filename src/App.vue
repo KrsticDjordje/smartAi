@@ -12,7 +12,7 @@
         <v-list-item-group>
           <v-list-item>
             <v-img
-              :src="require('@/assets/LogoSmartScript.png')"
+              :src="require('@/assets/LogoVerbum.png')"
               max-height="150"
               class="my-8"
               contain
