@@ -18,7 +18,7 @@ const actions = {
     async fetchCompanies({ commit }) {
         try {
             const response = await axios.post(
-                'https://certoe.de:8080/api/frontend/getCompanies',
+                'https://verbumscript.app:8080/api/frontend/getCompanies',
                 {
                     "token": "test",
                     "limit": 50,

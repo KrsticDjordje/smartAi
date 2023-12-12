@@ -112,7 +112,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
 
         await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          "https://verbumscript.app:8080/api/frontend/deleteTranslation",
           {
             userId: user.id,
             transcriptionId: transcriptId,
@@ -131,12 +131,15 @@ export default {
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranslationsForUser", {
-          userId: userId,
-          token: "test",
-          limit: 10,
-          page: this.currentPage,
-        })
+        .post(
+          "https://verbumscript.app:8080/api/frontend/getTranslationsForUser",
+          {
+            userId: userId,
+            token: "test",
+            limit: 10,
+            page: this.currentPage,
+          }
+        )
         .then((response) => {
           console.log(response.data.result.translations);
 

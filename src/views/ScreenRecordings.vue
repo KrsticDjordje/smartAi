@@ -100,13 +100,16 @@ export default {
     fetchTranscriptions() {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForUser", {
-          userId: userId,
-          limit: 8,
-          page: this.currentPage,
-          token: "test",
-          live: true,
-        })
+        .post(
+          "https://verbumscript.app:8080/api/frontend/getTranscriptionsForUser",
+          {
+            userId: userId,
+            limit: 8,
+            page: this.currentPage,
+            token: "test",
+            live: true,
+          }
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {

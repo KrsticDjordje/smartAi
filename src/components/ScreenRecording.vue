@@ -65,13 +65,16 @@ export default {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const roleId = JSON.parse(localStorage.getItem("user")).role_id;
       axios
-        .post("https://certoe.de:8080/api/frontend/getTranscriptionsForUser", {
-          userId: userId,
-          limit: 5,
-          page: this.currentPage,
-          token: "test",
-          live: true,
-        })
+        .post(
+          "https://verbumscript.app:8080/api/frontend/getTranscriptionsForUser",
+          {
+            userId: userId,
+            limit: 5,
+            page: this.currentPage,
+            token: "test",
+            live: true,
+          }
+        )
         .then((response) => {
           console.log(response.data.result.transcriptions);
           if (!this.transcriptions) {

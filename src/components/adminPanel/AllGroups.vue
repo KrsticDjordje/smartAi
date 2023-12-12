@@ -153,7 +153,7 @@ export default {
       console.log(dataId, "radi");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/getOneGroup",
+          "https://verbumscript.app:8080/api/frontend/getOneGroup",
           {
             groupId: dataId,
             token: "test",
@@ -175,7 +175,7 @@ export default {
       }
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteGroup",
+          "https://verbumscript.app:8080/api/frontend/deleteGroup",
           {
             groupId: id,
             token: "test",
@@ -212,7 +212,10 @@ export default {
           token: "test",
         };
         console.log(data, "saveChanges");
-        await axios.post("https://certoe.de:8080/api/frontend/editGroup", data);
+        await axios.post(
+          "https://verbumscript.app:8080/api/frontend/editGroup",
+          data
+        );
         oneItem.openDialog = false;
         console.log("Promene uspešno sačuvane");
         this.showAlert = true;

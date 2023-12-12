@@ -158,7 +158,7 @@ export default {
       console.log(dataId, "radi");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/getOneUser",
+          "https://verbumscript.app:8080/api/frontend/getOneUser",
           {
             token: "test",
             userId: dataId,
@@ -180,7 +180,7 @@ export default {
       }
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteUser",
+          "https://verbumscript.app:8080/api/frontend/deleteUser",
           {
             groupId: id,
             token: "test",
@@ -217,7 +217,7 @@ export default {
         };
         console.log(data, "saveChanges");
         await axios.post(
-          "https://certoe.de:8080/api/frontend/editForEveryUser",
+          "https://verbumscript.app:8080/api/frontend/editForEveryUser",
           data
         );
         oneItem.openDialog = false;

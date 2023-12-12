@@ -209,7 +209,7 @@ export default {
       console.log(requestData, "dobijeno");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/registrationForUser",
+          "https://verbumscript.app:8080/api/frontend/registrationForUser",
           requestData
         );
 

@@ -8,12 +8,12 @@
     "theme_color": "#5d5fef",
     "icons": [
         {
-            "src": "https://certoe.de/img/LogoSmartScript.9fddb744.png",
+            "src": "https://verbumscript.app/img/LogoVerbum.dc1e8ffb.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "https://certoe.de/img/LogoSmartScript.9fddb744.png",
+            "src": "https://verbumscript.app/img/LogoVerbum.dc1e8ffb.png",
             "sizes": "512x512",
             "type": "image/png"
         }

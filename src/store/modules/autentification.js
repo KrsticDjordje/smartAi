@@ -28,7 +28,7 @@ const actions = {
     async login({ commit }, { email, password }) {
         try {
             const response = await axios.post(
-                "https://certoe.de:8080/api/frontend/login",
+                "https://verbumscript.app:8080/api/frontend/login",
                 {
                     email,
                     password,

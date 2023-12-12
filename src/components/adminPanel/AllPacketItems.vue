@@ -133,7 +133,7 @@ export default {
       console.log(id, "radiii");
       try {
         const response = await axios.post(
-          "https://certoe.de:8080/api/frontend/deletePacketItems",
+          "https://verbumscript.app:8080/api/frontend/deletePacketItems",
           {
             packetItemId: id,
             token: "test",
@@ -154,7 +154,7 @@ export default {
         };
         console.log(data);
         await axios.post(
-          "https://certoe.de:8080/api/frontend/editPacketItem",
+          "https://verbumscript.app:8080/api/frontend/editPacketItem",
           data
         );
         onePacketItem.openDialog = false;

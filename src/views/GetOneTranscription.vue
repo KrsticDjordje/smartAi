@@ -389,11 +389,14 @@ export default {
 
       console.log(id, editText, "Edit teksta");
       try {
-        await axios.post("https://certoe.de:8080/api/frontend/editPiece", {
-          pieceId: id,
-          editedContent: editText,
-          token: "test",
-        });
+        await axios.post(
+          "https://verbumscript.app:8080/api/frontend/editPiece",
+          {
+            pieceId: id,
+            editedContent: editText,
+            token: "test",
+          }
+        );
       } catch (error) {
         console.error(error);
       }
@@ -404,7 +407,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
 
         await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          "https://verbumscript.app:8080/api/frontend/deleteTranslation",
           {
             userId: user.id,
             transcriptionId: transcriptId,
@@ -427,7 +430,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
 
         await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          "https://verbumscript.app:8080/api/frontend/deleteTranslation",
           {
             userId: user.id,
             transcriptionId: transcriptId,
@@ -454,7 +457,10 @@ export default {
       };
       console.log(data, "radi");
       axios
-        .post("https://certoe.de:8080/api/frontend/getOneTranscription", data)
+        .post(
+          "https://verbumscript.app:8080/api/frontend/getOneTranscription",
+          data
+        )
         .then((response) => {
           console.log(response.data.result.transcription, "radilica");
           if (!this.transcriptions) {

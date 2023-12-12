@@ -18,7 +18,7 @@ const actions = {
     async fetchPackets({ commit }) {
         try {
             const response = await axios.post(
-                'https://certoe.de:8080/api/frontend/getPackets',
+                'https://verbumscript.app:8080/api/frontend/getPackets',
                 {
                     "token": "test",
                     "limit": 50,

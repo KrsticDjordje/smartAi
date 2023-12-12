@@ -18,7 +18,7 @@ const actions = {
   async fetchGroups({ commit }) {
     try {
       const response = await axios.post(
-        'https://certoe.de:8080/api/frontend/getGroups',
+        'https://verbumscript.app:8080/api/frontend/getGroups',
         {
           "token": "test",
           "limit": 50,

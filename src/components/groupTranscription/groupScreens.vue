@@ -123,7 +123,7 @@ export default {
       console.log(data, "sad");
       axios
         .post(
-          "https://certoe.de:8080/api/frontend/getTranscriptionsForOneGroup",
+          "https://verbumscript.app:8080/api/frontend/getTranscriptionsForOneGroup",
           data
         )
         .then((response) => {

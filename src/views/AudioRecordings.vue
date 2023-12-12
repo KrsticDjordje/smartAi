@@ -512,7 +512,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
 
         await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          "https://verbumscript.app:8080/api/frontend/deleteTranslation",
           {
             userId: user.id,
             transcriptionId: transcriptId,
@@ -541,7 +541,7 @@ export default {
         const user = JSON.parse(localStorage.getItem("user"));
 
         await axios.post(
-          "https://certoe.de:8080/api/frontend/deleteTranslation",
+          "https://verbumscript.app:8080/api/frontend/deleteTranslation",
           {
             userId: user.id,
             transcriptionId: transcriptId,
@@ -610,7 +610,7 @@ export default {
       console.log(data, "Za prikaz upload-a");
       axios
         .post(
-          "https://certoe.de:8080/api/frontend/getTranscriptionsForUser",
+          "https://verbumscript.app:8080/api/frontend/getTranscriptionsForUser",
           data
         )
         .then((response) => {

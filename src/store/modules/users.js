@@ -18,7 +18,7 @@ const actions = {
     async fetchUsers({ commit }) {
         try {
             const response = await axios.post(
-                'https://certoe.de:8080/api/frontend/getUserOfCompany',
+                'https://verbumscript.app:8080/api/frontend/getUserOfCompany',
                 {
                     "token": "test",
                     "companyId": 1,
