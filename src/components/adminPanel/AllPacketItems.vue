@@ -159,8 +159,10 @@ export default {
         );
         onePacketItem.openDialog = false;
         console.log("Promene uspešno sačuvane");
+        this.notify("Changes saved successfully!", "success");
       } catch (error) {
         console.error("Greška pri čuvanju promena:", error);
+        this.notify("Failed!", "error");
       }
     },
   },

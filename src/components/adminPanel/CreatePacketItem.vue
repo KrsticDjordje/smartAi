@@ -35,11 +35,6 @@
       </div>
     </v-expand-transition>
     <AllPacketItems />
-    <transition name="fade" mode="out-in">
-      <v-alert v-if="showAlert" :type="alertType" key="alert">
-        {{ alertMessage }}
-      </v-alert>
-    </transition>
   </div>
 </template>
     
@@ -55,9 +50,6 @@ export default {
     expand: false,
     date: null,
     valid: false,
-    showAlert: false,
-    alertType: "",
-    alertMessage: "",
     packetItemName: "",
     nameRules: [
       (v) => !!v || "Name is required",
@@ -90,23 +82,13 @@ export default {
         if (response.status === 200) {
           console.log("Packet item created successfully!");
           this.packetItemName = "";
-          this.showAlert = true;
-          this.alertType = "success";
-          this.alertMessage = "Packet item created successfully!";
-          setTimeout(() => {
-            this.showAlert = false;
-          }, 3000);
+          this.notify("Packet item created successfully!", "success");
           this.$refs.form.resetValidation(); // Resetovanje validacije
         } else {
           console.error("Error creating group:", response.statusText);
         }
       } catch (error) {
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = '"Error creating packet item"';
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
         console.error("Error creating group:", error);
       }
     },

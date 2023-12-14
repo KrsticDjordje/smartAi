@@ -110,16 +110,11 @@
         </v-card-actions>
       </v-list-item>
     </v-card>
-    <transition name="fade" mode="out-in">
-      <v-alert v-if="showAlert" :type="alertType" key="alert">
-        {{ alertMessage }}
-      </v-alert>
-    </transition>
   </div>
 </template>
           
               
-              <script>
+<script>
 import { mapGetters, mapActions } from "vuex";
 
 import axios from "axios";
@@ -129,9 +124,6 @@ export default {
   data: () => ({
     selectedData: [],
     existItem: [],
-    showAlert: false,
-    alertType: "",
-    alertMessage: "",
   }),
   async mounted() {
     try {
@@ -187,19 +179,9 @@ export default {
           }
         );
         console.log("Uspešno obrisano:", response.data);
-        this.showAlert = true;
-        this.alertType = "success";
-        this.alertMessage = "User deleted successfully!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("User deleted successfully!", "success");
       } catch (error) {
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = "Failed!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
         console.error("Greška pri brisanju korisnika:", error);
       }
     },
@@ -222,20 +204,10 @@ export default {
         );
         oneItem.openDialog = false;
         console.log("Promene uspešno sačuvane");
-        this.showAlert = true;
-        this.alertType = "success";
-        this.alertMessage = "Company edit successfully!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Company edit successfully!", "success");
       } catch (error) {
         console.error("Greška pri čuvanju promena:", error);
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = "Failed!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
       }
     },
   },

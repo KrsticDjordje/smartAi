@@ -221,20 +221,10 @@ export default {
         );
         oneItem.openDialog = false;
         console.log("Promene uspešno sačuvane");
-        this.showAlert = true;
-        this.alertType = "success";
-        this.alertMessage = "Company edit successfully!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Company edit successfully!", "success");
       } catch (error) {
         console.error("Greška pri čuvanju promena:", error);
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = "Failed!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
       }
     },
   },

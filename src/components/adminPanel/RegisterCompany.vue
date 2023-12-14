@@ -66,15 +66,10 @@
       </div>
     </v-expand-transition>
     <AllCompanies />
-    <transition name="fade" mode="out-in">
-      <v-alert v-if="showAlert" :type="alertType" key="alert">
-        {{ alertMessage }}
-      </v-alert>
-    </transition>
   </div>
 </template>
         
-    <script>
+<script>
 import axios from "axios";
 
 import { mapGetters } from "vuex";
@@ -88,10 +83,7 @@ export default {
     date: null,
     valid: false,
     search: null,
-    showAlert: false,
     packetItems: "",
-    alertType: "",
-    alertMessage: "",
     companyAdress: "",
     companyName: "",
     PIB: "",
@@ -148,23 +140,13 @@ export default {
         if (response.status === 200) {
           console.log("Packet item created successfully!");
           this.packetsName = "";
-          this.showAlert = true;
-          this.alertType = "success";
-          this.alertMessage = "Company created successfully!";
-          setTimeout(() => {
-            this.showAlert = false;
-          }, 3000);
+          this.notify("Company created successfully!", "success");
           this.$refs.form.resetValidation(); // Resetovanje validacije
         } else {
           console.error("Error creating group:", response.statusText);
         }
       } catch (error) {
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = '"Error creating company"';
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
         console.error("Error creating group:", error);
       }
     },
@@ -174,7 +156,7 @@ export default {
   },
 };
 </script>
-        <style scoped>
+<style scoped>
 .colorGroup {
   background: #554ba9;
 }

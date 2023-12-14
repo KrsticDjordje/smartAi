@@ -138,8 +138,10 @@ export default {
           }
         );
         console.log("Korisnik uspešno obrisan:", response.data);
+        this.notify("User deleted successfully!", "success");
       } catch (error) {
         console.error("Greška pri brisanju korisnika:", error);
+        this.notify("Failed!", "error");
       }
     },
     async saveChanges(onePacketItem) {
@@ -156,8 +158,10 @@ export default {
         );
         onePacketItem.openDialog = false;
         console.log("Promene uspešno sačuvane");
+        this.notify("Changes saved successfully!", "success");
       } catch (error) {
         console.error("Greška pri čuvanju promena:", error);
+        this.notify("Failed!", "error");
       }
     },
   },

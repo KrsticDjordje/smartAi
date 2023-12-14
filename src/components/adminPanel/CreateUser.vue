@@ -121,11 +121,6 @@
       </div>
     </v-expand-transition>
     <AllUsers />
-    <transition name="fade" mode="out-in">
-      <v-alert v-if="showAlert" :type="alertType" key="alert">
-        {{ alertMessage }}
-      </v-alert>
-    </transition>
   </div>
 </template>
           
@@ -141,11 +136,8 @@ export default {
     expand: false,
     date: null,
     valid: false,
-    showAlert: false,
     data: "",
-    alertType: "",
     search: null,
-    alertMessage: "",
     name: "",
     surname: "",
     email: "",
@@ -216,24 +208,13 @@ export default {
         if (response.status === 200) {
           console.log("User created successfully!");
           this.name = "";
-          this.showAlert = true;
-          this.alertType = "success";
-          this.alertMessage = "User created successfully!";
-          setTimeout(() => {
-            this.showAlert = false;
-          }, 3000);
-
+          this.notify("User created successfully!", "success");
           this.$refs.form.resetValidation(); // Resetovanje validacije
         } else {
           console.error("Error creating user:", response.statusText);
         }
       } catch (error) {
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = '"Error creating packet item"';
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
         console.error("Error creating user:", error);
       }
     },
@@ -243,7 +224,7 @@ export default {
   },
 };
 </script>
-          <style scoped>
+<style scoped>
 .colorGroup {
   background: #554ba9;
 }
