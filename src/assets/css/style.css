@@ -476,3 +476,8 @@ button.deleteFolder {
 .date-time {
     font-size: 14px !important;
 }
+
+.v-application--is-ltr .v-list-item__action:first-child,
+.v-application--is-ltr .v-list-item__icon:first-child {
+    margin-right: 20px !important;
+}
