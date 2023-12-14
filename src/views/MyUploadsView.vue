@@ -584,7 +584,7 @@ export default {
 
       try {
         await axios.post(
-          "https://certoe.de:5000/v1/translateForTranscription",
+          "https://verbumscript.app:5000/v1/translateForTranscription",
           data,
           config
         );

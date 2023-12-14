@@ -35,7 +35,7 @@ Vue.prototype.$globalStore = {
 
 // Inicijalizacija Pusher-a i povezivanje na kanal
 Pusher.logToConsole = true;
-const pusher = new Pusher('527e5f64e5fd092e6b5e', {
+const pusher = new Pusher('2fa2f431d046daeee56d', {
   cluster: 'eu',
   encrypted: true
 });

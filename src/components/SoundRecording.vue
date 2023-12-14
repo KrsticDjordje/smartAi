@@ -180,7 +180,7 @@ export default {
         console.log([...formData.entries()]);
 
         const response = await axios.post(
-          "https://certoe.de:5000/v1/transcribe_video_new",
+          "https://verbumscript.app:5000/v1/transcribe_video_new",
           formData,
           {
             headers: {

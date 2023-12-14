@@ -115,17 +115,22 @@ export default {
 
         console.log([...formData.entries()]);
 
-        const apiUrl = "https://certoe.de:5000/v1/transcribe_video_new";
+        const apiUrl = "https://verbumscript.app:5000/v1/transcribe_video_new";
 
         const response = await axios.post(apiUrl, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        this.notify(
+          "Your recording has been successfully submitted for transcription!",
+          "success"
+        );
 
         console.log("Snimak je uspješno poslat na API:", response.data);
       } catch (error) {
         console.error("Greška pri slanju snimka na API:", error);
+        this.notify("Failed!", "error");
       }
     },
 

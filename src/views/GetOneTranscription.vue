@@ -233,13 +233,13 @@
             ></v-textarea>
           </template>
         </v-edit-dialog>
+        <!-- <audio-player /> -->
+        <audio ref="recordedAudio" controls>
+          <source :src="oneChunk.document_link" />
+          Your browser does not support the audio element.
+        </audio>
       </div>
     </div>
-    <!-- <audio-player /> -->
-    <audio ref="recordedAudio" controls>
-      <source src="https://www.computerhope.com/jargon/m/example.mp3" />
-      Your browser does not support the audio element.
-    </audio>
   </div>
 </template>
       
