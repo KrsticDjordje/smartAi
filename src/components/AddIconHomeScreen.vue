@@ -2,7 +2,7 @@
   <div>
     <!-- Vaša Vue komponenta i sadržaj -->
     <button v-if="!isAppInstalled" @click="addToHomeScreen">
-      Install on your phone
+      Install on your device
     </button>
     <div v-else>Installed</div>
   </div>
