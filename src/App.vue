@@ -23,7 +23,7 @@
         <v-list>
           <v-list-item-group>
             <!-- Navigacija -->
-            <v-list-item class="link desktop-version">
+            <v-list-item class="link">
               <v-list-item-icon>
                 <v-icon>mdi-cellphone-screenshot</v-icon>
               </v-list-item-icon>
