@@ -319,12 +319,12 @@
             ></v-textarea>
           </template>
         </v-edit-dialog>
-        <!-- <audio-player /> -->
-        <audio ref="recordedAudio" controls>
-          <source :src="oneChunk.document_link" />
-          Your browser does not support the audio element.
-        </audio>
       </div>
+      <!-- <audio-player /> -->
+      <audio ref="recordedAudio" controls>
+        <source :src="transcriptions.document_link" />
+        Your browser does not support the audio element.
+      </audio>
     </div>
   </div>
 </template>
@@ -619,6 +619,11 @@ audio {
   right: 0;
   width: 100%;
   margin: 0 auto;
+}
+.v-card__subtitle,
+.v-card__text,
+.v-card__title {
+  padding: 3px 16px 16px 16px;
 }
 
 /* Boja za pozadinu dugmadi reprodukcije, pauze i stop */
