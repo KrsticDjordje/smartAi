@@ -4,7 +4,7 @@
       <template v-slot:default>
         <thead>
           <tr>
-            <th class="text-center">Tokens spent</th>
+            <!-- <th class="text-center">Tokens spent</th> -->
             <th class="text-center">Date</th>
             <th class="text-center">Duration</th>
             <th class="text-center">Type</th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>73 tokens</td>
+            <!-- <td>73 tokens</td> -->
             <td>
               <span class="mdi mdi-calendar-range"></span>
               {{ formatDateTranscription(transcriptions.created_at) }}

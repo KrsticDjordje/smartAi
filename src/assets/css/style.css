@@ -481,3 +481,10 @@ button.deleteFolder {
 .v-application--is-ltr .v-list-item__icon:first-child {
     margin-right: 20px !important;
 }
+
+.v-list-item__subtitle {
+    white-space: unset;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset !important;
+    display: unset;
+}

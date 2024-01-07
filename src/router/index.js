@@ -74,6 +74,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Subtitles.vue')
   },
   {
+    path: '/translateText',
+    name: 'translateText',
+    component: () => import(/* webpackChunkName: "about" */ '../views/TranslateText.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')

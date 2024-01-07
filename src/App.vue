@@ -148,7 +148,7 @@
               </v-list-item-icon>
               <v-list-item-title>My Contents</v-list-item-title>
             </v-list-item>
-            <v-list-item class="link">
+            <v-list-item class="link" router :to="{ name: 'translateText' }">
               <v-list-item-icon>
                 <v-icon>mdi-translate-variant</v-icon>
               </v-list-item-icon>
