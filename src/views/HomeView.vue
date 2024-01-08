@@ -2,34 +2,14 @@
   <v-container-fluid>
     <!-- Prvi red -->
     <v-row>
-      <v-col cols="12" md="8">
-        <!-- Sadržaj za prvu kolonu sa širinom 8 kolona -->
-        <div><all-packets /></div>
-      </v-col>
-      <v-col cols="12" md="4">
-        <!-- Sadržaj za drugu kolonu sa širinom 4 kolona -->
-        <div><weather /></div>
+      <v-col cols="12" md="12">
+        <div><tools-transcribe /></div>
       </v-col>
     </v-row>
-
     <!-- Drugi red -->
     <v-row>
-      <v-col cols="12" md="6">
-        <!-- Sadržaj za treću kolonu sa širinom 6 kolona -->
-
-        <div><AllPacketItems /></div>
-      </v-col>
-      <v-col cols="12" md="6">
-        <!-- Sadržaj za četvrtu kolonu sa širinom 6 kolona -->
-        <div><all-packets /></div>
-      </v-col>
-    </v-row>
-
-    <!-- Treći red -->
-    <v-row>
       <v-col cols="12" md="12">
-        <!-- Sadržaj za petu kolonu sa širinom 12 kolona -->
-        <div><all-companies /></div>
+        <div><all-users /></div>
       </v-col>
     </v-row>
   </v-container-fluid>
@@ -37,17 +17,13 @@
 
 <script>
 import weather from "@/components/dashboard/weather.vue";
-import AllCompanies from "@/components/adminPanel/AllCompanies.vue";
-import AllPacketItems from "@/components/adminPanel/AllPacketItems.vue";
-import AllPackets from "@/components/adminPanel/AllPackets.vue";
-import AllEditors from "@/components/adminPanel/AllEditors.vue";
+import AllUsers from "@/components/adminPanel/AllUsers.vue";
+import ToolsTranscribe from "@/components/dashboard/toolsTranscribe.vue";
 export default {
   components: {
     weather,
-    AllCompanies,
-    AllPacketItems,
-    AllPackets,
-    AllEditors,
+    AllUsers,
+    ToolsTranscribe,
   },
 };
 </script>,

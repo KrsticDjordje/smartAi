@@ -131,7 +131,7 @@ body {
   border-left: 1px solid #ccc;
 }
 .text-input textarea {
-  height: 250px;
+  height: 390px;
   width: 100%;
   border: none;
   outline: none;
@@ -237,7 +237,7 @@ li,
     border-top: 1px solid #ccc;
   }
   .text-input textarea {
-    height: 200px;
+    height: 280px;
   }
   .controls .row .icons {
     display: none;

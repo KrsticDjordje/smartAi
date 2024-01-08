@@ -1,7 +1,7 @@
 <template>
   <div class="content-container box" style="padding: 25px">
     <v-card-title class="textChannel" style="margin: 0; padding: 0"
-      >All users <v-spacer></v-spacer> ({{ getGroups.length }})</v-card-title
+      >All users <v-spacer></v-spacer> ({{ getUsers.length }})</v-card-title
     >
 
     <v-card
