@@ -148,9 +148,9 @@
                                 <v-icon>mdi-delete-empty</v-icon>
                               </v-btn>
                             </v-card>
-                            <v-list-item-subtitle>{{
-                              oneTranslation.transcript
-                            }}</v-list-item-subtitle>
+                            <v-list-item-subtitle
+                              v-html="oneTranslation.transcript"
+                            ></v-list-item-subtitle>
                           </v-list-item-content>
                         </v-list-item>
                       </v-list>

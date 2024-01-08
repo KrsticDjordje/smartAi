@@ -40,8 +40,7 @@
         <!-- <v-card-subtitle class="my-0">{{
           transcription.short_title
         }}</v-card-subtitle> -->
-        <v-card-text class="chunkText">
-          {{ transcription.transcript }}
+        <v-card-text class="chunkText" v-html="transcription.transcript">
         </v-card-text>
       </div>
 
