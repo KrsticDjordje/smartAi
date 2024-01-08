@@ -11,7 +11,7 @@
 
               <v-avatar class="ma-3" size="125" tile>
                 <v-img
-                  src="https://cdn1.iconfinder.com/data/icons/3d-front-color/512/mic-front-color.png"
+                  src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
                 ></v-img>
               </v-avatar>
             </div>
@@ -28,7 +28,7 @@
 
               <v-avatar class="ma-3" size="125" tile>
                 <v-img
-                  src="https://cdn3d.iconscout.com/3d/premium/thumb/screen-recorder-10317092-8340994.png"
+                  src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
                 ></v-img>
               </v-avatar>
             </div>
@@ -36,7 +36,7 @@
         </router-link>
       </v-col>
       <v-col cols="12" md="4">
-        <router-link router :to="{ name: 'audioRecording' }">
+        <router-link router :to="{ name: 'myUploads' }">
           <v-card class="upload-gradient-card rounded-lg" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div>
@@ -45,7 +45,7 @@
 
               <v-avatar class="ma-3" size="125" tile>
                 <v-img
-                  src="https://cdn3d.iconscout.com/3d/premium/thumb/file-upload-5562805-4642599.png?f=webp"
+                  src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
                 ></v-img>
               </v-avatar>
             </div>
@@ -56,7 +56,9 @@
   </v-card>
 </template>
   
-  <script>
+<script>
+import UploadFIle from "@/components/UploadFile.vue";
+
 export default {
   data: () => ({}),
 };
@@ -70,6 +72,9 @@ export default {
 }
 .upload-gradient-card {
   background: linear-gradient(93.96deg, #5d5fef 6.46%, #0df03792 98.85%);
+}
+a {
+  text-decoration: none;
 }
 </style>
   

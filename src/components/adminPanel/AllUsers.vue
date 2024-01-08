@@ -17,6 +17,17 @@
           }}</v-list-item-title>
         </v-list-item-content>
         <v-card-actions>
+          <v-btn
+            class="mr-2"
+            text
+            rounded
+            v-bind="attrs"
+            v-on="on"
+            color="blue"
+            @click="edit(oneItem.id)"
+          >
+            <span class="mdi mdi-logout"></span> LogOut
+          </v-btn>
           <v-dialog v-model="oneItem.openDialog" max-width="600px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -110,11 +121,6 @@
         </v-card-actions>
       </v-list-item>
     </v-card>
-    <transition name="fade" mode="out-in">
-      <v-alert v-if="showAlert" :type="alertType" key="alert">
-        {{ alertMessage }}
-      </v-alert>
-    </transition>
   </div>
 </template>
         
@@ -186,19 +192,9 @@ export default {
           }
         );
         console.log("Uspešno obrisano:", response.data);
-        this.showAlert = true;
-        this.alertType = "success";
-        this.alertMessage = "User deleted successfully!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("User deleted successfully!", "success");
       } catch (error) {
-        this.showAlert = true;
-        this.alertType = "error";
-        this.alertMessage = "Failed!";
-        setTimeout(() => {
-          this.showAlert = false;
-        }, 3000);
+        this.notify("Failed!", "error");
         console.error("Greška pri brisanju korisnika:", error);
       }
     },
