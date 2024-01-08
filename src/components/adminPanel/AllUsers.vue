@@ -17,17 +17,6 @@
           }}</v-list-item-title>
         </v-list-item-content>
         <v-card-actions>
-          <v-btn
-            class="mr-2"
-            text
-            rounded
-            v-bind="attrs"
-            v-on="on"
-            color="blue"
-            @click="edit(oneItem.id)"
-          >
-            <span class="mdi mdi-logout"></span> LogOut
-          </v-btn>
           <v-dialog v-model="oneItem.openDialog" max-width="600px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -71,6 +60,7 @@
                 </v-container>
               </v-card-text>
               <v-card-actions>
+                <v-btn color="red darken-1" text>LogOut</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                   color="blue darken-1"
