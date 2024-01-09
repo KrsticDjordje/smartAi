@@ -8,7 +8,6 @@
           label="Enter text"
           spellcheck="false"
           placeholder="Enter text"
-          @input="updateCharacterCount"
         ></textarea>
         <textarea
           class="translate-text"
@@ -46,13 +45,18 @@
         </v-col>
       </v-row>
     </v-row>
-    <v-btn class="translateBtn btn-style" @click="translateText"
+    <v-btn
+      class="translateBtn btn-style"
+      @click="translateText"
+      :disabled="isTranslationInProgress"
       >Translate Text</v-btn
     >
   </v-container>
 </template>
     
-    <script>
+<script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -91,10 +95,11 @@ export default {
         tr: "Turkish",
         uk: "Ukrainian",
       },
+      isTranslationInProgress: false,
       fromText: "",
       toText: "",
-      fromLanguage: "en-GB", // default values
-      toLanguage: "hi-IN", // default values
+      fromLanguage: "en-GB",
+      toLanguage: "hi-IN",
     };
   },
   computed: {
@@ -112,9 +117,24 @@ export default {
         this.fromLanguage,
       ];
     },
-    translateText() {
-      // Implement translation logic
-      // You can use external translation APIs or libraries for this
+    async translateText() {
+      try {
+        const response = await axios.post(
+          "https://verbumscript.app:5000/v1/translate_text",
+          {
+            text: this.fromText,
+            translatedLanguage: this.countries[this.toLanguage],
+            originalLanguage: this.countries[this.fromLanguage],
+          }
+        );
+
+        this.toText = response.data.results;
+        this.isTranslationInProgress = true;
+        this.notify("Text successfully sent to translate!", "success");
+      } catch (error) {
+        this.isTranslationInProgress = false;
+        console.error("Translation failed:", error);
+      }
     },
   },
 };
