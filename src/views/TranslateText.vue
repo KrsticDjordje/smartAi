@@ -118,6 +118,7 @@ export default {
       ];
     },
     async translateText() {
+      this.isTranslationInProgress = true;
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -138,7 +139,7 @@ export default {
         );
 
         this.toText = response.data.results;
-        this.isTranslationInProgress = true;
+
         this.notify("Text successfully sent to translate!", "success");
       } catch (error) {
         console.error("Translation failed:", error);
