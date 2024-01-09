@@ -120,7 +120,7 @@ export default {
     async translateText() {
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       };
       const data = {
