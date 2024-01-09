@@ -119,15 +119,15 @@ export default {
     },
     async translateText() {
       this.isTranslationInProgress = true;
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
       const data = {
         text: this.fromText,
         translatedLanguage: this.countries[this.toLanguage],
         originalLanguage: this.countries[this.fromLanguage],
+      };
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       };
       console.log(data);
 
