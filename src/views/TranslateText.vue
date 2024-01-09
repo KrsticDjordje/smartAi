@@ -119,26 +119,27 @@ export default {
     },
     async translateText() {
       this.isTranslationInProgress = true;
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
       const data = {
         text: this.fromText,
         translatedLanguage: this.countries[this.toLanguage],
         originalLanguage: this.countries[this.fromLanguage],
       };
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+      console.log(data);
 
       try {
         const response = await axios.post(
           "https://verbumscript.app:5000/v1/translate_text",
-          JSON.stringify(data), // Konvertujte podatke u JSON format
+          data,
           config
         );
 
         this.toText = response.data.results;
+
         this.notify("Text successfully sent to translate!", "success");
       } catch (error) {
         console.error("Translation failed:", error);
