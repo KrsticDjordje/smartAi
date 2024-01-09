@@ -118,14 +118,23 @@ export default {
       ];
     },
     async translateText() {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const data = {
+        text: this.fromText,
+        translatedLanguage: this.countries[this.toLanguage],
+        originalLanguage: this.countries[this.fromLanguage],
+      };
+      console.log(data);
+
       try {
         const response = await axios.post(
           "https://verbumscript.app:5000/v1/translate_text",
-          {
-            text: this.fromText,
-            translatedLanguage: this.countries[this.toLanguage],
-            originalLanguage: this.countries[this.fromLanguage],
-          }
+          data,
+          config
         );
 
         this.toText = response.data.results;
