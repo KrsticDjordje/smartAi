@@ -150,9 +150,9 @@ export default {
       this.loadingScreen = true;
       this.isTranslationInProgress = true;
       const data = {
-        text: this.fromText,
-        translatedLanguage: this.countries[this.toLanguage],
-        originalLanguage: this.countries[this.fromLanguage],
+        stringForTranslate: this.fromText,
+        translatedLanguageText: this.countries[this.toLanguage],
+        originalLanguageText: this.countries[this.fromLanguage],
       };
       const config = {
         headers: {
