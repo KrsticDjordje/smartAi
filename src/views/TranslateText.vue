@@ -46,6 +46,7 @@
             label="Translation"
             spellcheck="false"
             placeholder="Translation"
+            v-html="toText"
           ></textarea>
           <v-btn icon @click="clearTranslateText"
             ><span class="mdi mdi-close"></span
