@@ -1,56 +1,78 @@
 <template>
   <v-container class="container">
     <v-row class="wrapper">
-      <v-col class="text-input">
-        <textarea
-          class="text-original"
-          v-model="fromText"
-          label="Enter text"
-          spellcheck="false"
-          placeholder="Enter text"
-        ></textarea>
-        <textarea
-          class="translate-text"
-          v-model="toText"
-          readonly
-          disabled
-          label="Translation"
-          spellcheck="false"
-          placeholder="Translation"
-        ></textarea>
-      </v-col>
-      <div
-        class="character-count mt-2 ml-4 text-left"
-        style="font-size: 12px; color: #7f7f7f"
-      >
-        {{ fromText.length }} characters
-      </div>
       <v-row class="controls">
-        <v-col class="row from">
-          <v-select
-            v-model="fromLanguage"
+        <v-col class="row from mt-4">
+          <v-combobox
+            filled
+            clearable
             :items="countryOptions"
+            v-model="fromLanguage"
             label="From"
-          ></v-select>
+          ></v-combobox>
         </v-col>
         <v-col class="exchange">
           <v-icon @click="exchangeLanguages">mdi-swap-horizontal</v-icon>
         </v-col>
-        <v-col class="row to">
-          <v-select
-            v-model="toLanguage"
+        <v-col class="row to mt-4">
+          <v-combobox
+            filled
+            clearable
             :items="countryOptions"
+            v-model="toLanguage"
             label="To"
-          ></v-select>
+          ></v-combobox>
         </v-col>
       </v-row>
+      <v-col class="text-input">
+        <div class="box-1">
+          <textarea
+            class="text-original"
+            v-model="fromText"
+            label="Enter text"
+            spellcheck="false"
+            placeholder="Enter text"
+          ></textarea>
+          <v-btn icon @click="clearOriginalText"
+            ><span class="mdi mdi-close"></span
+          ></v-btn>
+        </div>
+        <div class="box-2">
+          <textarea
+            class="translate-text"
+            v-model="toText"
+            readonly
+            disabled
+            label="Translation"
+            spellcheck="false"
+            placeholder="Translation"
+          ></textarea>
+          <v-btn icon @click="clearTranslateText"
+            ><span class="mdi mdi-close"></span
+          ></v-btn>
+        </div>
+      </v-col>
     </v-row>
+    <div
+      class="character-count mt-2 ml-4 text-left"
+      style="font-size: 12px; color: #7f7f7f"
+    >
+      {{ fromText.length }} characters
+    </div>
     <v-btn
-      class="translateBtn btn-style"
+      class="translateBtn"
       @click="translateText"
       :disabled="isTranslationInProgress"
       >Translate Text</v-btn
     >
+    <div class="loading-screen" v-if="loadingScreen">
+      <v-progress-circular
+        :width="6"
+        :size="50"
+        color="green"
+        indeterminate
+      ></v-progress-circular>
+    </div>
   </v-container>
 </template>
     
@@ -98,8 +120,9 @@ export default {
       isTranslationInProgress: false,
       fromText: "",
       toText: "",
-      fromLanguage: "en-GB",
-      toLanguage: "hi-IN",
+      fromLanguage: "English",
+      toLanguage: "English",
+      loadingScreen: false,
     };
   },
   computed: {
@@ -111,6 +134,12 @@ export default {
     },
   },
   methods: {
+    clearOriginalText() {
+      this.fromText = "";
+    },
+    clearTranslateText() {
+      this.toText = ""; // Postavi sadržaj textarea na prazan string
+    },
     exchangeLanguages() {
       [this.fromLanguage, this.toLanguage] = [
         this.toLanguage,
@@ -118,6 +147,7 @@ export default {
       ];
     },
     async translateText() {
+      this.loadingScreen = true;
       this.isTranslationInProgress = true;
       const data = {
         text: this.fromText,
@@ -146,6 +176,7 @@ export default {
         console.error("Translation failed:", error);
       } finally {
         this.isTranslationInProgress = false;
+        this.loadingScreen = false;
       }
     },
   },
@@ -179,14 +210,14 @@ body {
 }
 .wrapper .text-input {
   display: flex;
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 .text-input .to-text {
   border-radius: 0px;
   border-left: 1px solid #ccc;
 }
 .text-input textarea {
-  height: 390px;
+  height: 330px;
   width: 100%;
   border: none;
   outline: none;
@@ -277,7 +308,6 @@ li,
   margin-top: 20px;
   font-size: 16px;
   border-radius: 5px;
-  background: #5372f0;
 }
 
 @media (max-width: 660px) {
@@ -292,7 +322,7 @@ li,
     border-top: 1px solid #ccc;
   }
   .text-input textarea {
-    height: 280px;
+    height: 185px;
   }
   .controls .row .icons {
     display: none;
@@ -311,14 +341,40 @@ li,
     border-bottom: 1px solid #ccc !important;
     border-radius: 0 !important;
   }
+  textarea.translate-text {
+    border-left: unset !important;
+  }
 }
 textarea.translate-text {
   border-radius: 0px !important;
-  border-left: 1px solid #ccc !important;
+  border-left: 1px solid #ccc;
 }
 li.row.to,
 li.row.from {
   flex-wrap: nowrap;
+}
+.box-1,
+.box-2 {
+  width: 100%;
+  position: relative;
+}
+.box-1 button,
+.box-2 button {
+  position: absolute;
+  right: 0;
+}
+.loading-screen {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  background: #0000009e;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
     
