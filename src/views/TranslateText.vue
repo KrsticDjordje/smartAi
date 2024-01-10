@@ -124,18 +124,13 @@ export default {
         translatedLanguage: this.countries[this.toLanguage],
         originalLanguage: this.countries[this.fromLanguage],
       };
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+
       console.log(data);
 
       try {
         const response = await axios.post(
-          "https://verbumscript.app:5000/v1/translate_text",
-          data,
-          config
+          "https://10.0.0.2:5000/v1/translate_text",
+          data
         );
 
         this.toText = response.data.results;
