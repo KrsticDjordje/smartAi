@@ -40,8 +40,7 @@
         <div class="box-2">
           <textarea
             class="translate-text"
-            v-pre
-            v-html="toText"
+            v-model="toText"
             readonly
             disabled
             label="Translation"
