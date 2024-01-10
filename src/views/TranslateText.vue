@@ -40,13 +40,13 @@
         <div class="box-2">
           <textarea
             class="translate-text"
-            v-model="toText"
+            v-pre
+            v-html="toText"
             readonly
             disabled
             label="Translation"
             spellcheck="false"
             placeholder="Translation"
-            v-html="toText"
           ></textarea>
           <v-btn icon @click="clearTranslateText"
             ><span class="mdi mdi-close"></span
