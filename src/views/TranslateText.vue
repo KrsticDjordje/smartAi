@@ -119,22 +119,25 @@ export default {
     },
     async translateText() {
       this.isTranslationInProgress = true;
-      const data = {
-        text: this.fromText,
-        translatedLanguage: this.countries[this.toLanguage],
-        originalLanguage: this.countries[this.fromLanguage],
-      };
+      const formData = new FormData();
+      formData.append("text", this.fromText);
+      formData.append("translatedLanguage", this.countries[this.toLanguage]);
+      formData.append("originalLanguage", this.countries[this.fromLanguage]);
 
-      console.log(data);
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
 
       try {
         const response = await axios.post(
-          "https://10.0.0.2:5000/v1/translate_text",
-          data
+          "https://verbumscript.app:5000/v1/translate_text",
+          formData,
+          config
         );
 
         this.toText = response.data.results;
-
         this.notify("Text successfully sent to translate!", "success");
       } catch (error) {
         console.error("Translation failed:", error);
