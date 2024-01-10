@@ -138,7 +138,8 @@ export default {
           config
         );
 
-        this.toText = response.data.results;
+        this.toText = response;
+        console.log(this.toText);
 
         this.notify("Text successfully sent to translate!", "success");
       } catch (error) {
